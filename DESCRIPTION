@@ -16,7 +16,6 @@ Date: 2016-03-10
 Authors@R: c(
     person("JA", "Marin", email = "foo", role = "aut")
     person("Matthew", "Schumwinger", email = "mschumwinger@gmail.com", role = "aut")
-    person("Stefan", "Zohren", email = "foo", role = "aut")
-)
+    person("Stefan", "Zohren", email = "foo", role = "aut"))
 License: GPL-2
 LazyData: TRUE
