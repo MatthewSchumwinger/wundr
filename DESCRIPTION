@@ -1,10 +1,22 @@
 Package: wundr
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1
+Title: Interface to Weather Underground Personal Weather Station (PWS) Data
+Description: Provides API interfaces to Personal Weather Station (PWS) data
+    maintained by Weather Underground (wunderground.com). Tables of PWS
+    locations and metadata for user specified geographic areas are constructed.
+    Robust retrieval of current and historical weather condition data for
+    selected PWS. Computational tools for spatial analysis, including Kriging
+    (Gaussian processes) for interpolation, as well as prediction of missing
+    data and forecasts. Visualization of microclimate data methods including
+    contextual static maps, interactive web maps, and animated plots. Facility
+    to export data to CartoDB's spatial database hosting and webmap publishing
+    platform.
+Version: 0.0.0.9000
 Date: 2016-03-10
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Authors@R: c(
+    person("JA", "Marin", email = "foo", role = "aut")
+    person("Matthew", "Schumwinger", email = "mschumwinger@gmail.com", role = "aut")
+    person("Stefan", "Zohren", email = "foo", role = "aut")
+)
+License: GPL-2
 LazyData: TRUE
