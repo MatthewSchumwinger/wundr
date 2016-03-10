@@ -5,7 +5,7 @@ Final project R package for Stats 290
  who | by when | what
 
 - [ ] team | 3-14 | final exportable package passing all checks
-- [ ] team | 3-10 | consolidate all code into draft package
+- [x] team | 3-10 | consolidate all code into draft package
 - [ ] team | .... | package documentation
 - [ ] team | .... | package vignettes
 - [ ] S    | 3-11 | part 5 - Computational Facility based on Interpolations, etc.
