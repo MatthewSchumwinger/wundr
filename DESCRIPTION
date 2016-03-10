@@ -14,7 +14,7 @@ Description: Provides API interfaces to Personal Weather Station (PWS) data
 Version: 0.0.0.9000
 Date: 2016-03-10
 Authors@R: c(
-    person("JA", "Marin", email = "foo", role = "aut")
+    person("J.A.", "Marin", email = "j.a.marin@icloud.com", role = "aut")
     person("Matthew", "Schumwinger", email = "mschumwinger@gmail.com", role = "aut")
     person("Stefan", "Zohren", email = "foo", role = "aut"))
 License: GPL-2
