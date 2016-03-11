@@ -24,7 +24,7 @@ Final project R package for Stats 290
 - [x] M    | 3-9 | part 7 - extension to export data to CartoDB thru api
 - [ ] M    | .... | part 4 - extension to Torque.js
 - [ ] M    | .... | part 4 - in lieu of Torque.js, function to animate rasters by time
-- [ ] J    | TBD | switch out RJSONIO for jsonlite in gGeocode 
+- [x] J    | TBD | switch out RJSONIO for jsonlite in gGeocode (new function is called j.geocode using 'httr')
 
 ### Mission
 The "Advanced Weather Station Data Project" enhances the suggested assignment by significantly expanding the use case of the final product by adding multidimensional microclimate overlays and producing interactive visuals.  Upon seamless integration of the S4 class and subclass retrieval features, the team envisions the addition of relevant social media and the pivoting of the extant PWS ("Personal Weather Stations") into sensors for broadcast purposes.  The broad spectrum of use cases is outlined in the proposal.Rmd.
