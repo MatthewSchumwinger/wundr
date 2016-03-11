@@ -53,18 +53,7 @@ setMethod("initialize",
 ###
 ## THESE LOCATIONS SHOULD TEST IDENTICAL
 ##
-a <- PWS.locations("Santa Monica, CA", radius=3, user.key=user.key)
+#PWS_conditions(list(PWSmetadata=a@spatialPtDF), user.key)
+#a <- PWS.locations("Santa Monica, CA", radius=3, user.key=user.key)
+#b <- PWS.locations(-118.49119, 34.01945, radius=3, user.key=jam.key) 
 
-a
-metadf.test <- PWS_meta_query(-118, 34, radius=3, user.key) 
-
-metadf.test$PWSmetadata$id
-
-a@spatialPtDF$id
-
-class(a@spatialPtDF$)
-
-PWS_conditions(list(PWSmetadata=a@spatialPtDF), user.key)
-a <- PWS.locations("Santa Monica, CA", radius=3, user.key=user.key)
-b <- PWS.locations(-118.49119, 34.01945, radius=3, user.key=jam.key) 
-b@spatialPt@bbox
