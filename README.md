@@ -11,10 +11,10 @@ Final project R package for Stats 290
 - [ ] S    | 3-11 | part 5 - Computational Facility based on Interpolations, etc.
 - [ ] S    | 3-10 | part 1 - optimized api functions
 - [x] J    | 3-09 | Properly functional PWS.Conditions S4
-- [ ] J    | .... | part 2 - Properly functional PWS.Subset S4
+- [x] J    | 3-10 | part 2 - Properly functional PWS.Subset S4
 - [ ] J    | .... | Properly functional PWS History S4
 - [ ] J    | .... | Getter / Setter S4 for Temperature, Humidity, etc.
-- [ ] J    | .... | (something related to the %over% function)
+- [x] J    | 3-10 | (something related to the %over% function) included as validator in PWS.Subset.S4
 - [ ] J    | .... | global.R file for package (global variable for Conditions)
 - [ ] M    | .... | feature for user to graphically select point for search radius
 - [x] M    | 3-9 | wire plotting/mapping and cdb functions to new S4object
@@ -24,7 +24,7 @@ Final project R package for Stats 290
 - [x] M    | 3-9 | part 7 - extension to export data to CartoDB thru api
 - [ ] M    | .... | part 4 - extension to Torque.js
 - [ ] M    | .... | part 4 - in lieu of Torque.js, function to animate rasters by time
-- [ ] J    | TBD | swtich out jsonio for jsonlite  
+- [ ] J    | TBD | switch out RJSONIO for jsonlite in gGeocode 
 
 ### Mission
 The "Advanced Weather Station Data Project" enhances the suggested assignment by significantly expanding the use case of the final product by adding multidimensional microclimate overlays and producing interactive visuals.  Upon seamless integration of the S4 class and subclass retrieval features, the team envisions the addition of relevant social media and the pivoting of the extant PWS ("Personal Weather Stations") into sensors for broadcast purposes.  The broad spectrum of use cases is outlined in the proposal.Rmd.
