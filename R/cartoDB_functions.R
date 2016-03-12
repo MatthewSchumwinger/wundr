@@ -14,7 +14,6 @@
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-## -- helpers ------
 #' fillblanks
 #'
 #' A helper function used to construct sanitized URLs in CartoDB fucntions.
@@ -26,9 +25,6 @@
 fillblanks <- function(x){
   gsub(" ", '%20', x)
 }
-
-
-
 
 #' get_cdb_table
 #'
@@ -51,14 +47,28 @@ get_cdb_table <- function(table_name, cdb_account) {
                   fillblanks(sql_statement)))
 }
 
+
+#' r2cdb
+#'
+#' ... yada yada
+#'
+#' @importFrom jsonlite fromJSON
+#' @importFrom RSQLite SQLite
+#' @param user_key A CartoDB user authorization key.
+#' @param cdb_account A CartoDB account name.
+#' @param pwsConds A S4.class PWS.Conditions object of PWS locations and conditions attribute
+#'   data.
+#' @return NULL. Plus, printed information on status of CartoDB API and URL of
+#'   exported map data on CartoDB service.
+#' @export
+#' @examples
+#' # export PWS locations and conditions data to CartoDB
+#' r2cdb(your.cdb.key, your.cdb.account, PWS.Conditions )
+
 ## export df to CartoDB
-r2cdb <- function(user_key, cdb_account, pwsConds){
+r2cdb <- function(user_key, cdb_account, PWS.Conditions){
 
   ## -- helpers ------
-  fillblanks <- function(x){
-    gsub(" ", '%20', x)
-  }
-
   # get SQL column types
   schema <- function(df){
     drv <- SQLite()
@@ -85,7 +95,7 @@ r2cdb <- function(user_key, cdb_account, pwsConds){
   ## -- end helpers --
 
   # pick-off data from s4 object
-  df <- pwsConds@spatialPtDF@data
+  df <- PWS.Conditions@spatialPtDF@data
 
   tableName <- eval(substitute(quote(pwsConds)))
   df.san <- sanitize(df)
@@ -136,13 +146,6 @@ r2cdb <- function(user_key, cdb_account, pwsConds){
   insertCdbTable(user_key, cdb_account, df)
 }
 
-## ------ example uses -----------------------------
-
-## export S4 PWS object data to CartoDB
-# condTest <- readRDS("~/Documents/GitHub_projects/290Project/sample_data/condTest.RDS")
-# [yournamehere] <- condTest
-# r2cdb(matt.cdb.key, matt.cdb.account, [yournamehere] )
-
 ## ---------- TODO -----------------------
 # consider using dplyr::build_sql and/or httr::build_url
-  # or httr::modify_url  to improve functions
+# or httr::modify_url  to improve functions
