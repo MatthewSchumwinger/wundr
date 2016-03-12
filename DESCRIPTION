@@ -13,9 +13,18 @@ Description: Provides API interfaces to Personal Weather Station (PWS) data
     platform.
 Version: 0.0.0.9000
 Date: 2016-03-10
+<<<<<<< HEAD
 Authors@R: c(
     person("John", "Marin", email = "j.a.marin@icloud.com", role = "aut/ctb"),
     person("Matthew", "Schumwinger", email = "mschumwinger@gmail.com", role = "aut"),
     person("Stefan", "Zohren", email = "foo", role = "aut"))
+=======
+Authors@R: c(person("J.A.", "Marin", role = c("aut", "cre"),
+		                email = "j.a.marin@icloud.com"),
+	          person("Matthew", "Schumwinger", role = "aut",
+	                  email = "mschumwinger@gmail.com"),
+	          person("Stefan", "Zohren", role = "aut",
+		                email = "A.User@whereever.net"))
+>>>>>>> origin/master
 License: GPL-2
 LazyData: TRUE

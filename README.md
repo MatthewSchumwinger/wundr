@@ -1,4 +1,4 @@
-# 290project
+# wundr
 Final project R package for Stats 290
 
 ## Task List
