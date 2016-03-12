@@ -1,5 +1,5 @@
 
-require(ggmap); require(sp); require(jsonlite); require(geosphere)
+# require(ggmap); require(sp); require(jsonlite); require(geosphere)
 # source("api_functions.R")
 
 ##

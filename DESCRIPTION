@@ -32,3 +32,6 @@ Collate:
     'cartoDB_functions.R'
     'global.R'
     'viz_functions.R'
+Suggests:
+    knitr
+VignetteBuilder: knitr
