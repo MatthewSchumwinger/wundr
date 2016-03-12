@@ -78,7 +78,7 @@ conditionsFetch <- function(PWS.MetaQuery, user.key){
   timePWS(Id.Vector, user.key)
 }
 
-conditionsFetch(PWS.MetaQuery, user.key=jam.key)
+# conditionsFetch(PWS.MetaQuery, user.key=jam.key)
 
 timePWS <- function(ID.Vector,user.key){
   rows.MQ <- length(ID.Vector)

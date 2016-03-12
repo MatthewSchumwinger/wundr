@@ -7,3 +7,5 @@ matt.cdb.account <- "biglakedata"
 desMoines_coord <- c(-93.609106, 41.600545)
 dm_PWS <- PWS_meta_query(desMoines_coord[1], desMoines_coord[2], 10, matt.wu.key)
 dm_cond <- PWS_conditions(dm_PWS, matt.wu.key)
+
+# plots for Stefan computation
