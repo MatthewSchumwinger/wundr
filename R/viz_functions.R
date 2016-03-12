@@ -1,16 +1,21 @@
-## Matt's functions for final project visualization
-
-# --- dependencies -------------------------------------------------------------
-
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Yada...yada
+# The primary functions include:
+#
+#  o
+#  o
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# library(spatstat) #require for heatmap
+# library(raster) #require for heatmap
+# library(leaflet) # require for webmap
+# library(htmltools) # require for webmap
 
 # library(rgdal)
 # library(maptools)
 # library(plyr)
 # library(ggplot2)
-library(spatstat) #require for heatmap
-# library(maptools)
-# library(sp)
-library(raster) #require for heatmap
+# library(dplyr)
+# library(geoR)
 # library(sm)
 # library(pander)
 # library(colorRamps)
@@ -18,38 +23,46 @@ library(raster) #require for heatmap
 # library(RColorBrewer)
 # library(ggmap)
 # library(geosphere)
-library(leaflet) # require for webmap
-# library(dplyr)
-# library(geoR)
-library(htmltools) # require for webmap
+# library(maptools)
+# library(sp)
 
-# --- constants ----------------------------------------------------------------
-# A local projection (Milwaukee, Wis.) for spatial calculations
-NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
-            +lat_0=42 +lon_0=-90 +x_0=609601.2192024384 +y_0=0 +datum=NAD27
-            +units=us-ft +no_defs +ellps=clrk66 +nadgrids=@conus,
-            @alaska,@ntv2_0.gsb,@ntv1_can.dat")
+# --- Functions for simple plots using package sp ------------------------------
 
-# Web Mercator projection for web mapping
-WGS84 <- CRS("+proj=longlat +datum=WGS84")
-
-# --- misc helpers -------------------------------------------------------------
-# transform data.frame to spatialPointsDataFrame
+#' toSPntsDF
+#'
+#' Transform a data frame of PWS meta data to a spatialPointsDataFrame.
+#'
+#' @importFrom sp spTransform
+#' @importFrom sp CRS
+#' @importFrom sp SpatialPointsDataFrame
+#' @param df A data frame of PWS meta data.
+#' @return A spatialPointsDataFrame.
+#' @export
+#' @examples
+#' toSPntsDF(Rio_metadata)
 toSPntsDF <- function(df){
-  df_mat <- cbind(df$longitude, df$latitude)
+  # transform CRS to Web Merator for web mapping
+  toWGS84 <- function(spatialPtDF) {
+    WGS84 <- CRS("+proj=longlat +datum=WGS84")
+    spTransform(sp, WGS84)
+  }
+  df_mat <- cbind(df$lon, df$lat)
   row.names(df_mat) <- row.names(df)
   SpatialPointsDataFrame(df_mat, df, proj4string = WGS84, match.ID = TRUE)
 }
 
-# transform CRS to Web Merator for web mapping
-# TODO: add ability to transform rasterlayers and use with points2raster()?
-# BUG: this breaks b/c S4 has no coordinate system
-toWGS84 <- function(spatialPtDF) {
-  WGS84 <- CRS("+proj=longlat +datum=WGS84")
-  spTransform(sp, WGS84)
-}
 
-# --- Functions for simple plots using package sp ------------------------------
+#' simple_pnts
+#'
+#' A simple 2D plot of spatial points.
+#' @param spatialPtDF A SpatialPointsDataFrame.
+#' @param title A title for you plot. Default = NULL.
+#' @return NULL
+#' @export
+#' @examples
+#' Rio_spdf <- toWGS84(Rio_metadata)
+#' simple_pnts(Rio_spdf, "Rio PWS Locations")
+
 simple_pnts <- function(spatialPtDF, title = NULL, add = FALSE, ...){
   plot(spatialPtDF, add=add, col="red", cex=.5, pch =20, main = title)
 }
@@ -160,3 +173,31 @@ webmap_points2raster <- function(SpatialPointsDF){
     addRasterImage(D, colors = pal, opacity = 0.8)
   d
 }
+
+
+# --- constants ----------------------------------------------------------------
+# A local projection (Milwaukee, Wis.) for spatial calculations
+NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
+             +lat_0=42 +lon_0=-90 +x_0=609601.2192024384 +y_0=0 +datum=NAD27
+             +units=us-ft +no_defs +ellps=clrk66 +nadgrids=@conus,
+             @alaska,@ntv2_0.gsb,@ntv1_can.dat")
+
+# Web Mercator projection for web mapping
+WGS84 <- CRS("+proj=longlat +datum=WGS84")
+
+# --- misc helpers -------------------------------------------------------------
+# transform data.frame to spatialPointsDataFrame
+toSPntsDF <- function(df){
+  df_mat <- cbind(df$longitude, df$latitude)
+  row.names(df_mat) <- row.names(df)
+  SpatialPointsDataFrame(df_mat, df, proj4string = WGS84, match.ID = TRUE)
+}
+
+# transform CRS to Web Merator for web mapping
+# TODO: add ability to transform rasterlayers and use with points2raster()?
+# BUG: this breaks b/c S4 has no coordinate system
+toWGS84 <- function(spatialPtDF) {
+  WGS84 <- CRS("+proj=longlat +datum=WGS84")
+  spTransform(sp, WGS84)
+}
+

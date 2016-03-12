@@ -2,22 +2,22 @@
 # This document contains functions that interface with the CartoDB SQL API
 # (http://docs.cartodb.com/cartodb-platform/sql-api/). This povides facilities
 # to export Weather Underground PWS data to CartoDB's spatial database hosting
-# and webmap publishing platform. Simple facilty to import SQL spatial table
+# and webmap publishing platform. A simple facilty to import SQL spatial table
 # data from CartoDB into R is also provided.
-# The functions include:
+# The primary functions include:
 #
 #  o getCDBtable
-#  o r2cdb                                                                                                                               +
+#  o r2cdb
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #' fillblanks
 #'
 #' A helper function used to construct sanitized URLs in CartoDB fucntions.
+#'
 #' @param x A string.
 #' @return A data frame.
 #' @examples
 #' fillblanks("foo bar")
-
 fillblanks <- function(x){
   gsub(" ", '%20', x)
 }
@@ -34,8 +34,6 @@ fillblanks <- function(x){
 #' @examples
 #' # test CartoDB connection by retrieving existing table ...
 #' stations <- get_cdb_table("public.stations", your.cdb.account)
-
-## import CartoDB table
 get_cdb_table <- function(table_name, cdb_account) {
   sql_statement <- paste("select * from", table_name)
   cdb_url_base <- ".cartodb.com/api/v2/sql?q="
