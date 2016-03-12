@@ -30,7 +30,7 @@
 
 #' toSPntsDF
 #'
-#' Transform a data frame of PWS meta data to a spatialPointsDataFrame.
+#' Transform a simple data frame of PWS meta data to a spatialPointsDataFrame.
 #'
 #' @importFrom sp spTransform
 #' @importFrom sp CRS
@@ -55,26 +55,37 @@ toSPntsDF <- function(df){
 #' simple_pnts
 #'
 #' A simple 2D plot of spatial points.
-#' @param spatialPtDF A SpatialPointsDataFrame.
+#'
+#' @param PWS.class A PWS.class points S4 object.
 #' @param title A title for you plot. Default = NULL.
 #' @return NULL
 #' @export
 #' @examples
-#' Rio_spdf <- toWGS84(Rio_metadata)
-#' simple_pnts(Rio_spdf, "Rio PWS Locations")
-
-simple_pnts <- function(spatialPtDF, title = NULL, add = FALSE, ...){
+#' data(dm_cond)
+#' simple_pnts(dm_cond, "Des Moines, IA PWS Locations")
+simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
+  spatialPtDF <- PWS.class@spatialPtDF
   plot(spatialPtDF, add=add, col="red", cex=.5, pch =20, main = title)
 }
 
-simple_poly <- function(spatialPolyDF, title = NULL, add = FALSE, ...){
-  plot(poly, add=add, col="transparent", border="blue", cex.main=.7)
-}
 
-# --- Function for simple density raster using pacakges spatstat and raster ----
-# BUG: this breaks b/c S4 has no coordinate system
-heatmap <- function(spatialPtDF, title = NULL, add = FALSE, ...){
-  ppp <- as.ppp(spatialPtDF)
+#' simple_density
+#'
+#' Creates a simple density raster plot (heatmap) of PWS locations.
+#' @importFrom spatstat as.ppp
+#' @importFrom raster density
+#' @importFrom raster contour
+#' @param PWS.class A PWS.class points S4 object.
+#' @param title A title for you plot. Default = NULL.
+#' @param add Weather to add this "on top" of previous plot. Default = NULL.
+#' @return NULL
+#' @export
+#' @examples
+#' data(dm_cond)
+#' simple_density(dm_cond, "Des Moines, IA PWS Locations")
+simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
+  df <- PWS.class@spatialPtDF@data
+  ppp <- ppp(df$lat, df$lon, range(df$lat), range(df$lon))
   D <- density(ppp)
   D <- as(D, "RasterLayer")
   mycol <- colorRampPalette(c("transparent", "transparent","yellow", "orange","red"))(256)
@@ -195,4 +206,9 @@ toWGS84 <- function(spatialPtDF) {
   WGS84 <- CRS("+proj=longlat +datum=WGS84")
   spTransform(sp, WGS84)
 }
+
+# ---- other prototypes
+# simple_poly <- function(spatialPolyDF, title = NULL, add = FALSE, ...){
+#   plot(poly, add=add, col="transparent", border="blue", cex.main=.7)
+# }
 
