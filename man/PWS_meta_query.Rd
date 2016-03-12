@@ -37,10 +37,11 @@ API calls are denoted by ','
 }
 \examples{
 # your.key <- "xxxxxxxxxx" # replace this with your key
-# pwsmetadata <- PWS_meta_query(-122, 37, 50, your.key)
+# The following command downloads the meta data for all stations in the Rio de Janeiro region:
+# Rio_metadata <- PWS_meta_query(-43.185368,-22.856878, 50, your.key)
 # if you run the above code with your key the output should be the same as provided here:
-# TODO ++++ SAVE DATA AND LOAD IT HERE
-# head(pwsmetadata)
+data(Rio_metadata)
+head(Rio_metadata$PWSmetadata)
 
 }
 

@@ -10,6 +10,10 @@ PWS_history(PWSmetadata, begin_YYYYMMDD, end_YYYYMMDD, user_key,
 \arguments{
 \item{PWSmetadata}{Meta data object of weather stations (output of 'PWS_meta_query')}
 
+\item{begin_YYYYMMDD}{Beginning date in format "YYYYMMDD"}
+
+\item{end_YYYYMMDD}{Ending date in format "YYYYMMDD"}
+
 \item{user_key}{Your WUnderground API user key given as a character string}
 
 \item{stdAPI}{A bolean variable indicating whether you have a standard (free) API access (TRUE) which only allows for 10 API calls per minute. The default is the standard API.}

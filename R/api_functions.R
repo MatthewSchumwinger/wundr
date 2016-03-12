@@ -15,6 +15,8 @@
 
 # require(jsonlite); require(sp); require(geosphere);
 
+
+
 #' createCentroidTable
 #'
 #' createCentroidTable is an auxiliary function used in the 'PWS_meta_query' function.
@@ -132,10 +134,11 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
 #' @export
 #' @examples
 #' # your.key <- "xxxxxxxxxx" # replace this with your key
-#' # pwsmetadata <- PWS_meta_query(-122, 37, 50, your.key)
+#' # The following command downloads the meta data for all stations in the Rio de Janeiro region:
+#' # Rio_metadata <- PWS_meta_query(-43.185368,-22.856878, 50, your.key)
 #' # if you run the above code with your key the output should be the same as provided here:
-#' # TODO ++++ SAVE DATA AND LOAD IT HERE
-#' # head(pwsmetadata)
+#' data(Rio_metadata)
+#' head(Rio_metadata$PWSmetadata)
 #'
 PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
                             km_miles = TRUE, stdAPI = TRUE){
@@ -374,8 +377,8 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
 #' @importFrom jsonlite fromJSON
 #'
 #' @param PWSmetadata Meta data object of weather stations (output of 'PWS_meta_query')
-#' @param begin_YYYYMMDD
-#' @param end_YYYYMMDD
+#' @param begin_YYYYMMDD Beginning date in format "YYYYMMDD"
+#' @param end_YYYYMMDD Ending date in format "YYYYMMDD"
 #' @param user_key Your WUnderground API user key given as a character string
 #' @param stdAPI A bolean variable indicating whether you have a standard (free) API access (TRUE) which only allows for 10 API calls per minute. The default is the standard API.
 #' @return A data frame containing all the weather conditions of the stations in the provided meta data object.
@@ -453,7 +456,19 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 
 
 
-
+#' Rio_metadata dataset
+#'
+#' This is the meta_data for the Personal Weather Stations in Rio de Janeiro, Brazil.
+#' It is the output of the following call of the 'Rio_metadata' function, where
+#' 'your.key' shoudl be replaced with your API-key for Weather Underground:
+#' Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
+#'
+#' @examples
+#' data(Rio_metadata)
+#' head(Rio_metadata$PWSmetadata)
+#'
+#' @author wundr team
+"Rio_metadata"
 
 
 
