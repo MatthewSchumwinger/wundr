@@ -56,7 +56,7 @@ setMethod("initialize",
 )
 
 
-PWS.Locations("Santa Monica, CA", radius=3, user.key=user.key)
+#PWS.Locations("Santa Monica, CA", radius=3, user.key=user.key)
 
-PWS.Locations(-118.49119, 34.01945, radius=3, user.key=user.key)
+#PWS.Locations(-118.49119, 34.01945, radius=3, user.key=user.key)
 

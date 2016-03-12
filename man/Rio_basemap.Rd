@@ -4,7 +4,7 @@
 \name{Rio_basemap}
 \alias{Rio_basemap}
 \title{Rio_basemap object}
-\format{An object of class \code{ggmap} (inherits from \code{raster}) with 1280 rows and 1280 columns.}
+\format{An object of class \code{ggmap} (inherits from \code{raster}) with 639 rows and 640 columns.}
 \usage{
 Rio_basemap
 }

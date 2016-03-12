@@ -38,10 +38,10 @@ setMethod("initialize",
 # PWS.Locations.Query@spatialPtDF@bbox
 # a@call
 # isS4(PWS.MetaQuery)
-a <- PWS.L
+# a <- PWS.L
 
-qsub <- PWS.Query.Subset(a, -118.4912, 34.01945, 1.5)
-qsub
+#qsub <- PWS.Query.Subset(a, -118.4912, 34.01945, 1.5)
+#qsub
 # qsub
 # qsub@spatialPtDF
 # qsub@spatialPt
