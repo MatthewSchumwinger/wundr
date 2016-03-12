@@ -1,54 +1,95 @@
-library(jsonlite)
-library(RSQLite)
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# This document contains functions that interface with the CartoDB SQL API
+# (http://docs.cartodb.com/cartodb-platform/sql-api/). This povides facilities
+# to export Weather Underground PWS data to CartoDB's spatial database hosting
+# and webmap publishing platform. A simple facilty to import SQL spatial table
+# data from CartoDB into R is also provided.
+# The primary functions include:
+#
+#  o getCDBtable
+#  o r2cdb
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
-matt.cdb.account <- "biglakedata"
-
-# --- helper functions -------------------------------------------------------
+#' fillblanks
+#'
+#' A helper function used to construct sanitized URLs in CartoDB fucntions.
+#'
+#' @param x A string.
+#' @return A data frame.
+#' @examples
+#' fillblanks("foo bar")
 fillblanks <- function(x){
   gsub(" ", '%20', x)
 }
 
-# get SQL column types
-schema <- function(df){
-  drv <- SQLite()
-  sapply(df, function(x) dbDataType(drv, x))
-}
-
-# remove "display" columns with offending "." that throws API syntax error
-# TODO maybe swap for this? htmltools::htmlEscape
-sanitize <- function(df){
-  colnames(df)[1] <- "full_location"
-  names(df) <- gsub("\\.", "_", names(df))
-  df
-}
-
-# enquote data strings for url export
-singleQuoter <- function(df){
-  if (!is.numeric(df)) {
-    df[] <- gsub("^|$", "\047", df[])
-    df[] <- gsub("$", "\047", df[])
-    df[] <- gsub("%", "percent", df[]) # replace "%" with "percent
-  }
-  df
-}
-
-
-# --- primary functions -------------------------------------------------------
-
-# import CartoDB table
-getCDBtable <- function(table_name, cdb_account) {
+#' get_cdb_table
+#'
+#' ... yada yada
+#'
+#' @importFrom jsonlite fromJSON
+#' @param table_name A PostGres-based table from CartoDB.
+#' @param cdb_account A CartoDB account name.
+#' @return A data frame.
+#' @export
+#' @examples
+#' # test CartoDB connection by retrieving existing table ...
+#' stations <- get_cdb_table("public.stations", your.cdb.account)
+get_cdb_table <- function(table_name, cdb_account) {
   sql_statement <- paste("select * from", table_name)
   cdb_url_base <- ".cartodb.com/api/v2/sql?q="
   jsonlite::fromJSON (paste0("https://", cdb_account, cdb_url_base,
                   fillblanks(sql_statement)))
 }
 
-# export df to CartoDB
-# TODO close connection at end?
-r2cdb <- function(user_key, cdb_account, pwsConds){
+
+#' r2cdb
+#'
+#' ... yada yada
+#'
+#' @importFrom jsonlite fromJSON
+#' @importFrom RSQLite SQLite
+#' @param user_key A CartoDB user authorization key.
+#' @param cdb_account A CartoDB account name.
+#' @param pwsConds A S4.class PWS.Conditions object of PWS locations and conditions attribute
+#'   data.
+#' @return NULL. Plus, printed information on status of CartoDB API and URL of
+#'   exported map data on CartoDB service.
+#' @export
+#' @examples
+#' # export PWS locations and conditions data to CartoDB
+#' r2cdb(your.cdb.key, your.cdb.account, PWS.Conditions )
+
+## export df to CartoDB
+r2cdb <- function(user_key, cdb_account, PWS.Conditions){
+
+  ## -- helpers ------
+  # get SQL column types
+  schema <- function(df){
+    drv <- SQLite()
+    sapply(df, function(x) dbDataType(drv, x))
+  }
+
+  # remove "display" columns with offending "." that throws API syntax error
+  # TODO maybe swap for this? htmltools::htmlEscape
+  sanitize <- function(df){
+    colnames(df)[1] <- "full_location"
+    names(df) <- gsub("\\.", "_", names(df))
+    df
+  }
+
+  # enquote data strings for url export
+  singleQuoter <- function(df){
+    if (!is.numeric(df)) {
+      df[] <- gsub("^|$", "\047", df[])
+      df[] <- gsub("$", "\047", df[])
+      df[] <- gsub("%", "percent", df[]) # replace "%" with "percent
+    }
+    df
+  }
+  ## -- end helpers --
+
   # pick-off data from s4 object
-  df <- pwsConds@spatialPtDF@data
+  df <- PWS.Conditions@spatialPtDF@data
 
   tableName <- eval(substitute(quote(pwsConds)))
   df.san <- sanitize(df)
@@ -99,20 +140,6 @@ r2cdb <- function(user_key, cdb_account, pwsConds){
   insertCdbTable(user_key, cdb_account, df)
 }
 
-# ------ example uses -----------------------------
-
-## test CartoDB connection by retrieving existing table ...
-# stations <- getCDBtable("public.stations", matt.cdb.account)
-
-## export S4 PWS object data to CartoDB
-# condTest <- readRDS("~/Documents/GitHub_projects/290Project/sample_data/condTest.RDS")
-# [yournamehere] <- condTest
-# r2cdb(matt.cdb.key, matt.cdb.account, [yournamehere] )
-
-# ---------- TODO -----------------------
-## point torque.js to new table
-  # really need changing locations over time to animate with torque.js
-  # might need to write javaScript for this
-
+## ---------- TODO -----------------------
 # consider using dplyr::build_sql and/or httr::build_url
-  # or httr::modify_url  to improve functions
+# or httr::modify_url  to improve functions

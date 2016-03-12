@@ -1,3 +1,4 @@
+
 require(ggmap); require(sp); require(jsonlite); require(geosphere)
 # source("api_functions.R")
 
@@ -7,7 +8,7 @@ require(ggmap); require(sp); require(jsonlite); require(geosphere)
 ##   THE STD.API VERSION IS DESIGNED FOR USERS WITH API USAGE LIMITATIONS
 ##
 setClass(
-  Class = "PWS.conditions",
+  Class = "PWS.Conditions",
   slots = c(spatialPtDF="SpatialPointsDataFrame", spatialPt="SpatialPoints", call="list")
 )
 ##
@@ -22,14 +23,14 @@ setClass(
 ##  THE SLOTS REFLECT THE REALITY OF THE USER AND DEVELOPER PROFILE
 ##  SIMULTANEOUSLY IMMEDIATE WEATHER AND GEOSPATIAL DATA
 ##
-PWS.conditions <- function(...) return(new(Class="PWS.conditions",...))
+PWS.Conditions <- function(...) return(new(Class="PWS.Conditions",...))
 ##
 ##  THE INITIALIZATION FUNCTION SIMULTANEOUSLY RETRIEVES AND FORMATS SLOT DATA
 ##
 myenv <- new.env(parent=emptyenv())
 myenv$repository = list()
 setMethod("initialize",
-          "PWS.conditions",
+          "PWS.Conditions",
           function(.Object, longitude, latitude, radius, user.key, STD.API=TRUE){
 
             if (longitude < -180 | longitude > 180) stop("Please note that longitude must be -/+180.")
@@ -38,7 +39,7 @@ setMethod("initialize",
             if (typeof(user.key)!="character") stop("Please note that the user.key must be of type character.")
 
             args.length <- length(as.list(match.call()[-1]))
-            cat("\n Note: The combined PWS.locations and PWS.conditions may require several minutes... \n")
+            cat("\n Note: The combined PWS.locations and PWS.Conditions may require several minutes... \n")
             cat("\n and nearly 100 API calls for areas in excess of 50km... \n")
             readline(prompt="Please press [enter] to continue or [esc] to quit.\n \n")
             if ( is.numeric(longitude) & (args.length == 5) ) {
@@ -129,7 +130,7 @@ conditionsFetch.Full <- function(PWS.MetaQuery, user.key){
 # ##   EXAMPLE OF CLASS INITIALIZATION FUNCTION LEADING TO SPATIALPOINTSDATAFRAME SLOT
 # ##   AS WELL AS CONDITIONS DATAFRAME
 # ##
-# S4.SpatialPDF <- PWS.conditions(-118.4912, 34.01945, 3, user.key)
+# S4.SpatialPDF <- PWS.Conditions(-118.4912, 34.01945, 3, user.key)
 #
 # identical(SpatialPDF@data, S4.SpatialPDF@spatialPtDF@data)
 # #   NOTE - THEY ARE NOT IDENTICAL BECAUSE THEIR OBSERVATION TIMES WILL INEVITABLY DIFFER BY A FEW SECONDS
