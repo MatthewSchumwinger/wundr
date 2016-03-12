@@ -15,6 +15,8 @@
 
 # require(jsonlite); require(sp); require(geosphere);
 
+#' createCentroidTable
+#'
 #' createCentroidTable is an auxiliary function used in the 'PWS_meta_query' function.
 #' Given a the coordinates of the centre of a large circle and its radius,
 #' the createCentroidTable function creates a data frame of the (longitude,latitude)-pairs
@@ -103,6 +105,8 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
 
 
 
+#' PWS_meta_query
+#'
 #' Given a the coordinates of the centre of a circle and its radius the 'PWS_meta_query'
 #' function downloads the meta data for all personal weather stations in this region from
 #' WUnderground. Due to the limitations of the API this is done by covering the larger
@@ -227,6 +231,8 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
 
 
 
+#' PWS_meta_subset
+#'
 #' Given an output of 'PWS_meta_query' which contains meta data of personal weather stations in a region
 #' and the coordinates of the centre of a (new) circle and its radius, the 'PWS_meta_subset' function
 #' subsets the meta data to only cotain stations inside the new circle. The output is the subsetted meta data.
@@ -282,6 +288,8 @@ PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
 
 
 
+#' PWS_conditions
+#'
 #' Given an output of 'PWS_meta_query' which contains meta data of personal weather stations in a region
 #' the function 'PWS_conditions' downloads the weather conditions for all stations in the meta data.
 #'
@@ -356,6 +364,8 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
 
 
 
+#' PWS_history
+#'
 #' Given an output of 'PWS_meta_query' which contains meta data of personal weather stations in a region
 #' and a start and an end date for a period of time, the function 'PWS_history' downloads the weather
 #' conditions history for all stations in the meta data. Note that 1 API per stations per day is required.
