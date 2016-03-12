@@ -1,6 +1,4 @@
 library(jsonlite)
-library(pryr)
-library(plyr)
 library(RSQLite)
 
 matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
@@ -52,7 +50,7 @@ r2cdb <- function(user_key, cdb_account, pwsConds){
   # pick-off data from s4 object
   df <- pwsConds@spatialPtDF@data
 
-  tableName <- eval(subs(quote(pwsConds)))
+  tableName <- eval(substitute(quote(pwsConds)))
   df.san <- sanitize(df)
   df.schema <- schema(df.san)
   cdb_url_base <- ".cartodb.com/api/v2/sql?q="
@@ -63,7 +61,7 @@ r2cdb <- function(user_key, cdb_account, pwsConds){
     colTypes <- sapply(seq_along(df.schema), function(i) paste(names(df.schema)[[i]], df.schema[[i]]))
     columns <- paste(colTypes, collapse = ",")
     sql_create <- paste0("create table ", tableName," (", columns, ")")
-    sql_register <- eval(subs(paste0("select cdb_cartodbfytable('", tableName, "')")))
+    sql_register <- eval(substitute(paste0("select cdb_cartodbfytable('", tableName, "')")))
     cat(" Instantiating and registering new table with CartoDB ... ")
     jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
                     fillblanks(sql_create),"&api_key=",user_key))
@@ -109,7 +107,7 @@ r2cdb <- function(user_key, cdb_account, pwsConds){
 ## export S4 PWS object data to CartoDB
 # condTest <- readRDS("~/Documents/GitHub_projects/290Project/sample_data/condTest.RDS")
 # [yournamehere] <- condTest
-# r2cdb(matt.cdb.key, matt.cdb.account, [yournamehere])
+# r2cdb(matt.cdb.key, matt.cdb.account, [yournamehere] )
 
 # ---------- TODO -----------------------
 ## point torque.js to new table
