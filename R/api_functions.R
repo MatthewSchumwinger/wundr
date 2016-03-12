@@ -3,7 +3,9 @@
 # + Those API functions form Part 1 of the projects and are used in later parts of the project by   +
 # + by eaither calling them directly or incorporating parts of them. While the user is supposed to  +
 # + interact with those functions through the S4 class, we have sufficiently documented the func-   +
-# + tions, making it possible to use them indepentently. The functions include:                     +
+# + tions, making it possible to use them indepentently.                                            +
+# +                                                                                                 +
+# + The functions include:                                                                          +
 # +                                                                                                 +
 # + o createCentroidTable                                                                           +
 # + o PWS_meta_query                                                                                +
@@ -11,10 +13,23 @@
 # + o PWS_conditions                                                                                +
 # + o PWS_history                                                                                   +
 # +                                                                                                 +
+# + There are also data sets which are included and which show the output of those functions:       +
+# +                                                                                                 +
+# + o Rio_basemap                                                                                  +
+# + o Rio_metadata                                                                                  +
+# + o Rio_conditions                                                                                +
+# + o Rio_history                                                                                   +
+# +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# require(jsonlite); require(sp); require(geosphere);
 
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +                                            FUNCTIONS                                            +
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+#
+# require(jsonlite); require(sp); require(geosphere);
 
 
 #' createCentroidTable
@@ -250,9 +265,13 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
 #' @return A list of two entries. The first has information on the original arguments of the function (radius and coordinates of circle). The second entry contains a subsetted data frame with all personal weather stations in the region of the circle.
 #' @export
 #' @examples
-#' # TODO LOAD DATA +++++
-#' # pwsmetadata_sub <- PWS_meta_subset(pwsmetadata,-122, 37, 2)
-#' # pwsmetadata_sub
+#' # First we load the output of the command
+#' # Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
+#' # where our.key is your API-key for Weather Underground.
+#' data(Rio_metadata)
+#' # Now we subset:
+#' Rio_centre_metadata <- PWS_meta_subset(Rio_metadata,-43.185368,-22.856878, 10)
+#' head(Rio_centre_metadata$PWSmetadata)
 #'
 PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
                              km_miles = TRUE){
@@ -305,11 +324,13 @@ PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
 #' @return A data frame containing all the weather conditions of the stations in the provided meta data object.
 #' @export
 #' @examples
-#' #' # your.key <- "xxxxxxxxxx" # replace this with your key
-#' # cond <- PWS_conditions(pwsmetadata2,stefan.key)
+#' # You can download the current conditions from waether stations in Rio de Janeiro using
+#' # the command below if you replace 'your.key' with your API-key from Weather Underground:
+#' # data(Rio_metadata)
+#' # Rio_conditions <- PWS_conditions(Rio_metadata, your.key)
 #' # if you run the above code with your key the output should be the same as provided here:
-#' # TODO ++++ SAVE DATA AND LOAD IT HERE
-#' # head(cond)
+#' data(Rio_conditions)
+#' head(Rio_conditions)
 #'
 PWS_conditions  <- function(PWSmetadata,user_key ,
                             stdAPI = TRUE){
@@ -339,14 +360,23 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
     else{
       tmp.list$current_observation$image <-NULL
       tmp.list$current_observation$observation_location <-NULL
-      conditions <- rbind(conditions,c(unlist(tmp.list$current_observation$display_location),
-                                       unlist(tmp.list$current_observation)))
+      conditions <- suppressWarnings(rbind(conditions,c(unlist(tmp.list$current_observation$display_location),
+                                       unlist(tmp.list$current_observation))))
+      # some stations have some additional url information at the end, since those differ
+      # from station to station, the above might get a warning, which we ignor since we remove
+      # this information below anyhow.
     }
     cat(".")
     count = count + 1
   }
 
   conditions <- as.data.frame(conditions,stringsAsFactors=FALSE)
+  conditions$icon <- NULL
+  conditions$icon_url <- NULL
+  conditions$forecast_url <- NULL
+  conditions$history_url <- NULL
+  conditions$ob_url <- NULL
+  conditions$nowcast <- NULL
   rownames(conditions) <- PWSmetadata$PWSmetadata$id
   numCheck <- apply(conditions,2,function(x) suppressWarnings(all(!is.na(as.numeric(x)))))
   for(i in 1:ncol(conditions))
@@ -384,11 +414,13 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
 #' @return A data frame containing all the weather conditions of the stations in the provided meta data object.
 #' @export
 #' @examples
-#' # your.key <- "xxxxxxxxxx" # replace this with your key
-#' # hist <- PWS_history(pwsmetadata,"20160101","20160101",your.key)
+#' # You can download the current conditions from weather stations in Rio de Janeiro using
+#' # the command below if you replace 'your.key' with your API-key from Weather Underground:
+#' # data(Rio_metadata)
+#' # Rio_history <- PWS_history(Rio_metadata,"20151224","20151231",your.key)
 #' # if you run the above code with your key the output should be the same as provided here:
-#' # TODO ++++ SAVE DATA AND LOAD IT HERE
-#' # head(hist)
+#' data(Rio_history)
+#' head(Rio_history)
 #'
 PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
                          stdAPI = TRUE){
@@ -452,6 +484,23 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 
 
 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +                                            DATA SETS                                            +
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+#' Rio_basemap object
+#'
+#' Object of tyoe ggmapraster containing the base map of Rio de Janiero. For visualisation
+#' of example data sets. The base map can be plotted using 'ggmap'
+#'
+#' @examples
+#' data(Rio_basemap)
+#' require(ggmap)
+#' ggmap(Rio_basemap)
+#'
+#' @author retrived from google maps
+"Rio_basemap"
 
 
 
@@ -459,7 +508,7 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 #' Rio_metadata dataset
 #'
 #' This is the meta_data for the Personal Weather Stations in Rio de Janeiro, Brazil.
-#' It is the output of the following call of the 'Rio_metadata' function, where
+#' It is the output of the following call of the 'PWS_meta_query' function, where
 #' 'your.key' shoudl be replaced with your API-key for Weather Underground:
 #' Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
 #'
@@ -470,6 +519,40 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 #' @author wundr team
 "Rio_metadata"
 
+
+
+#' Rio_conditions dataset
+#'
+#' This contains the weather conditions for the Personal Weather Stations in
+#' Rio de Janeiro, Brazil, downloaded on March 12, 2016.
+#' It is the output of the following call of the 'PWS_conditions' function,
+#' Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
+#' where, your.key' should be replaced with your API-key for Weather Underground
+#' and 'Rio_metadata' is provided in the package (load it via data(Rio_metadata)).
+#'
+#' @examples
+#' data(Rio_conditions)
+#' head(Rio_conditions)
+#'
+#' @author wundr team
+"Rio_conditions"
+
+
+#' Rio_history dataset
+#'
+#' This contains the weather history for the Personal Weather Stations in
+#' Rio de Janeiro, Brazil, in the period Dec 24,2015 - Dec, 31 2015.
+#' It is the output of the following call of the 'PWS_history' function,
+#' Rio_history <- PWS_history(Rio_metadata,"20151224","20151231",your.key)
+#' where, your.key' should be replaced with your API-key for Weather Underground
+#' and 'Rio_metadata' is provided in the package (load it via data(Rio_metadata)).
+#'
+#' @examples
+#' data(Rio_history)
+#' head(Rio_history)
+#'
+#' @author wundr team
+"Rio_history"
 
 
 

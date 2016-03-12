@@ -21,11 +21,13 @@ Given an output of 'PWS_meta_query' which contains meta data of personal weather
 the function 'PWS_conditions' downloads the weather conditions for all stations in the meta data.
 }
 \examples{
-#' # your.key <- "xxxxxxxxxx" # replace this with your key
-# cond <- PWS_conditions(pwsmetadata2,stefan.key)
+# You can download the current conditions from waether stations in Rio de Janeiro using
+# the command below if you replace 'your.key' with your API-key from Weather Underground:
+# data(Rio_metadata)
+# Rio_conditions <- PWS_conditions(Rio_metadata, your.key)
 # if you run the above code with your key the output should be the same as provided here:
-# TODO ++++ SAVE DATA AND LOAD IT HERE
-# head(cond)
+data(Rio_conditions)
+head(Rio_conditions)
 
 }
 

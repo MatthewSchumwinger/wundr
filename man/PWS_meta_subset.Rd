@@ -26,9 +26,13 @@ and the coordinates of the centre of a (new) circle and its radius, the 'PWS_met
 subsets the meta data to only cotain stations inside the new circle. The output is the subsetted meta data.
 }
 \examples{
-# TODO LOAD DATA +++++
-# pwsmetadata_sub <- PWS_meta_subset(pwsmetadata,-122, 37, 2)
-# pwsmetadata_sub
+# First we load the output of the command
+# Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
+# where our.key is your API-key for Weather Underground.
+data(Rio_metadata)
+# Now we subset:
+Rio_centre_metadata <- PWS_meta_subset(Rio_metadata,-43.185368,-22.856878, 10)
+head(Rio_centre_metadata$PWSmetadata)
 
 }
 

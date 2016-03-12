@@ -10,7 +10,7 @@ Rio_metadata
 }
 \description{
 This is the meta_data for the Personal Weather Stations in Rio de Janeiro, Brazil.
-It is the output of the following call of the 'Rio_metadata' function, where
+It is the output of the following call of the 'PWS_meta_query' function, where
 'your.key' shoudl be replaced with your API-key for Weather Underground:
 Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
 }
