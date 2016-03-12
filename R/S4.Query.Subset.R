@@ -7,9 +7,6 @@ setClass(
 
 PWS.Query.Subset <- function(...) return(new(Class="PWS.Query.Subset",...))
 
-isS4(PWS.Locations)
-
-isS4(a)
 setMethod("initialize",
           "PWS.Query.Subset",
           
