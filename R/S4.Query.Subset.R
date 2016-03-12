@@ -38,7 +38,10 @@ setMethod("initialize",
 # PWS.Locations.Query@spatialPtDF@bbox
 # a@call
 # isS4(PWS.MetaQuery)
-# qsub <- PWS.Query.Subset(a, -118.4912, 34.01945, 1.5)
+a <- PWS.L
+
+qsub <- PWS.Query.Subset(a, -118.4912, 34.01945, 1.5)
+qsub
 # qsub
 # qsub@spatialPtDF
 # qsub@spatialPt
@@ -70,7 +73,7 @@ PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_
     ##
     ## HAS USER'S DESIRED RADIUS EXCEEDED THE BOUNDARY REGION OF THE INITIAL LOCATIONS QUERY?
     ##
-    circle <- t(sapply(1:360, function(degrees) destPoint(x,degrees,radius*1000)))
+    circle <- t(sapply(1:360, function(degrees) destPoint(desired.s.point,degrees,radius*1000)))
 
     if( nrow(queries)!=0 & any(is.na( SpatialPoints(circle, CRS("+proj=longlat +ellps=WGS84") ) %over%
                                       Locations.Spatial.Polygon ))){

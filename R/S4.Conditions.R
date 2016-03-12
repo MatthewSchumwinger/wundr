@@ -1,6 +1,6 @@
 
 # require(ggmap); require(sp); require(jsonlite); require(geosphere)
-# source("api_functions.R")
+#source("api_functions.R")
 
 ##
 ##   PWS.CONDITIONS USES PWS.LOCATIONS' ID COLUMN
@@ -33,8 +33,6 @@ setMethod("initialize",
           "PWS.Conditions",
           function(.Object, longitude, latitude, radius, user.key, STD.API=TRUE){
 
-            if (longitude < -180 | longitude > 180) stop("Please note that longitude must be -/+180.")
-            if (latitude < -90 | latitude > 90) stop("Please note that latitude must be -/+90.")
             if (radius<=0) stop("Please note that the search radius must be positive.")
             if (typeof(user.key)!="character") stop("Please note that the user.key must be of type character.")
 
@@ -42,8 +40,12 @@ setMethod("initialize",
             cat("\n Note: The combined PWS.locations and PWS.Conditions may require several minutes... \n")
             cat("\n and nearly 100 API calls for areas in excess of 50km... \n")
             readline(prompt="Please press [enter] to continue or [esc] to quit.\n \n")
+
+
             if ( is.numeric(longitude) & (args.length == 5) ) {
-              Meta.DF <- PWS_meta_query(longitude, latitude, radius, user.key)
+              Meta.DF <- PWS_meta_query(longitude, latitude, radius, user_key=user.key)
+              if (longitude < -180 | longitude > 180) stop("Please note that longitude must be -/+180.")
+              if (latitude < -90 | latitude > 90) stop("Please note that latitude must be -/+90.")
             }else{
               location <- longitude
               g <- j.geocode(location)
@@ -70,21 +72,25 @@ setMethod("initialize",
 ## INTO A SPATIALPOINTSDATAFRAME
 ##
 conditionsFetch <- function(PWS.MetaQuery, user.key){
+  user.key <- user.key
   Id.Vector <- PWS.MetaQuery$PWSmetadata$id
-  timePWS(Id.Vector)
+  list(Id.Vector, user.key)
+  timePWS(Id.Vector, user.key)
 }
 
-timePWS <- function(ID.Vector){
+conditionsFetch(PWS.MetaQuery, user.key=jam.key)
+
+timePWS <- function(ID.Vector,user.key){
   rows.MQ <- length(ID.Vector)
   ids <- lapply(1:ceiling(rows.MQ/10), function(x) return(ID.Vector[(10*(x-1)+1):(10*x)]))
   sapply(1:ceiling(rows.MQ/10), function(x) {
     ids <- as.data.frame(ids[x])[ !is.na( as.data.frame(ids[x]) )]
-    pullPWS(ids)
-    if(x!=ceiling(rows.MQ/10)) {cat("Pausing for required one-minute API relief...\n"); invisible(Sys.sleep(60))}
+    pullPWS(ids,user.key)
+    if(x!=ceiling(rows.MQ/10)) {cat("\n Pausing for required one-minute API relief...\n"); invisible(Sys.sleep(60))}
   })
 }
 
-pullPWS <- function(ids){
+pullPWS <- function(ids,user.key){
   sapply(ids, function(i) {
     url.base <- "http://api.wunderground.com/api/"
     url.cond <- "/conditions/q/"
@@ -111,12 +117,24 @@ conditionsFetch.Full <- function(PWS.MetaQuery, user.key){
   myenv$myConds <- new(Class="conds", id=Merged.JDF$id, data=Merged.JDF)
   return(Merged.JDF) #READY TO USE WITH SPATIALDATAFRAME CONSTRUCTION
 }
-
-##
-##  EXAMPLE OF STANDALONE FUNCTIONS
+#
+# conditionsFetch.Full(PWS.MetaQuery, user.key=jam.key)
+#
+# S4.SpatialPDF <- PWS.Conditions(-118.4912, 34.01945, 3, user.key=jam.key)
+# S4.SpatialPDF_ <- PWS.Conditions("Santa Monica, CA", radius=3, user.key=jam.key)
+#
+#
+# S4.SpatialPDF
+#
+# S4.SpatialPDF2 <- PWS.Conditions("Santa Monica,CA", radius=3, user.key=jam.key)
+#
+# S4.SpatialPDF2@spatialPtDF
+#
 # ##
-# PWS.MetaQuery <- PWS_meta_query(-118.4912, 34.01945, 3, user.key)
-# conditionsFetch(PWS.MetaQuery,user.key)
+# ##  EXAMPLE OF STANDALONE FUNCTIONS
+# # ##
+# PWS.MetaQuery <- PWS_meta_query(-118.4912, 34.01945, 3, user_key=jam.key)
+# conditionsFetch(PWS.MetaQuery, user.key)
 # #
 # #   CREATION OF REPOSITORY LIST: myenv$repository
 # #   REPOSITORY CONDITIONS LIST NEEDS TO BE TRANSFORMED TO DATAFRAME AND MERGED
