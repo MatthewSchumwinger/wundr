@@ -187,11 +187,6 @@ WGS84 <- CRS("+proj=longlat +datum=WGS84")
 
 # --- misc helpers -------------------------------------------------------------
 # transform data.frame to spatialPointsDataFrame
-toSPntsDF <- function(df){
-  df_mat <- cbind(df$longitude, df$latitude)
-  row.names(df_mat) <- row.names(df)
-  SpatialPointsDataFrame(df_mat, df, proj4string = WGS84, match.ID = TRUE)
-}
 
 # transform CRS to Web Merator for web mapping
 # TODO: add ability to transform rasterlayers and use with points2raster()?
