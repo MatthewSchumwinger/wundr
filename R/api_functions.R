@@ -54,14 +54,14 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
     for(i in -n:n){
       for(j in -n:n){
         exclude = (sqrt((i-0.5)^2+(j-0.5)^2)*centroid_dist > radius) &
-                  (sqrt((i-0.5)^2+(j+0.5)^2)*centroid_dist > radius) &
-                  (sqrt((i+0.5)^2+(j-0.5)^2)*centroid_dist > radius) &
-                  (sqrt((i+0.5)^2+(j+0.5)^2)*centroid_dist > radius)
+          (sqrt((i-0.5)^2+(j+0.5)^2)*centroid_dist > radius) &
+          (sqrt((i+0.5)^2+(j-0.5)^2)*centroid_dist > radius) &
+          (sqrt((i+0.5)^2+(j+0.5)^2)*centroid_dist > radius)
         if( !exclude & !((i==0)&(j==0))) {
-         centroidTable = rbind(centroidTable,
-                               geosphere::destPoint(geosphere::destPoint(c(longitude,latitude),
-                                        90+90-sign(j)*90,abs(j)*centroid_dist*1e3),
-                                        90-sign(i)*90,abs(i)*centroid_dist*1e3))
+          centroidTable = rbind(centroidTable,
+                                geosphere::destPoint(geosphere::destPoint(c(longitude,latitude),
+                                                                          90+90-sign(j)*90,abs(j)*centroid_dist*1e3),
+                                                     90-sign(i)*90,abs(i)*centroid_dist*1e3))
         }
       }
     }
@@ -81,14 +81,14 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
         i_shift = sign(i)*(abs(i)-0.5)
         j_shift = sign(j)*(abs(j)-0.5)
         exclude = (sqrt((i_shift-0.5)^2+(j_shift-0.5)^2)*centroid_dist > radius) &
-                  (sqrt((i_shift-0.5)^2+(j_shift+0.5)^2)*centroid_dist > radius) &
-                  (sqrt((i_shift+0.5)^2+(j_shift-0.5)^2)*centroid_dist > radius) &
-                  (sqrt((i_shift+0.5)^2+(j_shift+0.5)^2)*centroid_dist > radius)
+          (sqrt((i_shift-0.5)^2+(j_shift+0.5)^2)*centroid_dist > radius) &
+          (sqrt((i_shift+0.5)^2+(j_shift-0.5)^2)*centroid_dist > radius) &
+          (sqrt((i_shift+0.5)^2+(j_shift+0.5)^2)*centroid_dist > radius)
         if( !exclude ) {
           centroidTable = rbind(centroidTable,
                                 geosphere::destPoint(geosphere::destPoint(c(longitude,latitude),
-                                                    90+90-sign(j_shift)*90,(abs(j_shift))*centroid_dist*1e3),
-                                                    90-sign(i_shift)*90,(abs(i_shift))*centroid_dist*1e3))
+                                                                          90+90-sign(j_shift)*90,(abs(j_shift))*centroid_dist*1e3),
+                                                     90-sign(i_shift)*90,(abs(i_shift))*centroid_dist*1e3))
         }
       }
     }
@@ -171,7 +171,7 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
       Sys.sleep(60)
     }
     req <- jsonlite::fromJSON(paste0(url_base,user_key,
-                           url_geo,centroidTable[i,2],",",centroidTable[i,1],".json"))
+                                     url_geo,centroidTable[i,2],",",centroidTable[i,1],".json"))
     # Check JSON for error, i.e. wrong key etc.
     if(!is.null(req$response$error)) stop(paste("JSON error:",req$response$error$description))
     queries=rbind(queries,req$location$nearby_weather_stations$pws$station)
@@ -188,8 +188,8 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
       for(ind_i in c(-1,1)){
         for(ind_j in c(-1,1)){
           vec <- geosphere::destPoint(geosphere::destPoint(centroidTable[i,],
-                          90+90-sign(ind_j)*90,abs(ind_j)*max_radius_km*0.45*1e3),
-                           90-sign(ind_i)*90,abs(ind_i)*max_radius_km*0.45*1e3)
+                                                           90+90-sign(ind_j)*90,abs(ind_j)*max_radius_km*0.45*1e3),
+                                      90-sign(ind_i)*90,abs(ind_i)*max_radius_km*0.45*1e3)
           #DEBUG:
           #points(vec[1],vec[2],col='blue')
           if(stdAPI & ( count%% 10 ==0 ) & count !=0) {
@@ -197,7 +197,7 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
             Sys.sleep(60)
           }
           req <- jsonlite::fromJSON(paste0(url_base,user_key,
-                                       url_geo,vec[2],",",vec[1],".json"))
+                                           url_geo,vec[2],",",vec[1],".json"))
           if(!is.null(req$response$error)) stop(paste("JSON error:",req$response$error$description))
           queries=rbind(queries,req$location$nearby_weather_stations$pws$station)
           count = count + 1
@@ -209,15 +209,15 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
   cat(" Post-processing. ")
   if(is.null(queries)) stop("No search results. Revise search parameters.")
 
-    queries <- queries[!duplicated(queries$id),]
-    queries$distance_km <- sp::spDistsN1(as.matrix(queries[c("lon","lat")]),
-                                   c(longitude,latitude),longlat = TRUE)
-    queries <- queries[queries$distance_km < radius,]
-    queries$distance_mi <- queries$distance_km*mile_per_km
-    queries <- queries[order(queries$distance_km),]
-    cat("Done.")
-    call=list("lon"=longitude,"lat"=latitude, "radius_km" = radius)
-    list("PWSmetadata" = queries, "call" = call)
+  queries <- queries[!duplicated(queries$id),]
+  queries$distance_km <- sp::spDistsN1(as.matrix(queries[c("lon","lat")]),
+                                       c(longitude,latitude),longlat = TRUE)
+  queries <- queries[queries$distance_km < radius,]
+  queries$distance_mi <- queries$distance_km*mile_per_km
+  queries <- queries[order(queries$distance_km),]
+  cat("Done.")
+  call=list("lon"=longitude,"lat"=latitude, "radius_km" = radius)
+  list("PWSmetadata" = queries, "call" = call)
 }
 
 
@@ -265,14 +265,14 @@ PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
   if(is.null(queries)) stop("Provide a valid meta data object.")
 
 
-    queries$distance_km <- sp::spDistsN1(as.matrix(queries[c("lon","lat")]),
-                                   c(longitude,latitude),longlat = TRUE)
-    queries <- queries[queries$distance_km < radius,]
-    queries$distance_mi <- queries$distance_km*mile_per_km
-    queries <- queries[order(queries$distance_km),]
-    if(nrow(queries)==0) queries <- NULL
-    call=list("lon"=longitude,"lat"=latitude, "radius_km" = radius)
-    list("PWSmetadata" = queries, "call" = call)
+  queries$distance_km <- sp::spDistsN1(as.matrix(queries[c("lon","lat")]),
+                                       c(longitude,latitude),longlat = TRUE)
+  queries <- queries[queries$distance_km < radius,]
+  queries$distance_mi <- queries$distance_km*mile_per_km
+  queries <- queries[order(queries$distance_km),]
+  if(nrow(queries)==0) queries <- NULL
+  call=list("lon"=longitude,"lat"=latitude, "radius_km" = radius)
+  list("PWSmetadata" = queries, "call" = call)
 }
 
 
@@ -329,7 +329,7 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
       tmp.list$current_observation$image <-NULL
       tmp.list$current_observation$observation_location <-NULL
       conditions <- rbind(conditions,c(unlist(tmp.list$current_observation$display_location),
-                                     unlist(tmp.list$current_observation)))
+                                       unlist(tmp.list$current_observation)))
     }
     cat(".")
     count = count + 1
@@ -378,7 +378,7 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
 #' # head(hist)
 #'
 PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
-                            stdAPI = TRUE){
+                         stdAPI = TRUE){
   #
   # Constants:
   url_base <- "http://api.wunderground.com/api/"
@@ -390,8 +390,8 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
   history <- NULL
   count = 0
   date_list <- tryCatch(seq(as.Date(begin_YYYYMMDD,"%Y%m%d"),
-                           as.Date(end_YYYYMMDD,"%Y%m%d"), by="days"),
-           error = function(e) {stop("Dates must be in format 'YYYYMMDD' and in chronological order.")})
+                            as.Date(end_YYYYMMDD,"%Y%m%d"), by="days"),
+                        error = function(e) {stop("Dates must be in format 'YYYYMMDD' and in chronological order.")})
 
   date_list = gsub("-","",date_list)
   cat("A total of ",nrow(PWSmetadata$PWSmetadata)*length(date_list),
@@ -403,12 +403,12 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
   for(date in date_list){
     for(i in 1:nrow(PWSmetadata$PWSmetadata)){
       if(stdAPI & ( count%% 10 ==0 ) & count !=0) {
-       cat(" Pausing ")
-       Sys.sleep(60)
+        cat(" Pausing ")
+        Sys.sleep(60)
       }
 
       tmp.list <- jsonlite::fromJSON(paste0(url_base,user_key,"/history_",date,"/q/pws:",
-                                                          PWSmetadata$PWSmetadata$id[i] ,".json"))
+                                            PWSmetadata$PWSmetadata$id[i] ,".json"))
       # Check JSON for error, i.e. wrong key etc.
       if(!is.null(tmp.list$response$error)) stop(paste("JSON error:",tmp.list$response$error$description))
       #
@@ -435,19 +435,6 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
   cat("Done.")
   history
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
