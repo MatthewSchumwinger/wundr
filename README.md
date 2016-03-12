@@ -12,10 +12,11 @@ Final project R package for Stats 290
 - [ ] S    | 3-10 | part 1 - optimized api functions
 - [x] J    | 3-09 | Properly functional PWS.Conditions S4
 - [x] J    | 3-10 | part 2 - Properly functional PWS.Subset S4
-- [ ] J    | .... | Properly functional PWS History S4
-- [ ] J    | .... | Getter / Setter S4 for Temperature, Humidity, etc.
+- [x] J    | 3-11 | Properly functional PWS History S4
+- [ ] J    | .... | Getter for S4 global.R object with respect to Temperature, Humidity, etc.
 - [x] J    | 3-10 | (something related to the %over% function) included as validator in PWS.Subset.S4
 - [ ] J    | .... | global.R file for package (global variable for Conditions)
+- [ ] J    | .... | set key latitude / longitude validation methods for S4 Classes (all of them)
 - [ ] M    | .... | feature for user to graphically select point for search radius
 - [x] M    | 3-9 | wire plotting/mapping and cdb functions to new S4object
 - [ ] M    | 3-10 | part 6 - improve web map pop-ups
