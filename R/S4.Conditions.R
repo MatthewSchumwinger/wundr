@@ -1,8 +1,8 @@
 require(ggmap); require(sp); require(jsonlite); require(geosphere)
-source("api_functions.R")
+# source("api_functions.R")
 
 ##
-##   PWS.CONDITIONS USES PWS.LOCATIONS' ID COLUMN 
+##   PWS.CONDITIONS USES PWS.LOCATIONS' ID COLUMN
 ##   TO RETRIEVE WEATHER CONDITIONS TO BE STORED IN GLOBAL VARIABLE
 ##   THE STD.API VERSION IS DESIGNED FOR USERS WITH API USAGE LIMITATIONS
 ##
@@ -11,7 +11,7 @@ setClass(
   slots = c(spatialPtDF="SpatialPointsDataFrame", spatialPt="SpatialPoints", call="list")
 )
 ##
-##  THE USER SIMULTANEOUSLY GAINS ACCESS TO A GLOBALLY AVAILABLE DATAFRAME 
+##  THE USER SIMULTANEOUSLY GAINS ACCESS TO A GLOBALLY AVAILABLE DATAFRAME
 ##  AS WELL AS SPATIALPOINTS AND A SPATIALPOINTSDATAFRAME
 ##
 setClass(
@@ -31,12 +31,12 @@ myenv$repository = list()
 setMethod("initialize",
           "PWS.conditions",
           function(.Object, longitude, latitude, radius, user.key, STD.API=TRUE){
-            
+
             if (longitude < -180 | longitude > 180) stop("Please note that longitude must be -/+180.")
             if (latitude < -90 | latitude > 90) stop("Please note that latitude must be -/+90.")
             if (radius<=0) stop("Please note that the search radius must be positive.")
             if (typeof(user.key)!="character") stop("Please note that the user.key must be of type character.")
-            
+
             args.length <- length(as.list(match.call()[-1]))
             cat("\n Note: The combined PWS.locations and PWS.conditions may require several minutes... \n")
             cat("\n and nearly 100 API calls for areas in excess of 50km... \n")
@@ -46,12 +46,12 @@ setMethod("initialize",
             }else{
               location <- longitude
               g <- j.geocode(location)
-              Meta.DF <-PWS_meta_query(longitude=g[2], latitude=g[1], radius=radius, user_key=user.key) 
+              Meta.DF <-PWS_meta_query(longitude=g[2], latitude=g[1], radius=radius, user_key=user.key)
             }
             coords <- cbind(Meta.DF$PWSmetadata$lon, Meta.DF$PWSmetadata$lat)
             .Object@spatialPt <- SpatialPoints(coords)
             .Object@call <- Meta.DF$call
-            
+
             if (STD.API==TRUE) {
             conditionsFetch(Meta.DF, user.key)
             cat("\n Please wait 60 seconds so as not to exceed your API limit... \n"); Sys.sleep(60)
@@ -59,7 +59,7 @@ setMethod("initialize",
             }else{
             .Object@spatialPtDF <- SpatialPointsDataFrame(.Object@spatialPt, conditionsFetch.Full(Meta.DF, user.key))
             }
-            
+
             return(.Object)
           }
 )
@@ -79,7 +79,7 @@ timePWS <- function(ID.Vector){
   sapply(1:ceiling(rows.MQ/10), function(x) {
     ids <- as.data.frame(ids[x])[ !is.na( as.data.frame(ids[x]) )]
     pullPWS(ids)
-    if(x!=ceiling(rows.MQ/10)) {cat("Pausing for required one-minute API relief...\n"); invisible(Sys.sleep(60))}       
+    if(x!=ceiling(rows.MQ/10)) {cat("Pausing for required one-minute API relief...\n"); invisible(Sys.sleep(60))}
   })
 }
 
@@ -105,7 +105,7 @@ conditionsFetch.Full <- function(PWS.MetaQuery, user.key){
   url.base <- "http://api.wunderground.com/api/"
   url.cond <- "/conditions/q/"
   Id.Vector <- PWS.MetaQuery$PWSmetadata$id
-  PWS.json <-  as.data.frame(sapply(Id.Vector, function(i) jsonlite::fromJSON(paste0(url.base,user.key,url.cond,"pws:", i,".json"))$current_observation)) 
+  PWS.json <-  as.data.frame(sapply(Id.Vector, function(i) jsonlite::fromJSON(paste0(url.base,user.key,url.cond,"pws:", i,".json"))$current_observation))
   Merged.JDF <- merge(PWS.MetaQuery$PWSmetadata, t(PWS.json), by.x=c("id"), by.y=c("station_id") )
   myenv$myConds <- new(Class="conds", id=Merged.JDF$id, data=Merged.JDF)
   return(Merged.JDF) #READY TO USE WITH SPATIALDATAFRAME CONSTRUCTION
@@ -117,7 +117,7 @@ conditionsFetch.Full <- function(PWS.MetaQuery, user.key){
 # PWS.MetaQuery <- PWS_meta_query(-118.4912, 34.01945, 3, user.key)
 # conditionsFetch(PWS.MetaQuery,user.key)
 # #
-# #   CREATION OF REPOSITORY LIST: myenv$repository 
+# #   CREATION OF REPOSITORY LIST: myenv$repository
 # #   REPOSITORY CONDITIONS LIST NEEDS TO BE TRANSFORMED TO DATAFRAME AND MERGED
 # #   TO PWS.METAQUERY FOR SUBSEQUENT SPATIALPOINTSDATAFRAME TRANSFORMATION
 # #
@@ -130,12 +130,12 @@ conditionsFetch.Full <- function(PWS.MetaQuery, user.key){
 # ##   AS WELL AS CONDITIONS DATAFRAME
 # ##
 # S4.SpatialPDF <- PWS.conditions(-118.4912, 34.01945, 3, user.key)
-# 
+#
 # identical(SpatialPDF@data, S4.SpatialPDF@spatialPtDF@data)
 # #   NOTE - THEY ARE NOT IDENTICAL BECAUSE THEIR OBSERVATION TIMES WILL INEVITABLY DIFFER BY A FEW SECONDS
 # identical(SpatialPDF@data$id, S4.SpatialPDF@spatialPtDF@data$id)
 # identical(S4.SpatialPDF@spatialPtDF@data$id,myenv$myConds@data$id )
 
-#   IDENTICAL - TRUE  
+#   IDENTICAL - TRUE
 #setConds(myenv$myConds)
 
