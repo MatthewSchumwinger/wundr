@@ -22,3 +22,13 @@ Authors@R: c(person("J.A.", "Marin", role = c("aut", "cre"),
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 5.0.1
+Collate:
+    'S4.Conditions.R'
+    'S4.History.R'
+    'S4.Locations.R'
+    'S4.Query.Subset.R'
+    'S4.Methods.R'
+    'api_functions.R'
+    'cartoDB_functions.R'
+    'global.R'
+    'viz_functions.R'

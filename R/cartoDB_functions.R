@@ -1,17 +1,13 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# + This document contains .... ... yada yada
-# + The functions include:                     +
-# +                                                                           +
-# + o getCDBtable                                                             +
-# + o r2cdb                                                                   +                                                            +
-# +                                                                           +
-
-# library(jsonlite)
-# library(RSQLite)
-
-# matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
-# matt.cdb.account <- "biglakedata"
-
+# This document contains functions that interface with the CartoDB SQL API
+# (http://docs.cartodb.com/cartodb-platform/sql-api/). This povides facilities
+# to export Weather Underground PWS data to CartoDB's spatial database hosting
+# and webmap publishing platform. Simple facilty to import SQL spatial table
+# data from CartoDB into R is also provided.
+# The functions include:
+#
+#  o getCDBtable
+#  o r2cdb                                                                                                                               +
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #' fillblanks
