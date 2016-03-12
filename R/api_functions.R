@@ -1,5 +1,4 @@
-
-
+# require(jsonlite); require(sp); require(geosphere); 
 
 
 #' createCentroidTable is an auxiliary function used in the 'PWS_meta_query' function.
@@ -88,12 +87,22 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
 
 
 
-#' Given a the coordinates of the centre of a large circle and its radius, 
-#' the createCentroidTable function creates a data frame of the (longitude,latitude)-pairs 
-#' for the centres of the small circles of a given radius which cover the large circle.
+
+
+#' Given a the coordinates of the centre of a circle and its radius the 'PWS_meta_query'
+#' function downloads the meta data for all personal weather stations in this region from
+#' WUnderground. Due to the limitations of the API this is done by covering the larger 
+#' circle with small circles, each of which corresponds to a single API call. This is done
+#' using the auxiliary function createCentroidTable. While downloading the action of each 
+#' download is displayed by a '.' If the function is used under standard API settings, only
+#' 10 API calls per minute are allowed and the function pauses accordingly. In some instances
+#' the API call only returns partial data. In those cases, the 'PWS_meta_query' function
+#' zooms in, issuing more queries around this area to capture all stations. Those additional
+#' API calls are denoted by ','
 #'
 #' @importFrom jsonlite fromJSON
 #' @importFrom geosphere destPoint
+#' @importFrom sp spDistsN1
 #' 
 #' @param longitude Standard Longitude in range -/+180
 #' @param latitude Standard latitude in range -/+90
@@ -104,7 +113,7 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
 #' @return A list of two entries. The first has information on the original arguments of the function (radius and coordinates of circle). The second entry contains a data frame with all personal weather stations in the region of the circle. 
 #' @export
 #' @examples 
-#' # your.key <- "??????????" # replace this with your key
+#' # your.key <- "xxxxxxxxxx" # replace this with your key
 #' # pwsmetadata <- PWS_meta_query(-122, 37, 50, your.key)
 #' # if you run the above code with your key the output should be the same as provided here:
 #' # TODO ++++ SAVE DATA AND LOAD IT HERE 
@@ -136,7 +145,7 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
   
   cat("A minimum of ",nrow(centroidTable)," API calls is needed to download the metadata.\n")
   if(stdAPI) cat("Under standard API settings only 10 calls per minute are allowed.\n")
-  cat("(API calls are denoted by '.' If wunderground return only partial data,\n")
+  cat("(API calls are denoted by '.' If WUnderground return only partial data,\n")
   cat("new additional API calls are made. Leading to more than ",nrow(centroidTable)," calls.\n")
   cat("Those new calls are denoted by ',')\n")
   cat("Downloading ")
@@ -187,7 +196,7 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
   if(is.null(queries)) stop("No search results. Revise search parameters.")
 
     queries <- queries[!duplicated(queries$id),]
-    queries$distance_km <- spDistsN1(as.matrix(queries[c("lon","lat")]), 
+    queries$distance_km <- sp::spDistsN1(as.matrix(queries[c("lon","lat")]), 
                                    c(longitude,latitude),longlat = TRUE)
     queries <- queries[queries$distance_km < radius,]
     queries$distance_mi <- queries$distance_km*mile_per_km
@@ -200,6 +209,28 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
 
 
 
+
+
+
+
+#' Given an output of 'PWS_meta_query' which contains meta data of personal weather stations in a region
+#' and the coordinates of the centre of a (new) circle and its radius, the 'PWS_meta_subset' function 
+#' subsets the meta data to only cotain stations inside the new circle. The output is the subsetted meta data.
+#'
+#' @importFrom sp spDistsN1
+#' 
+#' @param PWSmetadata Meta data object of weather stations (output of 'PWS_meta_query')
+#' @param longitude Standard Longitude in range -/+180
+#' @param latitude Standard latitude in range -/+90
+#' @param radius Radius in kilometers of the circle
+#' @param km_miles A bolean variable indicating whether radius is in kilometer (TRUE) or miles (FALSE). The default is kilometers.
+#' @return A list of two entries. The first has information on the original arguments of the function (radius and coordinates of circle). The second entry contains a subsetted data frame with all personal weather stations in the region of the circle. 
+#' @export
+#' @examples 
+#' # TODO LOAD DATA +++++
+#' # pwsmetadata_sub <- PWS_meta_subset(pwsmetadata,-122, 37, 2)
+#' # pwsmetadata_sub
+#' 
 PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
                              km_miles = TRUE){
   #  
@@ -220,7 +251,7 @@ PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
   if(is.null(queries)) stop("Provide a valid meta data object.")
   
  
-    queries$distance_km <- spDistsN1(as.matrix(queries[c("lon","lat")]), 
+    queries$distance_km <- sp::spDistsN1(as.matrix(queries[c("lon","lat")]), 
                                    c(longitude,latitude),longlat = TRUE)
     queries <- queries[queries$distance_km < radius,]
     queries$distance_mi <- queries$distance_km*mile_per_km
@@ -233,16 +264,28 @@ PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
 
 
 
-# 
-# Example usage:
-# pwsmetadata2 <- PWS_meta_subset(pwsmetadata,-122, 37, 2)
-# pwsmetadata2
-#
 
 
 
 
-
+#' Given an output of 'PWS_meta_query' which contains meta data of personal weather stations in a region
+#' the function 'PWS_conditions' downloads the weather conditions for all stations in the meta data.
+#' 
+#'
+#' @importFrom jsonlite fromJSON
+#' 
+#' @param PWSmetadata Meta data object of weather stations (output of 'PWS_meta_query')
+#' @param user_key Your WUnderground API user key given as a character string
+#' @param stdAPI A bolean variable indicating whether you have a standard (free) API access (TRUE) which only allows for 10 API calls per minute. The default is the standard API.
+#' @return A data frame containing all the weather conditions of the stations in the provided meta data object.
+#' @export
+#' @examples 
+#' #' # your.key <- "xxxxxxxxxx" # replace this with your key
+#' # cond <- PWS_conditions(pwsmetadata2,stefan.key)
+#' # if you run the above code with your key the output should be the same as provided here:
+#' # TODO ++++ SAVE DATA AND LOAD IT HERE 
+#' # head(cond)
+#'
 PWS_conditions  <- function(PWSmetadata,user_key , 
                             stdAPI = TRUE){
   #  
@@ -290,11 +333,6 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
 
 
 
-# 
-# Example usage:
-# cond <- PWS_conditions(pwsmetadata2,stefan.key)
-# cond
-#
 
 
 
@@ -304,7 +342,27 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
 
 
 
-
+#' Given an output of 'PWS_meta_query' which contains meta data of personal weather stations in a region
+#' and a start and an end date for a period of time, the function 'PWS_history' downloads the weather 
+#' conditions history for all stations in the meta data. Note that 1 API per stations per day is required.
+#' 
+#'
+#' @importFrom jsonlite fromJSON
+#' 
+#' @param PWSmetadata Meta data object of weather stations (output of 'PWS_meta_query')
+#' @param begin_YYYYMMDD
+#' @param end_YYYYMMDD
+#' @param user_key Your WUnderground API user key given as a character string
+#' @param stdAPI A bolean variable indicating whether you have a standard (free) API access (TRUE) which only allows for 10 API calls per minute. The default is the standard API.
+#' @return A data frame containing all the weather conditions of the stations in the provided meta data object.
+#' @export
+#' @examples 
+#' # your.key <- "xxxxxxxxxx" # replace this with your key
+#' # hist <- PWS_history(pwsmetadata,"20160101","20160101",your.key)
+#' # if you run the above code with your key the output should be the same as provided here:
+#' # TODO ++++ SAVE DATA AND LOAD IT HERE 
+#' # head(hist)
+#'
 PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key , 
                             stdAPI = TRUE){
   #  
@@ -365,11 +423,6 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 }
 
 
-# 
-# Example usage:
-# hist <- PWS_history(pwsmetadata2,"20160101","20160101",stefan.key) 
-# View(hist)
-#
 
 
 
