@@ -6,11 +6,7 @@ export(PWS_meta_query)
 export(PWS_meta_subset)
 export(createCentroidTable)
 export(get_cdb_table)
-<<<<<<< HEAD
 export(r2cdb)
-=======
-export(j.geocode)
->>>>>>> 4052815e815e30dae3fc3fa886e208c8cadba53c
 export(resetOptions)
 export(setConds)
 export(setCount)
