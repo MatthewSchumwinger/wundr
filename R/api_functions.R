@@ -136,6 +136,9 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
   
   cat("A minimum of ",nrow(centroidTable)," API calls is needed to download the metadata.\n")
   if(stdAPI) cat("Under standard API settings only 10 calls per minute are allowed.\n")
+  cat("(API calls are denoted by '.' If wunderground return only partial data,\n")
+  cat("new additional API calls are made. Leading to more than ",nrow(centroidTable)," calls.\n")
+  cat("Those new calls are denoted by ',')\n")
   cat("Downloading ")
   queries <-NULL
   count = 0 
@@ -164,8 +167,8 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
           vec <- geosphere::destPoint(geosphere::destPoint(centroidTable[i,],
                           90+90-sign(ind_j)*90,abs(ind_j)*max_radius_km*0.45*1e3),
                            90-sign(ind_i)*90,abs(ind_i)*max_radius_km*0.45*1e3)
-          #DEBUG
-          points(vec[1],vec[2],col='blue')
+          #DEBUG: 
+          #points(vec[1],vec[2],col='blue')
           if(stdAPI & ( count%% 10 ==0 ) & count !=0) {
             cat(" Pausing ")
             Sys.sleep(60)
