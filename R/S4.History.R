@@ -57,9 +57,10 @@ setMethod("initialize",
             
             measure <- readline(prompt="Metric or Imperial Units: (m,i)?  \n \n")
             
-            PWSmetadata <- PWS.Locations@spatialPtDF@data
+            #PWSmetadata <- PWS.Locations@spatialPtDF@data
+            #history <- S4.history(PWSmetadata, begin_YYYYMMDD, end_YYYYMMDD, user.key)
+            history <- PWS_history(list(PWSmetadata=PWS.Locations@spatialPtDF@data), begin_YYYYMMDD, end_YYYYMMDD, user.key)
             
-            history <- S4.history(PWSmetadata, begin_YYYYMMDD, end_YYYYMMDD, user.key)
             
             if (substring(tolower(measure),1,1) == "i" ){
               
@@ -109,63 +110,5 @@ setMethod("initialize",
 ##
 # h.S4 <- PWS.History(a, "20160306", "20160306", user.key)
 # View(h.S4@history)
-
-S4.history <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key , 
-                       stdAPI = TRUE){
-  #  
-  # Constants:
-  url_base <- "http://api.wunderground.com/api/"
-  
-  # Error tests on inputs:
-  if(typeof(user_key)!="character") stop("User key must be of type character.")
-  
-  history <- NULL
-  count = 0
-  date_list <- tryCatch(seq(as.Date(begin_YYYYMMDD,"%Y%m%d"), 
-                            as.Date(end_YYYYMMDD,"%Y%m%d"), by="days"),
-                        error = function(e) {stop("Dates must be in format 'YYYYMMDD' and in chronological order.")})
-  
-  date_list = gsub("-","",date_list)
-  cat("A total of ",nrow(PWSmetadata)*length(date_list),
-      " API calls is needed to download the metadata.\n")
-  if(stdAPI) cat("Under standard API settings only 10 calls per minute are allowed.\n")
-  
-  cat("Downloading ")
-  
-  for(date in date_list){
-    for(i in 1:nrow(PWSmetadata)){
-      if(stdAPI & ( count%% 10 ==0 ) & count !=0) {
-        cat(" Pausing ")
-        Sys.sleep(60)
-      }
-      
-      tmp.list <- fromJSON(paste0(url_base,user_key,"/history_",date,"/q/pws:",
-                                  PWSmetadata$id[i] ,".json"))
-      # Check JSON for error, i.e. wrong key etc.
-      if(!is.null(tmp.list$response$error)) stop(paste("JSON error:",tmp.list$response$error$description))
-      #
-      tmp.data <- tmp.list$history$observations$date   
-      if(!is.null(tmp.data)) {
-        tmp.data$id <- rep(PWSmetadata$id[i],nrow(tmp.data))
-        tmp.data$latitude <- rep(PWSmetadata$lat[i],nrow(tmp.data))
-        tmp.data$longitude <- rep(PWSmetadata$lon[i],nrow(tmp.data))
-        tmp.list$history$observations$date<-NULL
-        tmp.list$history$observations$utcdate<-NULL
-        tmp.data <- cbind(tmp.data, as.data.frame(tmp.list$history$observations,stringsAsFactors=FALSE))
-        history <- rbind(history,tmp.data)
-      }
-      cat(".")
-      count = count + 1
-    }
-  }
-  
-  if(!is.null(history)){
-    numCheck <- apply(history,2,function(x) suppressWarnings(all(!is.na(as.numeric(x)))))
-    for(i in 1:ncol(history))
-      if(numCheck[i]) history[,i] <- as.numeric(history[,i])
-  }
-  cat("Done.")
-  history
-}
 
 
