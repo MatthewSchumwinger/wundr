@@ -9,7 +9,7 @@ Final project R package for Stats 290
 - [ ] team | .... | package documentation
 - [ ] team | .... | package vignettes
 - [ ] S    | 3-11 | part 5 - Computational Facility based on Interpolations, etc.
-- [ ] S    | 3-10 | part 1 - optimized api functions
+- [x] S    | 3-10 | part 1 - optimized api functions
 - [x] J    | 3-09 | Properly functional PWS.Conditions S4
 - [x] J    | 3-10 | part 2 - Properly functional PWS.Subset S4
 - [x] J    | 3-11 | Properly functional PWS History S4
