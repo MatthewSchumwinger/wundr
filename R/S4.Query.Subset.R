@@ -1,4 +1,4 @@
-require(sp); require(geosphere); require(RJSONIO)
+require(sp); require(geosphere)
 
 setClass(
   Class = "PWS.Query.Subset",
@@ -7,17 +7,25 @@ setClass(
 
 PWS.Query.Subset <- function(...) return(new(Class="PWS.Query.Subset",...))
 
+isS4(PWS.Locations)
+
+isS4(a)
 setMethod("initialize",
           "PWS.Query.Subset",
           
           function(.Object, PWS.Locations, longitude, latitude, radius,...){
+            
+            if (!isS4(PWS.Locations)) stop("Please use the PWS.Locations() to create an S4 wundr object.")
+            if (longitude < -180 | longitude > 180) stop("Please note that longitude must be -/+180.")
+            if (latitude < -90 | latitude > 90) stop("Please note that latitude must be -/+90.")
+            if (radius<=0) stop("Please note that the search radius must be positive.")
             
             tmp <- PWS.Query.Subset.fxn(PWS.Locations, longitude, latitude, radius, km_miles=TRUE)
             
             coords <- cbind(tmp[[1]]$lon, tmp[[1]]$lat)
             
             .Object@spatialPt <- SpatialPoints(coords)
-  
+            
             locations.data <- merge(as.data.frame(tmp[1]), PWS.Locations@spatialPtDF@data)
             
             .Object@spatialPtDF <- SpatialPointsDataFrame(.Object@spatialPt, locations.data)
@@ -30,7 +38,11 @@ setMethod("initialize",
 ##
 ## EXAMPLE SUBSETTING
 ##
-# qsub <- PWS.Query.Subset(PWS.Locations.Query, -118.4912, 34.01945, 1.5)
+PWS.Locations.Query@spatialPtDF@bbox
+a@call
+isS4(PWS.MetaQuery)
+qsub <- PWS.Query.Subset(a, -118.4912, 34.01945, 1.5)
+qsub
 # qsub@spatialPtDF
 # qsub@spatialPt
 # qsub@call
@@ -63,8 +75,8 @@ PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_
     ##
     circle <- t(sapply(1:360, function(degrees) destPoint(x,degrees,radius*1000)))
     
-    if( any(is.na( SpatialPoints(circle, CRS("+proj=longlat +ellps=WGS84") ) %over% 
-                   Locations.Spatial.Polygon ))){
+    if( nrow(queries)!=0 & any(is.na( SpatialPoints(circle, CRS("+proj=longlat +ellps=WGS84") ) %over% 
+                                      Locations.Spatial.Polygon ))){
       cat("Your Subset Query has been returned, but please be advised your search radius\n")
       cat("exceeded the boundary region of your initial search.\n \n")
       

@@ -1,7 +1,7 @@
 ##
 ## Global variable for package wundr
 ##
-wundr.options <- list(conds = data.frame, repository = NULL, API.count = numeric)
+wundr.options <- list(conds = list, repository = NULL, API.count = numeric)
 
 #' Set the wundr package conds option
 #'
