@@ -77,7 +77,7 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' @importFrom raster contour
 #' @param PWS.class A PWS.class points S4 object.
 #' @param title A title for you plot. Default = NULL.
-#' @param add Weather to add this "on top" of previous plot. Default = NULL.
+#' @param add Whether to add this "on top" of previous plot. Default = NULL.
 #' @return NULL
 #' @export
 #' @examples
@@ -94,42 +94,50 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
   contour(D, axes = FALSE, add=T, col = "white", drawlabels=F)
 }
 
-# --- functions for static plots on contextual map backgrounds using Hadley's package ggplot and dplyr...
-  # following Hadly's ggmap paper
-  # set contextual basemap based on data's center
-  # TODO: set to data's extent/bounds with make_bbox(lon, lat, data, f = 0.05)
-  # TODO: allow for layering one map layer upon another
-  set_basemap <- function(mapdata, location = NULL, zoom = 10) {
-    center <- c(-87.896118, 42.946622) # MKE airport
-    # TODO make function to calculate centroid from bbox of data
-    #   t.mapdata <- spTransform(mapdata, WGS84)
-    #   c.mapdata <- rowMeans(bbox(t.mapdata))
-    basemap <- get_map(location = center, zoom = zoom,
-                       maptype = "toner-lite", source = "stamen")
-  }
 
-# temporary hack version of set_basemap
-# TODO: merge into above with option to name location with string
-set_basemap2 <- function(mapdata, location = NULL, zoom = 10) {
-  basemap <- get_map(location = location, zoom = zoom,
+#' set_basemap
+#'
+#' Creates subtle contextual map background for ggplots based on extent points.
+#' @importFrom ggmap make_bbox
+#' @importFrom ggmap get_map
+#' @param PWS.class A PWS.class points S4 object.
+#' @param zoom A zoom level for the contextual map. Greater values result in
+#'   increased zoom. Default = 9, which captures a 50-mile radius.
+#' @return A ggmap raster object.
+#' @export
+#' @examples
+#' data(dm_cond)
+#' set_basemap(dm_cond)
+set_basemap <- function(PWS.class, zoom = 9) {
+  cat("Note: zoom = 9 captures 50-mile radius.")
+  # TODO: make zoom dynamic to points
+  # TODO: allow for layering one map layer upon another
+  df <- PWS.class@spatialPtDF@data
+  bbox <- make_bbox(df$lon, df$lat)
+  # center <- c(-87.896118, 42.946622) # MKE airport
+  center <- c(mean(c(bbox[1], bbox[3])), mean(c(bbox[2], bbox[4])))
+  basemap <- get_map(location = center, zoom = zoom,
                      maptype = "toner-lite", source = "stamen")
 }
 
-gg_poly <- function(S4poly, basemap = basemap, title = NULL, ...) {
-  poly <- spTransform(S4poly, WGS84)
-  poly@data$id = rownames(poly@data)
-  poly.points = fortify(poly, region = "id")
-  poly.df = join(poly.points, poly@data, by = "id")
 
-  ggmap(basemap, extent = "device") +
-    geom_polygon(aes(x = long, y = lat, group = group), data = poly.df,
-                 colour = 'blue', fill = 'transparent', alpha = .6, size = 3)
-}
-
-# BUG: because loaded into S4?
-gg_points <- function(S4pnts, basemap = basemap, title = NULL, ...) {
-  # poly <- spTransform(pnts, WGS84)
-  pnts <- S4pnts@spatialPtDF
+#' gg_points
+#'
+#' Plots PWS locations on a contextual basemap.
+#'
+#' @importFrom ggmap ggmap
+#' @param PWS.class A PWS.class points S4 object.
+#' @param basemap A contextual basemap. See set_basemap.
+#' @return NULL
+#' @export
+#' @examples
+#' data(dm_cond)
+#' gg_points(dm_cond)
+gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
+  cat("Note: zoom = 9 captures 50-mile radius.", "\n",
+      "Data points outside zoom area are considered 'missing values'", "\n",
+      "and may not plot on gg_map if zoom > 9")
+  pnts <- PWS.class@spatialPtDF
   ggmap(basemap, extent = "device") +
     geom_point(data=as.data.frame(pnts), aes(coords.x1,coords.x2), col= "red", alpha =.8)
 }
@@ -208,7 +216,18 @@ toWGS84 <- function(spatialPtDF) {
 }
 
 # ---- other prototypes
+
 # simple_poly <- function(spatialPolyDF, title = NULL, add = FALSE, ...){
 #   plot(poly, add=add, col="transparent", border="blue", cex.main=.7)
 # }
 
+# gg_poly <- function(S4poly, basemap = basemap, title = NULL, ...) {
+#   poly <- spTransform(S4poly, WGS84)
+#   poly@data$id = rownames(poly@data)
+#   poly.points = fortify(poly, region = "id")
+#   poly.df = join(poly.points, poly@data, by = "id")
+#
+#   ggmap(basemap, extent = "device") +
+#     geom_polygon(aes(x = long, y = lat, group = group), data = poly.df,
+#                  colour = 'blue', fill = 'transparent', alpha = .6, size = 3)
+# }

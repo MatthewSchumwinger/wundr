@@ -11,7 +11,7 @@ simple_density(PWS.class, title = NULL, add = FALSE, ...)
 
 \item{title}{A title for you plot. Default = NULL.}
 
-\item{add}{Weather to add this "on top" of previous plot. Default = NULL.}
+\item{add}{Whether to add this "on top" of previous plot. Default = NULL.}
 }
 \description{
 Creates a simple density raster plot (heatmap) of PWS locations.

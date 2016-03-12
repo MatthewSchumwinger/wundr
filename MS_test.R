@@ -8,10 +8,15 @@ matt.cdb.account <- "biglakedata"
 # devtools::use_data(dm_cond, overwrite = T)
 data("dm_cond")
 
-# plots for Stefan computation
+# simple plots
 simple_pnts(dm_cond, "Hello World!")
 simple_density(dm_cond, "Hello World!")
 
+# static map
+basemapDM <- set_basemap(dm_cond, zoom = 12)
+gg_points(dm_cond, basemapDM)
+
+# interactive web map
 
 
 # low-level plots for Stefan computation
