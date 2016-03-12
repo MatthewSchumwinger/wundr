@@ -1,3 +1,4 @@
+
 require(ggmap); require(sp); require(jsonlite); require(geosphere)
 # source("api_functions.R")
 
@@ -7,7 +8,7 @@ require(ggmap); require(sp); require(jsonlite); require(geosphere)
 ##   THE STD.API VERSION IS DESIGNED FOR USERS WITH API USAGE LIMITATIONS
 ##
 setClass(
-  Class = "PWS.conditions",
+  Class = "PWS.Conditions",
   slots = c(spatialPtDF="SpatialPointsDataFrame", spatialPt="SpatialPoints", call="list")
 )
 ##
@@ -29,7 +30,7 @@ PWS.conditions <- function(...) return(new(Class="PWS.conditions",...))
 myenv <- new.env(parent=emptyenv())
 myenv$repository = list()
 setMethod("initialize",
-          "PWS.conditions",
+          "PWS.Conditions",
           function(.Object, longitude, latitude, radius, user.key, STD.API=TRUE){
 
             if (longitude < -180 | longitude > 180) stop("Please note that longitude must be -/+180.")
