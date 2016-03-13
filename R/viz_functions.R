@@ -108,6 +108,7 @@ set_basemap <- function(PWS.class, zoom = 9) {
 #' @export
 #' @examples
 #' data(dm_cond)
+#' basemapDM <- set_basemap(dm_cond, zoom = 9)
 #' gg_points(dm_cond)
 gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
   cat("Note: zoom = 9 captures 50-mile radius.", "\n",

@@ -19,6 +19,6 @@ A data frame.
 }
 \examples{
 # test CartoDB connection by retrieving existing table ...
-stations <- get_cdb_table("public.stations", your.cdb.account)
+\dontrun{stations <- get_cdb_table("public.stations", your.cdb.account)}
 }
 

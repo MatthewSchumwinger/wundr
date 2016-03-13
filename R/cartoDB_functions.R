@@ -34,7 +34,7 @@ fillblanks <- function(x){
 #' @export
 #' @examples
 #' # test CartoDB connection by retrieving existing table ...
-#' stations <- get_cdb_table("public.stations", your.cdb.account)
+#' \dontrun{stations <- get_cdb_table("public.stations", your.cdb.account)}
 get_cdb_table <- function(table_name, cdb_account) {
   sql_statement <- paste("select * from", table_name)
   cdb_url_base <- ".cartodb.com/api/v2/sql?q="
@@ -58,7 +58,7 @@ get_cdb_table <- function(table_name, cdb_account) {
 #' @export
 #' @examples
 #' # export PWS locations and conditions data to CartoDB
-#' r2cdb(your.cdb.key, your.cdb.account, PWS.Conditions )
+#' \dontrun{r2cdb(your.cdb.key, your.cdb.account, PWS.Conditions)}
 
 ## export df to CartoDB
 r2cdb <- function(user_key, cdb_account, PWS.Conditions){

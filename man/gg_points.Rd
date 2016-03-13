@@ -16,6 +16,7 @@ Plots PWS locations on a contextual basemap.
 }
 \examples{
 data(dm_cond)
+basemapDM <- set_basemap(dm_cond, zoom = 9)
 gg_points(dm_cond)
 }
 

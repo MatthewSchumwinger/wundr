@@ -23,6 +23,6 @@ NULL. Plus, printed information on status of CartoDB API and URL of
 }
 \examples{
 # export PWS locations and conditions data to CartoDB
-r2cdb(your.cdb.key, your.cdb.account, PWS.Conditions )
+\dontrun{r2cdb(your.cdb.key, your.cdb.account, PWS.Conditions)}
 }
 
