@@ -4,10 +4,14 @@
 \alias{webmap_pnts}
 \title{webmap_pnts}
 \usage{
-webmap_pnts(PWS.class)
+webmap_pnts(PWS.class, content = content)
 }
 \arguments{
 \item{PWS.class}{A PWS.class points S4 object.}
+
+\item{content}{A string in html format used to populate PWS pop-up window.
+Default displays PWS id, tempurature, and URL to historical data. Condition
+data values should be in the followin format: `data$[columndname]'.}
 }
 \description{
 Interactive web map of PWS stations.

@@ -20,6 +20,12 @@ gg_points(dm_cond, basemapDM)
 webmap_pnts(dm_cond)
 webmap_raster(dm_cond)
 
+# CartoDB
+cdbTable <- get_cdb_table("condTest", matt.cdb.account)
+head(cdbTable$rows)
+
+r2cdb(matt.cdb.key, matt.cdb.account, dm_cond)
+
 
 # low-level plots for Stefan computation
 

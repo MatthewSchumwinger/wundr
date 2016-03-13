@@ -16,6 +16,7 @@
 #'
 #' @param x A string.
 #' @return A data frame.
+#' @export
 #' @examples
 #' fillblanks("foo bar")
 fillblanks <- function(x){
@@ -48,6 +49,7 @@ get_cdb_table <- function(table_name, cdb_account) {
 #'
 #' @importFrom jsonlite fromJSON
 #' @importFrom RSQLite SQLite
+#' @importFrom RSQLite dbDataType
 #' @param user_key A CartoDB user authorization key.
 #' @param cdb_account A CartoDB account name.
 #' @param pwsConds A S4.class PWS.Conditions object of PWS locations and conditions attribute
@@ -104,11 +106,11 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
     sql_create <- paste0("create table ", tableName," (", columns, ")")
     sql_register <- eval(substitute(paste0("select cdb_cartodbfytable('", tableName, "')")))
     cat(" Instantiating and registering new table with CartoDB ... ")
-    jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
+    print(paste0("https://", cdb_account, cdb_url_base,
                     fillblanks(sql_create),"&api_key=",user_key))
-    Sys.sleep(5) # this may need to be adjusted
-    jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
-                    fillblanks(sql_register),"&api_key=",user_key))
+#     Sys.sleep(5) # this may need to be adjusted
+#     jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
+#                     fillblanks(sql_register),"&api_key=",user_key))
   }
 
   # populate empty table
@@ -137,7 +139,7 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
                  "https://", cdb_account, cdb_url_view, tolower(tableName), "/map "))
   }
   makeCdbTable(user_key, cdb_account, df)
-  insertCdbTable(user_key, cdb_account, df)
+  # insertCdbTable(user_key, cdb_account, df)
 }
 
 ## ---------- TODO -----------------------
