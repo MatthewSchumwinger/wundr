@@ -16,8 +16,9 @@ simple_density(dm_cond, "Hello World!")
 basemapDM <- set_basemap(dm_cond, zoom = 12)
 gg_points(dm_cond, basemapDM)
 
-# interactive web map
+# interactive web maps
 webmap_pnts(dm_cond)
-
+webmap_raster(dm_cond)
 
 # low-level plots for Stefan computation
+

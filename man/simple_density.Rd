@@ -13,6 +13,9 @@ simple_density(PWS.class, title = NULL, add = FALSE, ...)
 
 \item{add}{Whether to add this "on top" of previous plot. Default = NULL.}
 }
+\value{
+A RasterLayer.
+}
 \description{
 Creates a simple density raster plot (heatmap) of PWS locations.
 }

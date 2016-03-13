@@ -78,7 +78,7 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' @param PWS.class A PWS.class points S4 object.
 #' @param title A title for you plot. Default = NULL.
 #' @param add Whether to add this "on top" of previous plot. Default = NULL.
-#' @return NULL
+#' @return A RasterLayer.
 #' @export
 #' @examples
 #' data(dm_cond)
@@ -92,6 +92,7 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
   plot(D, legend = F, box = F, axes = F, col=mycol, add=F, main = title)
   # box()
   contour(D, axes = FALSE, add=T, col = "white", drawlabels=F)
+  D
 }
 
 
@@ -178,32 +179,38 @@ webmap_pnts <- function(PWS.class) {
 }
 
 
-
-
-
-
-# create simple raster of point density
-points2raster <- function(SpatialPointsDF){
-  ppp <- as.ppp(SpatialPointsDF)
+#' webmap_raster
+#'
+#' Interactive web map of PWS stations density (heatmap).
+#'
+#' @importFrom spatstat ppp
+#' @importFrom raster density
+#' @importFrom sp CRS
+#' @importFrom leaflet colorNumeric
+#' @importFrom leaflet addProviderTiles
+#' @importFrom leaflet addRasterImage
+#' @param PWS.class A PWS.class points S4 object.
+#' @return NULL
+#' @export
+#' @examples
+#' data(dm_cond)
+#' webmap_raster(dm_cond)
+webmap_raster <- function(PWS.class){
+  spdf <- toSPntsDF(PWS.class@spatialPtDF@data)
+  ppp <- ppp(spdf$lon, spdf$lat, range(spdf$lon), range(spdf$lat))
   D <- density(ppp)
   D <- as(D, "RasterLayer")
-  crs(D) <- sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
-  D
-}
-
-# plot raster image of points
-# https://rstudio.github.io/leaflet/raster.html
-webmap_points2raster <- function(SpatialPointsDF){
-  D <- points2raster(SpatialPointsDF)
-  pal <- colorNumeric(c("#0C2C84", "#41B6C4", "#FFFFCC"), values(D),
-                      na.color = "transparent")
-  bounds <- SpatialPointsDF@bbox
-  d <- leaflet(SpatialPointsDF)  %>%
-    addProviderTiles("Stamen.TonerLines",options = providerTileOptions(opacity = 0.35)) %>%
-    fitBounds(bounds[1,1],  bounds[2,1], bounds[1,2],  bounds[2,2]) %>%
+  WGS84 <- CRS("+proj=longlat +datum=WGS84") # projection for web mapping
+  crs(D) <- WGS84
+  pal <- colorNumeric(c("transparent", "#41B6C4", "#FFFFCC"), values(D),
+                      na.color = "transparent", alpha=TRUE)
+  d = leaflet(spdf)  %>%
+    addProviderTiles("Stamen.TonerLines",options =
+                       providerTileOptions(opacity = 0.35)) %>%
     addRasterImage(D, colors = pal, opacity = 0.8)
   d
 }
+# webmap_raster(dm_cond)
 
 
 # --- constants ----------------------------------------------------------------
@@ -222,7 +229,7 @@ WGS84 <- CRS("+proj=longlat +datum=WGS84")
 # transform CRS to Web Merator for web mapping
 # TODO: add ability to transform rasterlayers and use with points2raster()?
 # BUG: this breaks b/c S4 has no coordinate system
-toWGS84 <- function(spatialPtDF) {
+toWGS84 <- function(sp) {
   WGS84 <- CRS("+proj=longlat +datum=WGS84")
   spTransform(sp, WGS84)
 }
@@ -254,3 +261,13 @@ toWGS84 <- function(spatialPtDF) {
 #     addPolygons(stroke = TRUE, fillOpacity = 0.1, smoothFactor = 0.5)
 #   m
 # }
+
+# # create simple raster of point density
+# points2raster <- function(SpatialPointsDF){
+#   ppp <- as.ppp(SpatialPointsDF)
+#   D <- density(ppp)
+#   D <- as(D, "RasterLayer")
+#   crs(D) <- sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+#   D
+# }
+
