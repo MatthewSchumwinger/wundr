@@ -11,6 +11,7 @@ Description: Provides API interfaces to Personal Weather Station (PWS) data
     contextual static maps, interactive web maps, and animated plots. Facility
     to export data to CartoDB's spatial database hosting and webmap publishing
     platform.
+Depends: R (>= 3.1.2)
 Version: 0.0.0.9000
 Date: 2016-03-10
 Authors@R: c(person("J.A.", "Marin", role = c("aut", "cre"),

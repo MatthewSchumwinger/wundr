@@ -30,6 +30,18 @@ r2cdb(matt.cdb.key, matt.cdb.account, dm_cond)
 # low-level plots for Stefan computation
 
 
+# imports
+use_package(package = "sp", pkg = "wundr")
+use_package(package = "raster", pkg = "wundr")
+use_package(package = "spatstat", pkg = "wundr")
+use_package(package = "jsonlite", pkg = "wundr")
+use_package(package = "geosphere", pkg = "wundr")
+use_package(package = "ggmap", pkg = "wundr")
+use_package(package = "leaflet", pkg = "wundr")
+use_package(package = "raster", pkg = "wundr")
+
+# suggests
+use_package(package = "RSQLite", pkg = "wundr")
 
 
 
