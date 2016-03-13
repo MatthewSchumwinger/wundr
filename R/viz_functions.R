@@ -22,16 +22,15 @@
 #' @examples
 #' toSPntsDF(Rio_metadata)
 toSPntsDF <- function(df){
-  WGS84 <- CRS("+proj=longlat +datum=WGS84")
+  WGS84 <- sp::CRS("+proj=longlat +datum=WGS84")
   WGS84
   # transform CRS to Web Merator for web mapping
   toWGS84 <- function(spatialPtDF) {
-    # WGS84 <- CRS("+proj=longlat +datum=WGS84")
-    spTransform(sp, WGS84)
+    sp::spTransform(sp, WGS84)
   }
   df_mat <- cbind(df$lon, df$lat)
   row.names(df_mat) <- row.names(df)
-  SpatialPointsDataFrame(df_mat, df, proj4string = WGS84, match.ID = TRUE)
+  sp::SpatialPointsDataFrame(df_mat, df, proj4string = WGS84, match.ID = TRUE)
 }
 
 #' simple_pnts
@@ -65,13 +64,13 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' simple_density(dm_cond, "Des Moines, IA PWS Locations")
 simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
   df <- PWS.class@spatialPtDF@data
-  ppp <- ppp(df$lon, df$lat, range(df$lon), range(df$lat))
-  D <- density(ppp)
+  ppp <- spatstat::ppp(df$lon, df$lat, range(df$lon), range(df$lat))
+  D <- raster::density(ppp)
   D <- as(D, "RasterLayer")
   mycol <- colorRampPalette(c("transparent", "transparent","yellow", "orange","red"))(256)
   plot(D, legend = F, box = F, axes = F, col=mycol, add=F, main = title)
   # box()
-  contour(D, axes = FALSE, add=T, col = "white", drawlabels=F)
+  raster::contour(D, axes = FALSE, add=T, col = "white", drawlabels=F)
   D
 }
 
@@ -90,10 +89,10 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
 set_basemap <- function(PWS.class, zoom = 9) {
   cat("Note: zoom = 9 captures 50-mile radius.")
   df <- PWS.class@spatialPtDF@data
-  bbox <- make_bbox(df$lon, df$lat)
+  bbox <- ggmap::make_bbox(df$lon, df$lat)
   # center <- c(-87.896118, 42.946622) # MKE airport
   center <- c(mean(c(bbox[1], bbox[3])), mean(c(bbox[2], bbox[4])))
-  basemap <- get_map(location = center, zoom = zoom,
+  basemap <- ggmap::get_map(location = center, zoom = zoom,
                      maptype = "toner-lite", source = "stamen")
 }
 
@@ -115,9 +114,9 @@ gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
       "Data points outside zoom area are considered 'missing values'", "\n",
       "and may not plot on gg_map if zoom > 9")
   pnts <- PWS.class@spatialPtDF
-  ggmap(basemap, extent = "device") +
-    geom_point(data=as.data.frame(pnts), aes(coords.x1,coords.x2), col= "red",
-               alpha =.8)
+  ggmap::ggmap(basemap, extent = "device") +
+    ggplot2::geom_point(data=as.data.frame(pnts),
+                        ggplot2::aes(coords.x1,coords.x2), col= "red",alpha =.8)
 }
 
 #' webmap_pnts
@@ -142,13 +141,12 @@ webmap_pnts <- function(PWS.class, content = content) {
                      "<b>", data$id,"</b>", "<br/>",
                      data$temperature_string, "<br/>",
                      "<a href=", data$history_url, ">current and historical
-                      data</a>"
-  )
-  m <- leaflet(data)  %>%
-    addProviderTiles("Stamen.TonerLines",
-                     options = providerTileOptions(opacity = 0.35)) %>%
-    fitBounds(bounds[1,1],  bounds[2,1], bounds[1,2],  bounds[2,2]) %>%
-    addCircles(color="red", popup = content)
+                      data</a>")
+  m <- leaflet::leaflet(data)  %>%
+    leaflet::addProviderTiles("Stamen.TonerLines",
+                     options = leaflet::providerTileOptions(opacity = 0.35)) %>%
+    leaflet::fitBounds(bounds[1,1], bounds[2,1], bounds[1,2], bounds[2,2]) %>%
+    leaflet::addCircles(color="red", popup = content)
   m
 }
 
@@ -169,37 +167,19 @@ webmap_pnts <- function(PWS.class, content = content) {
 #' webmap_raster(dm_cond)
 webmap_raster <- function(PWS.class){
   spdf <- toSPntsDF(PWS.class@spatialPtDF@data)
-  ppp <- ppp(spdf$lon, spdf$lat, range(spdf$lon), range(spdf$lat))
-  D <- density(ppp)
+  ppp <- spatstat::ppp(spdf$lon, spdf$lat, range(spdf$lon), range(spdf$lat))
+  D <- raster::density(ppp)
   D <- as(D, "RasterLayer")
-  # WGS84 <- CRS("+proj=longlat +datum=WGS84") # projection for web mapping
-  crs(D) <- CRS("+proj=longlat +datum=WGS84") # projection for web mapping
-  pal <- colorNumeric(c("transparent", "#41B6C4", "#FFFFCC"), values(D),
+  crs(D) <- sp::CRS("+proj=longlat +datum=WGS84") # projection for web mapping
+  pal <- leaflet::colorNumeric(c("transparent", "#41B6C4", "#FFFFCC"), values(D),
                       na.color = "transparent", alpha=TRUE)
-  d = leaflet(spdf)  %>%
-    addProviderTiles("Stamen.TonerLines",options =
-                       providerTileOptions(opacity = 0.35)) %>%
-    addRasterImage(D, colors = pal, opacity = 0.8)
+  d = leaflet::leaflet(spdf)  %>%
+    leaflet::addProviderTiles("Stamen.TonerLines",options =
+                              leaflet::providerTileOptions(opacity = 0.35)) %>%
+    leaflet::addRasterImage(D, colors = pal, opacity = 0.8)
   d
 }
 
 
-## --- constants ---------------------------------------------------------------
-# A local projection (Milwaukee, Wis.) for spatial calculations
-#' NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
-#'              +lat_0=42 +lon_0=-90 +x_0=609601.2192024384 +y_0=0 +datum=NAD27
-#'              +units=us-ft +no_defs +ellps=clrk66 +nadgrids=@conus,
-#'              @alaska,@ntv2_0.gsb,@ntv1_can.dat")
-#'
-#' # Web Mercator projection for web mapping
-#' WGS84 <- CRS("+proj=longlat +datum=WGS84")
-#'
-#' ## --- misc helpers ------------------------------------------------------------
-#'
-#' # transform CRS to Web Merator for web mapping
-#' toWGS84 <- function(sp) {
-#'   WGS84 <- CRS("+proj=longlat +datum=WGS84")
-#'   spTransform(sp, WGS84)
-#' }
 
 
