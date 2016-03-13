@@ -110,7 +110,7 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' set_basemap(dm_cond)
 set_basemap <- function(PWS.class, zoom = 9) {
   cat("Note: zoom = 9 captures 50-mile radius.")
-  # TODO: make zoom dynamic to points
+  # TODO: make zoom dynamic to points; see leaflet::fitBounds
   # TODO: allow for layering one map layer upon another
   df <- PWS.class@spatialPtDF@data
   bbox <- make_bbox(df$lon, df$lat)
@@ -139,36 +139,48 @@ gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
       "and may not plot on gg_map if zoom > 9")
   pnts <- PWS.class@spatialPtDF
   ggmap(basemap, extent = "device") +
-    geom_point(data=as.data.frame(pnts), aes(coords.x1,coords.x2), col= "red", alpha =.8)
+    geom_point(data=as.data.frame(pnts), aes(coords.x1,coords.x2), col= "red",
+               alpha =.8)
 }
 
 # --- functions for web mapping ------------------------------------------------
 #   deploy data to leaflet.js using rstudio's package::leaflet and widget system.
 #   devtools::install_github("rstudio/leaflet")
 
-# add shape boundary (SpatialPolygonDF) to base map
-webmap_poly <- function(SpatialPolygonDF) {
-  poly.WGS84 <- toWGS84(SpatialPolygonDF)
-  bounds     <- poly.WGS84@bbox  # TODO, transform this into proper object for fitBounds(), #alt bbox(bid.poly)
-  m <- leaflet(poly.WGS84)  %>%
-    addProviderTiles("Stamen.TonerLines",options = providerTileOptions(opacity = 0.35)) %>%
+
+#' webmap_pnts
+#'
+#' Interactive web map of PWS stations.
+#'
+#' @importFrom leaflet leaflet
+#' @importFrom leaflet addProviderTiles
+#' @importFrom leaflet fitBounds
+#' @importFrom leaflet addCircles
+#' @param PWS.class A PWS.class points S4 object.
+#' @return NULL
+#' @export
+#' @examples
+#' data(dm_cond)
+#' webmap_pnts(dm_cond)
+webmap_pnts <- function(PWS.class) {
+  # TODO parameterize popupColumns so user can chose data to display
+  data <- PWS.class@spatialPtDF
+  bounds <- data@bbox
+  m <- leaflet(data)  %>%
+    addProviderTiles("Stamen.TonerLines",
+                     options = providerTileOptions(opacity = 0.35)) %>%
     fitBounds(bounds[1,1],  bounds[2,1], bounds[1,2],  bounds[2,2]) %>%
-    addPolygons(stroke = TRUE, fillOpacity = 0.1, smoothFactor = 0.5)
+    # TODO parameterize popupColumns and protect
+    #   ala popup = ~htmlEscape({c(id, neighborhood)})
+    addCircles(color="red", popup = paste("PWS ID:", data$id, "<br>",
+                             "Neighborhood:", data$neighborhood))
   m
 }
 
-# add points (SpatialPointsDF) to base map
-webmap_pnts <- function(S4pnts) {
-  # pnts.WGS84 <- toWGS84(SpatialPointsDF)
-  SpatialPointsDF <- S4pnts@spatialPtDF
-  bounds <- SpatialPointsDF@bbox
-  m <- leaflet(SpatialPointsDF)  %>%
-    addProviderTiles("Stamen.TonerLines",options = providerTileOptions(opacity = 0.35)) %>%
-    fitBounds(bounds[1,1],  bounds[2,1], bounds[1,2],  bounds[2,2]) %>%
-    # addCircles(color="red")
-    addCircles(color="red", popup = ~htmlEscape(station_id)) # TODO parameterize popupColumns
-  m
-}
+
+
+
+
 
 # create simple raster of point density
 points2raster <- function(SpatialPointsDF){
@@ -230,4 +242,15 @@ toWGS84 <- function(spatialPtDF) {
 #   ggmap(basemap, extent = "device") +
 #     geom_polygon(aes(x = long, y = lat, group = group), data = poly.df,
 #                  colour = 'blue', fill = 'transparent', alpha = .6, size = 3)
+# }
+
+# # add shape boundary (SpatialPolygonDF) to base map
+# webmap_poly <- function(SpatialPolygonDF) {
+#   poly.WGS84 <- toWGS84(SpatialPolygonDF)
+#   bounds     <- poly.WGS84@bbox  # TODO, transform this into proper object for fitBounds(), #alt bbox(bid.poly)
+#   m <- leaflet(poly.WGS84)  %>%
+#     addProviderTiles("Stamen.TonerLines",options = providerTileOptions(opacity = 0.35)) %>%
+#     fitBounds(bounds[1,1],  bounds[2,1], bounds[1,2],  bounds[2,2]) %>%
+#     addPolygons(stroke = TRUE, fillOpacity = 0.1, smoothFactor = 0.5)
+#   m
 # }

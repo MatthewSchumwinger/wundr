@@ -17,6 +17,7 @@ basemapDM <- set_basemap(dm_cond, zoom = 12)
 gg_points(dm_cond, basemapDM)
 
 # interactive web map
+webmap_pnts(dm_cond)
 
 
 # low-level plots for Stefan computation
