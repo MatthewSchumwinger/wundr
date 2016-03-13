@@ -1,32 +1,15 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Yada...yada
+# This document contains functions that visualize Weatherunderground personal
+# weather station (PWS) locations and data. Functions that allow the R user to
+# make exploratory and explanitory plots and maps are provided.
 # The primary functions include:
 #
-#  o
-#  o
+#  o simple_density
+#  o set_basemap
+#  o gg_points
+#  o webmap_pnts
+#  o webmap_raster
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# library(spatstat) #require for heatmap
-# library(raster) #require for heatmap
-# library(leaflet) # require for webmap
-# library(htmltools) # require for webmap
-
-# library(rgdal)
-# library(maptools)
-# library(plyr)
-# library(ggplot2)
-# library(dplyr)
-# library(geoR)
-# library(sm)
-# library(pander)
-# library(colorRamps)
-# library(scales)
-# library(RColorBrewer)
-# library(ggmap)
-# library(geosphere)
-# library(maptools)
-# library(sp)
-
-# --- Functions for simple plots using package sp ------------------------------
 
 #' toSPntsDF
 #'
@@ -51,7 +34,6 @@ toSPntsDF <- function(df){
   SpatialPointsDataFrame(df_mat, df, proj4string = WGS84, match.ID = TRUE)
 }
 
-
 #' simple_pnts
 #'
 #' A simple 2D plot of spatial points.
@@ -67,7 +49,6 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
   spatialPtDF <- PWS.class@spatialPtDF
   plot(spatialPtDF, add=add, col="red", cex=.5, pch =20, main = title)
 }
-
 
 #' simple_density
 #'
@@ -95,7 +76,6 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
   D
 }
 
-
 #' set_basemap
 #'
 #' Creates subtle contextual map background for ggplots based on extent points.
@@ -121,7 +101,6 @@ set_basemap <- function(PWS.class, zoom = 9) {
                      maptype = "toner-lite", source = "stamen")
 }
 
-
 #' gg_points
 #'
 #' Plots PWS locations on a contextual basemap.
@@ -143,11 +122,6 @@ gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
     geom_point(data=as.data.frame(pnts), aes(coords.x1,coords.x2), col= "red",
                alpha =.8)
 }
-
-# --- functions for web mapping ------------------------------------------------
-#   deploy data to leaflet.js using rstudio's package::leaflet and widget system.
-#   devtools::install_github("rstudio/leaflet")
-
 
 #' webmap_pnts
 #'
@@ -178,7 +152,6 @@ webmap_pnts <- function(PWS.class) {
   m
 }
 
-
 #' webmap_raster
 #'
 #' Interactive web map of PWS stations density (heatmap).
@@ -207,13 +180,15 @@ webmap_raster <- function(PWS.class){
   d = leaflet(spdf)  %>%
     addProviderTiles("Stamen.TonerLines",options =
                        providerTileOptions(opacity = 0.35)) %>%
-    addRasterImage(D, colors = pal, opacity = 0.8)
+    addRasterImage(D, colors = pal, opacity = 0.8)  %>%
+    # TODO Parameterize legend
+    # addLegend(pal = pal, values = values(D), title = "density of...")
   d
 }
-# webmap_raster(dm_cond)
+webmap_raster(dm_cond)
 
 
-# --- constants ----------------------------------------------------------------
+## --- constants ---------------------------------------------------------------
 # A local projection (Milwaukee, Wis.) for spatial calculations
 NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
              +lat_0=42 +lon_0=-90 +x_0=609601.2192024384 +y_0=0 +datum=NAD27
@@ -223,7 +198,7 @@ NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
 # Web Mercator projection for web mapping
 WGS84 <- CRS("+proj=longlat +datum=WGS84")
 
-# --- misc helpers -------------------------------------------------------------
+## --- misc helpers ------------------------------------------------------------
 # transform data.frame to spatialPointsDataFrame
 
 # transform CRS to Web Merator for web mapping
@@ -233,7 +208,7 @@ toWGS84 <- function(sp) {
   spTransform(sp, WGS84)
 }
 
-# ---- other prototypes
+## ---- other prototypes -------------------------------------------------------
 
 # simple_poly <- function(spatialPolyDF, title = NULL, add = FALSE, ...){
 #   plot(poly, add=add, col="transparent", border="blue", cex.main=.7)
