@@ -91,8 +91,6 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' set_basemap(dm_cond)
 set_basemap <- function(PWS.class, zoom = 9) {
   cat("Note: zoom = 9 captures 50-mile radius.")
-  # TODO: make zoom dynamic to points; see leaflet::fitBounds
-  # TODO: allow for layering one map layer upon another
   df <- PWS.class@spatialPtDF@data
   bbox <- make_bbox(df$lon, df$lat)
   # center <- c(-87.896118, 42.946622) # MKE airport
@@ -132,25 +130,32 @@ gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
 #' @importFrom leaflet fitBounds
 #' @importFrom leaflet addCircles
 #' @param PWS.class A PWS.class points S4 object.
+#' @param content A string in html format used to populate PWS pop-up window.
+#'   Default displays PWS id, tempurature, and URL to historical data. Condition
+#'   data values should be in the followin format: `data$[columndname]'.
 #' @return NULL
 #' @export
 #' @examples
 #' data(dm_cond)
 #' webmap_pnts(dm_cond)
-webmap_pnts <- function(PWS.class) {
-  # TODO parameterize popupColumns so user can chose data to display
+webmap_pnts <- function(PWS.class, content = content) {
   data <- PWS.class@spatialPtDF
   bounds <- data@bbox
+  content <- paste(sep = "",
+                     "<b>", data$id,"</b>", "<br/>",
+                     data$temperature_string, "<br/>",
+                     "<a href=", data$history_url, ">current and historical
+                      data</a>"
+  )
   m <- leaflet(data)  %>%
     addProviderTiles("Stamen.TonerLines",
                      options = providerTileOptions(opacity = 0.35)) %>%
     fitBounds(bounds[1,1],  bounds[2,1], bounds[1,2],  bounds[2,2]) %>%
-    # TODO parameterize popupColumns and protect
-    #   ala popup = ~htmlEscape({c(id, neighborhood)})
-    addCircles(color="red", popup = paste("PWS ID:", data$id, "<br>",
-                             "Neighborhood:", data$neighborhood))
+    addCircles(color="red", popup = content)
   m
 }
+webmap_pnts(dm_cond)
+
 
 #' webmap_raster
 #'
@@ -181,8 +186,6 @@ webmap_raster <- function(PWS.class){
     addProviderTiles("Stamen.TonerLines",options =
                        providerTileOptions(opacity = 0.35)) %>%
     addRasterImage(D, colors = pal, opacity = 0.8)  %>%
-    # TODO Parameterize legend
-    # addLegend(pal = pal, values = values(D), title = "density of...")
   d
 }
 webmap_raster(dm_cond)
@@ -199,49 +202,11 @@ NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
 WGS84 <- CRS("+proj=longlat +datum=WGS84")
 
 ## --- misc helpers ------------------------------------------------------------
-# transform data.frame to spatialPointsDataFrame
 
 # transform CRS to Web Merator for web mapping
-# TODO: add ability to transform rasterlayers and use with points2raster()?
 toWGS84 <- function(sp) {
   WGS84 <- CRS("+proj=longlat +datum=WGS84")
   spTransform(sp, WGS84)
 }
 
-## ---- other prototypes -------------------------------------------------------
-
-# simple_poly <- function(spatialPolyDF, title = NULL, add = FALSE, ...){
-#   plot(poly, add=add, col="transparent", border="blue", cex.main=.7)
-# }
-
-# gg_poly <- function(S4poly, basemap = basemap, title = NULL, ...) {
-#   poly <- spTransform(S4poly, WGS84)
-#   poly@data$id = rownames(poly@data)
-#   poly.points = fortify(poly, region = "id")
-#   poly.df = join(poly.points, poly@data, by = "id")
-#
-#   ggmap(basemap, extent = "device") +
-#     geom_polygon(aes(x = long, y = lat, group = group), data = poly.df,
-#                  colour = 'blue', fill = 'transparent', alpha = .6, size = 3)
-# }
-
-# # add shape boundary (SpatialPolygonDF) to base map
-# webmap_poly <- function(SpatialPolygonDF) {
-#   poly.WGS84 <- toWGS84(SpatialPolygonDF)
-#   bounds     <- poly.WGS84@bbox  # TODO, transform this into proper object for fitBounds(), #alt bbox(bid.poly)
-#   m <- leaflet(poly.WGS84)  %>%
-#     addProviderTiles("Stamen.TonerLines",options = providerTileOptions(opacity = 0.35)) %>%
-#     fitBounds(bounds[1,1],  bounds[2,1], bounds[1,2],  bounds[2,2]) %>%
-#     addPolygons(stroke = TRUE, fillOpacity = 0.1, smoothFactor = 0.5)
-#   m
-# }
-
-# # create simple raster of point density
-# points2raster <- function(SpatialPointsDF){
-#   ppp <- as.ppp(SpatialPointsDF)
-#   D <- density(ppp)
-#   D <- as(D, "RasterLayer")
-#   crs(D) <- sp::CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
-#   D
-# }
 
