@@ -39,7 +39,7 @@ get_cdb_table <- function(table_name, cdb_account) {
   sql_statement <- paste("select * from", table_name)
   cdb_url_base <- ".cartodb.com/api/v2/sql?q="
   jsonlite::fromJSON (paste0("https://", cdb_account, cdb_url_base,
-                  fillblanks(sql_statement)))
+                             fillblanks(sql_statement)))
 }
 
 
@@ -107,10 +107,10 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
     sql_register <- eval(substitute(paste0("select cdb_cartodbfytable('", tableName, "')")))
     cat(" Instantiating and registering new table with CartoDB ... ")
     print(paste0("https://", cdb_account, cdb_url_base,
-                    fillblanks(sql_create),"&api_key=",user_key))
-#     Sys.sleep(5) # this may need to be adjusted
-#     jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
-#                     fillblanks(sql_register),"&api_key=",user_key))
+                 fillblanks(sql_create),"&api_key=",user_key))
+    #     Sys.sleep(5) # this may need to be adjusted
+    #     jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
+    #                     fillblanks(sql_register),"&api_key=",user_key))
   }
 
   # populate empty table
@@ -129,9 +129,9 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
       sql_insert <- paste0("INSERT INTO ", tableName, " (", columns, ",the_geom)",
                            " VALUES (", values, coord)
       jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
-                      fillblanks(sql_insert),"&api_key=",user_key))
+                                fillblanks(sql_insert),"&api_key=",user_key))
       cat(".")
-      }
+    }
     cat(" Export complete.")
     print(paste0("Link to your datasets (log in and click this first) --> ",
                  "https://", cdb_account, ".cartodb.com/dashboard/datasets "))
