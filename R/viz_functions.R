@@ -154,7 +154,6 @@ webmap_pnts <- function(PWS.class, content = content) {
     addCircles(color="red", popup = content)
   m
 }
-webmap_pnts(dm_cond)
 
 
 #' webmap_raster
@@ -188,7 +187,6 @@ webmap_raster <- function(PWS.class){
     addRasterImage(D, colors = pal, opacity = 0.8)  %>%
   d
 }
-webmap_raster(dm_cond)
 
 
 ## --- constants ---------------------------------------------------------------
