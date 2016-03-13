@@ -1,15 +1,17 @@
-
-# require(ggmap); require(sp); require(jsonlite); require(geosphere)
-#source("api_functions.R")
-
-##
-##   PWS.CONDITIONS USES PWS.LOCATIONS' ID COLUMN
-##   TO RETRIEVE WEATHER CONDITIONS TO BE STORED IN GLOBAL VARIABLE
-##   THE STD.API VERSION IS DESIGNED FOR USERS WITH API USAGE LIMITATIONS
-##
+require(jsonlite); require(httr)
+#' An S4 class to represent a bank account.
+#' @include S4.Locations.R
+#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp SpatialPoints
+#' @export
+#' @slot spatialPtDF A length-one numeric vector
+#' @slot spatialPt A legnth-one numeric vector
+#' @slot call list of stuff
+#' @slot data
+#'
 setClass(
   Class = "PWS.Conditions",
-  slots = c(spatialPtDF="SpatialPointsDataFrame", spatialPt="SpatialPoints", call="list")
+  slots = c(spatialPtDF="SpatialPointsDataFrame", spatialPt="SpatialPoints", call="list", data="data.frame")
 )
 ##
 ##  THE USER SIMULTANEOUSLY GAINS ACCESS TO A GLOBALLY AVAILABLE DATAFRAME
@@ -58,7 +60,126 @@ setMethod("initialize",
             if (STD.API==TRUE) {
             conditionsFetch(Meta.DF, user.key)
             cat("\n Please wait 60 seconds so as not to exceed your API limit... \n"); Sys.sleep(60)
-            .Object@spatialPtDF <- SpatialPointsDataFrame(.Object@spatialPt, mergeDF(Meta.DF, myenv$repository))
+
+            merged <- mergeDF(Meta.DF, myenv$repository)
+
+            logical.vector <- sapply(merged$relative_humidity, function(x) is.null(x))
+            merged$relative_humidity[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$wind_string, function(x) is.null(x))
+            merged$wind_string[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$wind_dir, function(x) is.null(x))
+            merged$wind_dir[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$wind_degrees, function(x) is.null(x))
+            merged$wind_degrees[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$wind_mph, function(x) is.null(x))
+            merged$wind_mph[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$wind_gust_mph, function(x) is.null(x))
+            merged$wind_gust_mph[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$wind_kph, function(x) is.null(x))
+            merged$wind_kph[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$wind_gust_kph, function(x) is.null(x))
+            merged$wind_gust_kph[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$pressure_mb, function(x) is.null(x))
+            merged$pressure_mb[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$pressure_in, function(x) is.null(x))
+            merged$pressure_in[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$pressure_trend, function(x) is.null(x))
+            merged$pressure_trend[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$dewpoint_string, function(x) is.null(x))
+            merged$dewpoint_string[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$dewpoint_c, function(x) is.null(x))
+            merged$dewpoint_c[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$dewpoint_f, function(x) is.null(x))
+            merged$dewpoint_f[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$heat_index_string, function(x) is.null(x))
+            merged$heat_index_string[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$heat_index_c, function(x) is.null(x))
+            merged$heat_index_c[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$heat_index_f, function(x) is.null(x))
+            merged$heat_index_f[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$windchill_string, function(x) is.null(x))
+            merged$windchill_string[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$windchill_c, function(x) is.null(x))
+            merged$windchill_c[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$windchill_f, function(x) is.null(x))
+            merged$windchill_f[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$feelslike_string, function(x) is.null(x))
+            merged$feelslike_string[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$feelslike_f, function(x) is.null(x))
+            merged$feelslike_f[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$feelslike_c, function(x) is.null(x))
+            merged$feelslike_c[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$visibility_mi, function(x) is.null(x))
+            merged$visibility_mi[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$visibility_km, function(x) is.null(x))
+            merged$visibility_km[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$solarradiation, function(x) is.null(x))
+            merged$solarradiation[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$UV, function(x) is.null(x))
+            merged$UV[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$precip_1hr_string, function(x) is.null(x))
+            merged$precip_1hr_string[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$precip_1hr_metric, function(x) is.null(x))
+            merged$precip_1hr_metric[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$precip_today_string, function(x) is.null(x))
+            merged$precip_today_string[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$precip_today_in, function(x) is.null(x))
+            merged$precip_today_in[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$precip_today_metric, function(x) is.null(x))
+            merged$precip_today_metric[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$icon, function(x) is.null(x))
+            merged$icon[logical.vector] <- NA
+
+            logical.vector <- sapply(merged$precip_1hr_in, function(x) is.null(x))
+            merged$precip_1hr_in[logical.vector] <- NA
+
+
+            .Object@spatialPtDF <- SpatialPointsDataFrame(.Object@spatialPt, merged)
+
+            n <- nrow(.Object@spatialPtDF@data)
+
+            names.col <- colnames(.Object@spatialPtDF@data)
+
+            df <- matrix(unlist(.Object@spatialPtDF@data), nrow=n)
+
+            df.DF <- as.data.frame(df,stringsAsFactors = FALSE )
+
+            colnames(df.DF) <- names.col
+
+            .Object@data <- df.DF
+
             }else{
             .Object@spatialPtDF <- SpatialPointsDataFrame(.Object@spatialPt, conditionsFetch.Full(Meta.DF, user.key))
             }
@@ -78,7 +199,7 @@ conditionsFetch <- function(PWS.MetaQuery, user.key){
   timePWS(Id.Vector, user.key)
 }
 
-conditionsFetch(PWS.MetaQuery, user.key=jam.key)
+#conditionsFetch(PWS.MetaQuery, user.key=jam.key)
 
 timePWS <- function(ID.Vector,user.key){
   rows.MQ <- length(ID.Vector)
@@ -95,7 +216,17 @@ pullPWS <- function(ids,user.key){
     url.base <- "http://api.wunderground.com/api/"
     url.cond <- "/conditions/q/"
     tmp.list <- jsonlite::fromJSON(paste0(url.base,user.key,url.cond,"pws:", i,".json"))$current_observation
-    tmp.list$image <-NULL; tmp.list$observation_location <-NULL
+    tmp.list$image <-NULL; tmp.list$observation_location <-NULL;
+    tmp.list$display_location <-NULL; tmp.list$estimated <-NULL;
+    tmp.list$observation_time <-NULL; tmp.list$observation_time_rfc822 <-NULL;
+    tmp.list$observation_epoch <-as.character(tmp.list$observation_epoch);
+    tmp.list$local_time_rfc822 <- NULL;
+    tmp.list$local_epoch <-as.character(tmp.list$local_epoch);
+    tmp.list$icon_url<- NULL;
+    tmp.list$forecast_url<- NULL;
+    tmp.list$history_url <- NULL;
+    tmp.list$ob_url <- NULL;
+    tmp.list$nowcast <- NULL
     myenv$repository[[i]] <- tmp.list
   })
 }
@@ -107,7 +238,6 @@ mergeDF <- function(PWS.MetaQuery,repository.List){
   return(Merged.JDF) #READY FOR TRANSFORMATION INTO SPATIALPOINTSDATAFRAME
 }
 
-
 conditionsFetch.Full <- function(PWS.MetaQuery, user.key){
   url.base <- "http://api.wunderground.com/api/"
   url.cond <- "/conditions/q/"
@@ -117,18 +247,30 @@ conditionsFetch.Full <- function(PWS.MetaQuery, user.key){
   myenv$myConds <- new(Class="conds", id=Merged.JDF$id, data=Merged.JDF)
   return(Merged.JDF) #READY TO USE WITH SPATIALDATAFRAME CONSTRUCTION
 }
-#
-# conditionsFetch.Full(PWS.MetaQuery, user.key=jam.key)
-#
-# S4.SpatialPDF <- PWS.Conditions(-118.4912, 34.01945, 3, user.key=jam.key)
-# S4.SpatialPDF_ <- PWS.Conditions("Santa Monica, CA", radius=3, user.key=jam.key)
-#
-#
-# S4.SpatialPDF
-#
+
+###
+## EXAMPLES
+##
 # S4.SpatialPDF2 <- PWS.Conditions("Santa Monica,CA", radius=3, user.key=jam.key)
-#
-# S4.SpatialPDF2@spatialPtDF
+# S4.SpatialPDF3 <- PWS.Conditions("Santa Monica,CA", radius=3, user.key=jam.key)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #
 # ##
 # ##  EXAMPLE OF STANDALONE FUNCTIONS

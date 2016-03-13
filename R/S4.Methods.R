@@ -1,6 +1,6 @@
-#' @include S4.Query.Subset.R
 #' @include S4.Locations.R
 #' @include S4.Conditions.R
+#' @include S4.Query.Subset.R
 #'
 setMethod("plot", signature(x=c("PWS.Locations")),
           function(x,y,...) {

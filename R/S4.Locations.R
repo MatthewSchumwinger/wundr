@@ -1,11 +1,10 @@
-
+require(sp)
 ## library(sp); library(jsonlite); library(httr)
 
 #' j.geocode
 #'
 #'
 #' @importFrom jsonlite fromJSON
-#'
 #' @param address name
 #' @return Coordinates of desired location
 #' @export
@@ -20,6 +19,14 @@ j.geocode <- function(address){
   return(as.numeric(data))
 }
 
+#' An S4 class to represent a bank account.
+#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp SpatialPoints
+#' @export
+#' @slot spatialPtDF A length-one numeric vector
+#' @slot spatialPt A legnth-one numeric vector
+#' @slot call list of stuff
+#'
 setClass(
   Class = "PWS.Locations",
   slots = c(spatialPtDF="SpatialPointsDataFrame", spatialPt="SpatialPoints", call="list")
@@ -27,6 +34,12 @@ setClass(
 
 PWS.Locations <- function(...) return(new(Class="PWS.Locations",...))
 
+#' An S4 class to represent a bank account.
+#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp SpatialPoints
+#' @slot spatialPtDF A length-one numeric vector
+#' @export
+#'
 
 setMethod("initialize",
           "PWS.Locations",
@@ -55,8 +68,10 @@ setMethod("initialize",
           }
 )
 
-
-PWS.Locations("Santa Monica, CA", radius=3, user.key=user.key)
-
-PWS.Locations(-118.49119, 34.01945, radius=3, user.key=user.key)
+# jam.key <- "00d9766eedab434e"
+#
+# PWS.Locations("Santa Monica, CA", radius=3, user.key=jam.key)
+#
+# PWS.L <- PWS.Locations(-118.49119, 34.01945, radius=3, user.key=jam.key)
+# PWS.L@spatialPtDF
 
