@@ -31,17 +31,18 @@ r2cdb(matt.cdb.key, matt.cdb.account, dm_cond)
 
 
 # imports
-use_package(package = "sp", pkg = "wundr")
-use_package(package = "raster", pkg = "wundr")
-use_package(package = "spatstat", pkg = "wundr")
-use_package(package = "jsonlite", pkg = "wundr")
-use_package(package = "geosphere", pkg = "wundr")
-use_package(package = "ggmap", pkg = "wundr")
-use_package(package = "leaflet", pkg = "wundr")
-use_package(package = "raster", pkg = "wundr")
+use_package(package = "sp")
+use_package(package = "raster")
+use_package(package = "spatstat")
+use_package(package = "jsonlite")
+use_package(package = "geosphere")
+use_package(package = "ggmap")
+use_package(package = "leaflet")
+use_package(package = "raster")
+use_package(package = "RSQLite")
 
 # suggests
-use_package(package = "RSQLite", pkg = "wundr")
+
 
 
 
