@@ -4,10 +4,10 @@
 \alias{simple_pnts}
 \title{simple_pnts}
 \usage{
-simple_pnts(spatialPtDF, title = NULL, add = FALSE, ...)
+simple_pnts(PWS.class, title = NULL, add = FALSE, ...)
 }
 \arguments{
-\item{spatialPtDF}{A SpatialPointsDataFrame.}
+\item{PWS.class}{A PWS.class points S4 object.}
 
 \item{title}{A title for you plot. Default = NULL.}
 }
@@ -15,7 +15,7 @@ simple_pnts(spatialPtDF, title = NULL, add = FALSE, ...)
 A simple 2D plot of spatial points.
 }
 \examples{
-Rio_spdf <- toWGS84(Rio_metadata)
-simple_pnts(Rio_spdf, "Rio PWS Locations")
+data(dm_cond)
+simple_pnts(dm_cond, "Des Moines, IA PWS Locations")
 }
 

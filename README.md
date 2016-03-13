@@ -23,7 +23,6 @@ Final project R package for Stats 290
 - [ ] M    | 3-10 | create custom ggplot/ggmap mapping theme(s)
 - [x] M    | 3-8 | part 7 - extension to map PWS to CartoDB thru api
 - [x] M    | 3-9 | part 7 - extension to export data to CartoDB thru api
-- [ ] M    | .... | part 4 - extension to Torque.js
 - [ ] M    | .... | part 4 - in lieu of Torque.js, function to animate rasters by time
 - [x] J    | TBD | switch out RJSONIO for jsonlite in gGeocode (new function is called j.geocode using 'httr')
 

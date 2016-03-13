@@ -494,6 +494,7 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 #' Object of tyoe ggmapraster containing the base map of Rio de Janiero. For visualisation
 #' of example data sets. The base map can be plotted using 'ggmap'
 #'
+#' @importFrom sp spDistsN1
 #' @examples
 #' data(Rio_basemap)
 #' require(ggmap)

@@ -39,9 +39,15 @@ setMethod("initialize",
 # a@call
 # isS4(PWS.MetaQuery)
 # a <- PWS.L
+<<<<<<< HEAD
 #
 # qsub <- PWS.Query.Subset(a, -118.4912, 34.01945, 1.5)
 # qsub
+=======
+
+#qsub <- PWS.Query.Subset(a, -118.4912, 34.01945, 1.5)
+#qsub
+>>>>>>> origin/master
 # qsub
 # qsub@spatialPtDF
 # qsub@spatialPt

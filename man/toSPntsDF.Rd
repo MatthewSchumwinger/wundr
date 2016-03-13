@@ -13,7 +13,7 @@ toSPntsDF(df)
 A spatialPointsDataFrame.
 }
 \description{
-Transform a data frame of PWS meta data to a spatialPointsDataFrame.
+Transform a simple data frame of PWS meta data to a spatialPointsDataFrame.
 }
 \examples{
 toSPntsDF(Rio_metadata)

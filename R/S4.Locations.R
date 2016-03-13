@@ -68,10 +68,17 @@ setMethod("initialize",
           }
 )
 
+<<<<<<< HEAD
 # jam.key <- "00d9766eedab434e"
 #
 # PWS.Locations("Santa Monica, CA", radius=3, user.key=jam.key)
 #
 # PWS.L <- PWS.Locations(-118.49119, 34.01945, radius=3, user.key=jam.key)
 # PWS.L@spatialPtDF
+=======
+
+#PWS.Locations("Santa Monica, CA", radius=3, user.key=user.key)
+
+#PWS.Locations(-118.49119, 34.01945, radius=3, user.key=user.key)
+>>>>>>> origin/master
 
