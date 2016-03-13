@@ -39,20 +39,7 @@ setMethod("initialize",
 # a@call
 # isS4(PWS.MetaQuery)
 # a <- PWS.L
-<<<<<<< HEAD
-#
-# qsub <- PWS.Query.Subset(a, -118.4912, 34.01945, 1.5)
-# qsub
-=======
 
-#qsub <- PWS.Query.Subset(a, -118.4912, 34.01945, 1.5)
-#qsub
->>>>>>> origin/master
-# qsub
-# qsub@spatialPtDF
-# qsub@spatialPt
-# qsub@call
-#
 PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_miles=TRUE){
 
   mile_per_km = 0.621371192237; m_per_mile = 1609.344; m_per_km = 1000

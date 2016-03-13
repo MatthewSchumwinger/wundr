@@ -18,14 +18,11 @@ export(set_basemap)
 export(simple_density)
 export(simple_pnts)
 export(toSPntsDF)
-<<<<<<< HEAD
+export(webmap_pnts)
+export(webmap_raster)
 exportClasses(PWS.Conditions)
 exportClasses(PWS.Locations)
 exportMethods(initialize)
-=======
-export(webmap_pnts)
-export(webmap_raster)
->>>>>>> origin/master
 importFrom(RSQLite,SQLite)
 importFrom(RSQLite,dbDataType)
 importFrom(geosphere,destPoint)

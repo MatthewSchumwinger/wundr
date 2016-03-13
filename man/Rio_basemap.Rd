@@ -4,21 +4,17 @@
 \name{Rio_basemap}
 \alias{Rio_basemap}
 \title{Rio_basemap object}
-<<<<<<< HEAD
-\format{\preformatted{ chr [1:1280, 1:1280] "#C2D5BB" "#CEE1C6" "#B7C6AE" "#B2C2AA" ...
+\format{\preformatted{ chr [1:639, 1:640] "#FFFFFF" "#A6A6A6" "#070707" "#070707" ...
  - attr(*, "class")= chr [1:2] "ggmap" "raster"
  - attr(*, "bb")='data.frame':	1 obs. of  4 variables:
-  ..$ ll.lat: num -23.3
+  ..$ ll.lat: num -23.2
   ..$ ll.lon: num -43.6
-  ..$ ur.lat: num -22.5
-  ..$ ur.lon: num -42.7
- - attr(*, "source")= chr "google"
- - attr(*, "maptype")= chr "terrain"
+  ..$ ur.lat: num -22.4
+  ..$ ur.lon: num -42.8
+ - attr(*, "source")= chr "stamen"
+ - attr(*, "maptype")= chr "toner-lite"
  - attr(*, "zoom")= num 10
 }}
-=======
-\format{An object of class \code{ggmap} (inherits from \code{raster}) with 639 rows and 640 columns.}
->>>>>>> origin/master
 \usage{
 Rio_basemap
 }
