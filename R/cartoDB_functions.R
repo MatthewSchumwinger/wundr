@@ -48,8 +48,7 @@ get_cdb_table <- function(table_name, cdb_account) {
 #' ... yada yada
 #'
 #' @importFrom jsonlite fromJSON
-#' @importFrom RSQLite SQLite
-#' @importFrom RSQLite dbDataType
+#' @importFrom RSQLite SQLite dbDataType
 #' @param user_key A CartoDB user authorization key.
 #' @param cdb_account A CartoDB account name.
 #' @param pwsConds A S4.class PWS.Conditions object of PWS locations and conditions attribute

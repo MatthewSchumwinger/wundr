@@ -40,6 +40,7 @@ use_package(package = "ggmap")
 use_package(package = "leaflet")
 use_package(package = "raster")
 use_package(package = "RSQLite")
+use_package(package = "ggplot2")
 
 # suggests
 

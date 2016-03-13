@@ -15,18 +15,18 @@
 #'
 #' Transform a simple data frame of PWS meta data to a spatialPointsDataFrame.
 #'
-#' @importFrom sp spTransform
-#' @importFrom sp CRS
-#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp spTransform CRS SpatialPointsDataFrame
 #' @param df A data frame of PWS meta data.
 #' @return A spatialPointsDataFrame.
 #' @export
 #' @examples
 #' toSPntsDF(Rio_metadata)
 toSPntsDF <- function(df){
+  WGS84 <- CRS("+proj=longlat +datum=WGS84")
+  WGS84
   # transform CRS to Web Merator for web mapping
   toWGS84 <- function(spatialPtDF) {
-    WGS84 <- CRS("+proj=longlat +datum=WGS84")
+    # WGS84 <- CRS("+proj=longlat +datum=WGS84")
     spTransform(sp, WGS84)
   }
   df_mat <- cbind(df$lon, df$lat)
@@ -54,8 +54,7 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
 #'
 #' Creates a simple density raster plot (heatmap) of PWS locations.
 #' @importFrom spatstat as.ppp
-#' @importFrom raster density
-#' @importFrom raster contour
+#' @importFrom raster density contour
 #' @param PWS.class A PWS.class points S4 object.
 #' @param title A title for you plot. Default = NULL.
 #' @param add Whether to add this "on top" of previous plot. Default = NULL.
@@ -79,8 +78,7 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' set_basemap
 #'
 #' Creates subtle contextual map background for ggplots based on extent points.
-#' @importFrom ggmap make_bbox
-#' @importFrom ggmap get_map
+#' @importFrom ggmap make_bbox get_map
 #' @param PWS.class A PWS.class points S4 object.
 #' @param zoom A zoom level for the contextual map. Greater values result in
 #'   increased zoom. Default = 9, which captures a 50-mile radius.
@@ -104,6 +102,7 @@ set_basemap <- function(PWS.class, zoom = 9) {
 #' Plots PWS locations on a contextual basemap.
 #'
 #' @importFrom ggmap ggmap
+#' @importFrom ggplot2 geom_point aes
 #' @param PWS.class A PWS.class points S4 object.
 #' @param basemap A contextual basemap. See set_basemap.
 #' @return NULL
@@ -125,10 +124,8 @@ gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
 #'
 #' Interactive web map of PWS stations.
 #'
-#' @importFrom leaflet leaflet
-#' @importFrom leaflet addProviderTiles
-#' @importFrom leaflet fitBounds
-#' @importFrom leaflet addCircles
+#' @importFrom leaflet leaflet addProviderTiles fitBounds addCircles %>%
+#'   providerTileOptions
 #' @param PWS.class A PWS.class points S4 object.
 #' @param content A string in html format used to populate PWS pop-up window.
 #'   Default displays PWS id, tempurature, and URL to historical data. Condition
@@ -163,9 +160,7 @@ webmap_pnts <- function(PWS.class, content = content) {
 #' @importFrom spatstat ppp
 #' @importFrom raster density
 #' @importFrom sp CRS
-#' @importFrom leaflet colorNumeric
-#' @importFrom leaflet addProviderTiles
-#' @importFrom leaflet addRasterImage
+#' @importFrom leaflet leaflet colorNumeric addProviderTiles addRasterImage %>%
 #' @param PWS.class A PWS.class points S4 object.
 #' @return NULL
 #' @export
@@ -177,14 +172,14 @@ webmap_raster <- function(PWS.class){
   ppp <- ppp(spdf$lon, spdf$lat, range(spdf$lon), range(spdf$lat))
   D <- density(ppp)
   D <- as(D, "RasterLayer")
-  WGS84 <- CRS("+proj=longlat +datum=WGS84") # projection for web mapping
-  crs(D) <- WGS84
+  # WGS84 <- CRS("+proj=longlat +datum=WGS84") # projection for web mapping
+  crs(D) <- CRS("+proj=longlat +datum=WGS84") # projection for web mapping
   pal <- colorNumeric(c("transparent", "#41B6C4", "#FFFFCC"), values(D),
                       na.color = "transparent", alpha=TRUE)
   d = leaflet(spdf)  %>%
     addProviderTiles("Stamen.TonerLines",options =
                        providerTileOptions(opacity = 0.35)) %>%
-    addRasterImage(D, colors = pal, opacity = 0.8)  %>%
+    addRasterImage(D, colors = pal, opacity = 0.8)
   d
 }
 

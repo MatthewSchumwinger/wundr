@@ -44,4 +44,5 @@ Imports: sp,
     geosphere,
     ggmap,
     leaflet,
-    RSQLite
+    RSQLite,
+    ggplot2
