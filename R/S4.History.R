@@ -1,5 +1,30 @@
-require(lubridate)
+#require(lubridate)
 
+#' @include S4.Locations.R
+#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp SpatialPoints
+#' @export
+#' @slot average.Temp values
+#' @slot average.Humidity values
+#' @slot average.Pressure values
+#' @slot average.Dew.Point values
+#'
+#' @slot variance.Temp values
+#' @slot variance.Humidity values
+#' @slot variance.Pressure values
+#' @slot variance.Dew.Point values
+#'
+#' @slot standard.Dev.Temp values
+#' @slot standard.Dev.Humidity values
+#' @slot standard.Dev.Pressure values
+#' @slot standard.Dev.Dew.Point values
+#'
+#' @slot spatialPtDF A length-one n
+#' @slot spatialPt A legnth-one numeric vector
+#' @slot call list of stuff
+#' @slot history data
+#'
+#'
 setClass(
   Class = "PWS.History",
   slots = c(average.Temp="data.frame",
@@ -17,23 +42,20 @@ setClass(
             standard.Dev.Pressure="data.frame",
             standard.Dev.Dew.Point="data.frame",
 
-            history="data.frame"
+            history="data.frame",
+            spatialPtDF="SpatialPointsDataFrame",
+            spatialPt="SpatialPoints",
+            call = "list"
   )
 )
 
+
 PWS.History <- function(...) return(new(Class="PWS.History",...))
-
-#PWSmetadata <- PWS.Locations@spatialPtDF@data # feeds into lower level function as
-
-as.Date("20160311", "%Y%m%d") < as.Date("19450101", "%Y%m%d")
-
-as.Date("20160311", "%Y%m%d")
-typeof(2)
 
 setMethod("initialize",
           "PWS.History",
 
-          function(.Object, PWS.Locations, begin_YYYYMMDD, end_YYYYMMDD, user.key,...){
+          function(.Object, PWS.Locations, begin_YYYYMMDD, end_YYYYMMDD, user.key, imperial=TRUE,...){
 
             if (!isS4(PWS.Locations)) stop("Please use the PWS.Locations() to create an S4 wundr object.")
 
@@ -55,14 +77,9 @@ setMethod("initialize",
 
             if (typeof(user.key)!="character") stop("Please note that the user.key must be of type character.")
 
-            measure <- readline(prompt="Metric or Imperial Units: (m,i)?  \n \n")
-
-            #PWSmetadata <- PWS.Locations@spatialPtDF@data
-            #history <- S4.history(PWSmetadata, begin_YYYYMMDD, end_YYYYMMDD, user.key)
             history <- PWS_history(list(PWSmetadata = PWS.Locations@spatialPtDF@data), begin_YYYYMMDD, end_YYYYMMDD, user.key)
 
-
-            if (substring(tolower(measure),1,1) == "i" ){
+            if (imperial) {
 
               .Object@average.Temp <- aggregate(tempi ~ id, data=history, mean)
               .Object@average.Humidity <- aggregate(hum ~ id, data=history, mean)
@@ -79,10 +96,7 @@ setMethod("initialize",
               .Object@standard.Dev.Pressure <- aggregate(pressurei ~ id, data=history, sd)
               .Object@standard.Dev.Dew.Point <- aggregate(dewpti ~ id, data=history, sd)
 
-              .Object@history <- history[,-c(11,22,13)]
-            }
-
-            if (substring(tolower(measure),1,1) == "m" ){
+            }else{
 
               .Object@average.Temp <- aggregate(tempm ~ id, data=history, mean)
               .Object@average.Humidity <- aggregate(hum ~ id, data=history, mean)
@@ -99,8 +113,16 @@ setMethod("initialize",
               .Object@average.Pressure <- aggregate(pressurem ~ id, data=history, sd)
               .Object@average.Dew.Point <- aggregate(dewptm ~ id, data=history, sd)
 
-              .Object@history <- history[,-c(12,23,14)]
             }
+
+            .Object@call <- PWS.Locations@call
+
+            .Object@spatialPtDF <- PWS.Locations@spatialPtDF
+
+            .Object@spatialPt <- PWS.Locations@spatialPt
+
+            .Object@history <- history
+
             return(.Object)
           }
 )
@@ -108,8 +130,11 @@ setMethod("initialize",
 ##
 ##  EXAMPLE
 ##
-
-#h.S4 <- PWS.History(PWS.L, "20160306", "20160306", jam.key)
+##
+# h.S4.sub <- PWS.History(PWS.Sub, "20160306", "20160306", jam.key)
+# View(h.S4.sub@history)
+# h.S4 <- PWS.History(PWS.L, "20160306", "20160306", jam.key)
+#
 # View(h.S4@history)
 
 

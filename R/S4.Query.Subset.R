@@ -1,5 +1,14 @@
 #require(sp); require(geosphere)
 
+#' An S4 class to represent a bank account.
+#' @include S4.Locations.R
+#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp SpatialPoints
+#' @export
+#' @slot spatialPtDF A length-one numeric vector
+#' @slot spatialPt A legnth-one numeric vector
+#' @slot call list of stuff
+#'
 setClass(
   Class = "PWS.Query.Subset",
   slots = c(spatialPtDF="SpatialPointsDataFrame", spatialPt="SpatialPoints", call="list")
@@ -32,13 +41,6 @@ setMethod("initialize",
             return(.Object)
           }
 )
-##
-## EXAMPLE SUBSETTING
-##
-# PWS.Locations.Query@spatialPtDF@bbox
-# a@call
-# isS4(PWS.MetaQuery)
-# a <- PWS.L
 
 PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_miles=TRUE){
 
@@ -82,4 +84,13 @@ PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_
     list("PWS.Query.Subset" <- queries, "call" <- call)
   }
 }
+
+##
+## EXAMPLE SUBSETTING
+## PWS.Sub <- PWS.Query.Subset(PWS.L, -118.49, 34.02, 2)
+# PWS.Locations.Query@spatialPtDF@bbox
+# a@call
+# isS4(PWS.MetaQuery)
+# a <- PWS.L
+
 

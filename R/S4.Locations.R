@@ -1,4 +1,4 @@
-require(sp)
+#require(sp)
 ## library(sp); library(jsonlite); library(httr)
 
 #' j.geocode
@@ -74,6 +74,7 @@ setMethod("initialize",
 # PWS.Locations("Santa Monica, CA", radius=3, user.key=jam.key)
 #
 # PWS.L <- PWS.Locations(-118.49119, 34.01945, radius=3, user.key=jam.key)
+# PWS.L
 # PWS.L@spatialPtDF
 
 #PWS.Locations("Santa Monica, CA", radius=3, user.key=user.key)

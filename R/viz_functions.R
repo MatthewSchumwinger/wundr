@@ -191,20 +191,20 @@ webmap_raster <- function(PWS.class){
 
 ## --- constants ---------------------------------------------------------------
 # A local projection (Milwaukee, Wis.) for spatial calculations
-NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
-             +lat_0=42 +lon_0=-90 +x_0=609601.2192024384 +y_0=0 +datum=NAD27
-             +units=us-ft +no_defs +ellps=clrk66 +nadgrids=@conus,
-             @alaska,@ntv2_0.gsb,@ntv1_can.dat")
-
-# Web Mercator projection for web mapping
-WGS84 <- CRS("+proj=longlat +datum=WGS84")
-
-## --- misc helpers ------------------------------------------------------------
-
-# transform CRS to Web Merator for web mapping
-toWGS84 <- function(sp) {
-  WGS84 <- CRS("+proj=longlat +datum=WGS84")
-  spTransform(sp, WGS84)
-}
+#' NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
+#'              +lat_0=42 +lon_0=-90 +x_0=609601.2192024384 +y_0=0 +datum=NAD27
+#'              +units=us-ft +no_defs +ellps=clrk66 +nadgrids=@conus,
+#'              @alaska,@ntv2_0.gsb,@ntv1_can.dat")
+#'
+#' # Web Mercator projection for web mapping
+#' WGS84 <- CRS("+proj=longlat +datum=WGS84")
+#'
+#' ## --- misc helpers ------------------------------------------------------------
+#'
+#' # transform CRS to Web Merator for web mapping
+#' toWGS84 <- function(sp) {
+#'   WGS84 <- CRS("+proj=longlat +datum=WGS84")
+#'   spTransform(sp, WGS84)
+#' }
 
 

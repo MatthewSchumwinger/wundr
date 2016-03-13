@@ -34,5 +34,6 @@ Collate:
     'global.R'
     'viz_functions.R'
 Suggests:
-    knitr
+    knitr,
+    testthat
 VignetteBuilder: knitr
