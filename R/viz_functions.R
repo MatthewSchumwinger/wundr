@@ -85,7 +85,7 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' simple_density(dm_cond, "Des Moines, IA PWS Locations")
 simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
   df <- PWS.class@spatialPtDF@data
-  ppp <- ppp(df$lat, df$lon, range(df$lat), range(df$lon))
+  ppp <- ppp(df$lon, df$lat, range(df$lon), range(df$lat))
   D <- density(ppp)
   D <- as(D, "RasterLayer")
   mycol <- colorRampPalette(c("transparent", "transparent","yellow", "orange","red"))(256)
@@ -228,7 +228,6 @@ WGS84 <- CRS("+proj=longlat +datum=WGS84")
 
 # transform CRS to Web Merator for web mapping
 # TODO: add ability to transform rasterlayers and use with points2raster()?
-# BUG: this breaks b/c S4 has no coordinate system
 toWGS84 <- function(sp) {
   WGS84 <- CRS("+proj=longlat +datum=WGS84")
   spTransform(sp, WGS84)

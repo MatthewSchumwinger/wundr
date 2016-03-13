@@ -20,5 +20,6 @@ gg_points(dm_cond, basemapDM)
 webmap_pnts(dm_cond)
 webmap_raster(dm_cond)
 
+
 # low-level plots for Stefan computation
 
