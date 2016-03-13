@@ -7,6 +7,7 @@ matt.cdb.account <- "biglakedata"
 # dm_cond <- PWS.Conditions("Des Moines, IA", radius=50, user.key=matt.wu.key)
 # devtools::use_data(dm_cond, overwrite = T)
 data("dm_cond")
+data()
 
 # simple plots
 simple_pnts(dm_cond, "Hello World!")
@@ -28,6 +29,29 @@ r2cdb(matt.cdb.key, matt.cdb.account, dm_cond)
 
 
 # low-level plots for Stefan computation
+
+
+## prototype graphical interface
+rio <- toSPntsDF(Rio_metadata[[1]])
+plot(sp::coordinates(rio))
+temp_id <- identify(sp::coordinates(rio))
+sp::plot(sp::coordinates(rio)[temp_id, ], col="red", pch = 20, add = TRUE)
+# why does the second plot fail to add?
+row.names(rio)[temp_id]
+# not exactly correct
+
+#
+# # methods from Bivand ASDA pp. 76-78
+#   # identify point(s) of SpatialPointsDF
+# plot(mke.spdf) # basic data.frame works too #this should be points
+# temp_id <- identify(coordinates(mke.spdf))
+#   # select points on graphics device and click finish (Esc)
+# plot(mke.spdf[temp_id, ], col="red", pch = 20, add = TRUE)
+# row.names(mke.spdf)[temp_id]
+
+
+
+
 
 
 # imports
