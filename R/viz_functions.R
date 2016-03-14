@@ -157,9 +157,10 @@ webmap_pnts <- function(PWS.class, content = content) {
 #' Interactive web map of PWS stations density (heatmap).
 #'
 #' @importFrom spatstat ppp
-#' @importFrom raster density crs
+#' @importFrom raster density crs values
 #' @importFrom sp CRS
-#' @importFrom leaflet leaflet colorNumeric addProviderTiles addRasterImage %>%
+#' @importFrom leaflet leaflet addProviderTiles %>% providerTileOptions
+#'   colorNumeric addRasterImage
 #' @param PWS.class A PWS.class points S4 object.
 #' @return NULL
 #' @export
@@ -172,7 +173,7 @@ webmap_raster <- function(PWS.class){
   D <- raster::density(ppp)
   D <- as(D, "RasterLayer")
   raster::crs(D) <- sp::CRS("+proj=longlat +datum=WGS84") # projection for web mapping
-  pal <- leaflet::colorNumeric(c("transparent", "#41B6C4", "#FFFFCC"), values(D),
+  pal <- leaflet::colorNumeric(c("transparent", "#41B6C4", "#FFFFCC"), raster::values(D),
                       na.color = "transparent", alpha=TRUE)
   d = leaflet::leaflet(spdf)  %>%
     leaflet::addProviderTiles("Stamen.TonerLines",options =
@@ -180,7 +181,3 @@ webmap_raster <- function(PWS.class){
     leaflet::addRasterImage(D, colors = pal, opacity = 0.8)
   d
 }
-
-
-
-
