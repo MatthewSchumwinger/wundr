@@ -168,7 +168,6 @@ webmap_pnts <- function(PWS.class, content = content) {
 #' data(dm_cond)
 #' webmap_raster(dm_cond)
 webmap_raster <- function(PWS.class){
-  print("Matt fixed me")
   spdf <- toSPntsDF(PWS.class@spatialPtDF@data)
   ppp <- spatstat::ppp(spdf$lon, spdf$lat, range(spdf$lon), range(spdf$lat))
   D <- raster::density(ppp)

@@ -114,7 +114,6 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
 
   # populate empty table
   insertCdbTable <- function(user_key, cdb_account, df){
-    # TODO insert real df data FIX url string
     # TODO tolower() in appropriate places
     c <- sapply(seq_along(df.schema), function(i) paste(names(df.schema)[[i]]))
     # columns <- paste(c[1:2], collapse = ",") # just first two columns to test
@@ -124,24 +123,27 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
     for (i in 1:nrow(df)){
       # values <- paste("'foo'", "'bar'", sep = ",") # strings need to be quoted, numeric not so
       values <- paste(df[i, ], collapse = ",")
-      coord <- paste(", ST_SetSRID(ST_Point(" , df$longitude[i], ", ", df$latitude[i], "),4326))")
-      print(coord)
+      coord <- paste(", ST_SetSRID(ST_Point(" , df$lon[i], ", ", df$lat[i], "),4326))")
       sql_insert <- paste0("INSERT INTO ", tableName, " (", columns, ",the_geom)",
                            " VALUES (", values, coord)
-#       jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
-#                                 fillblanks(sql_insert),"&api_key=",user_key))
+      jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
+                                fillblanks(sql_insert),"&api_key=",user_key))
       cat(".")
     }
-    cat(" Export complete.")
-    print(paste0("Link to your datasets (log in and click this first) --> ",
-                 "https://", cdb_account, ".cartodb.com/dashboard/datasets "))
-    print(paste0("Direct link to your new map --> ",
-                 "https://", cdb_account, cdb_url_view, tolower(tableName), "/map "))
+    cat("Export complete.")
+    cat("Link to your datasets (log in and click this first):",
+                 paste0("https://", cdb_account,
+                        ".cartodb.com/dashboard/datasets "),
+                "Then, refresh your browser a few times (like 3 times)
+                until you see the table",
+                sep="\n")
+    cat("Direct link to your new map:",
+        paste0("https://", cdb_account, cdb_url_view, tolower(tableName),
+               "/map "))
   }
-  # makeCdbTable(user_key, cdb_account, df)
+  makeCdbTable(user_key, cdb_account, df)
   insertCdbTable(user_key, cdb_account, df)
 }
-# r2cdb(matt.cdb.key, matt.cdb.account, pizza2)
 
 
 ## ---------- TODO -----------------------

@@ -27,14 +27,24 @@ webmap_pnts(PWS.Conds.Chicago)
 data("PWS.Conds.Chicago")
 webmap_raster(PWS.Conds.Chicago)
 
+
 # CartoDB
+
 cdbTable <- get_cdb_table("condTest", matt.cdb.account)
 head(cdbTable$rows)
 
 
+matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
+matt.cdb.account <- "biglakedata"
+data("PWS.Conds.Chicago")
+pizza <- PWS.Conds.Chicago
+r2cdb(matt.cdb.key, matt.cdb.account, pizza)
 
 
 # low-level plots for Stefan computation
+
+
+
 
 
 ## prototype graphical interface
