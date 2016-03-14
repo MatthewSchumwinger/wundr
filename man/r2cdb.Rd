@@ -11,7 +11,7 @@ r2cdb(user_key, cdb_account, PWS.Conditions)
 
 \item{cdb_account}{A CartoDB account name.}
 
-\item{pwsConds}{A S4.class PWS.Conditions object of PWS locations and conditions attribute
+\item{PWS.Conditions}{A S4.class PWS.Conditions object of PWS locations and conditions attribute
 data.}
 }
 \value{

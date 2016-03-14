@@ -157,7 +157,7 @@ webmap_pnts <- function(PWS.class, content = content) {
 #' Interactive web map of PWS stations density (heatmap).
 #'
 #' @importFrom spatstat ppp
-#' @importFrom raster density
+#' @importFrom raster density crs
 #' @importFrom sp CRS
 #' @importFrom leaflet leaflet colorNumeric addProviderTiles addRasterImage %>%
 #' @param PWS.class A PWS.class points S4 object.
@@ -171,7 +171,7 @@ webmap_raster <- function(PWS.class){
   ppp <- spatstat::ppp(spdf$lon, spdf$lat, range(spdf$lon), range(spdf$lat))
   D <- raster::density(ppp)
   D <- as(D, "RasterLayer")
-  crs(D) <- sp::CRS("+proj=longlat +datum=WGS84") # projection for web mapping
+  raster::crs(D) <- sp::CRS("+proj=longlat +datum=WGS84") # projection for web mapping
   pal <- leaflet::colorNumeric(c("transparent", "#41B6C4", "#FFFFCC"), values(D),
                       na.color = "transparent", alpha=TRUE)
   d = leaflet::leaflet(spdf)  %>%
