@@ -28,7 +28,7 @@ subsets the meta data to only cotain stations inside the new circle. The output 
 \examples{
 # First we load the output of the command
 # Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
-# where our.key is your API-key for Weather Underground.
+# where your.key is your API-key for Weather Underground.
 data(Rio_metadata)
 # Now we subset:
 Rio_centre_metadata <- PWS_meta_subset(Rio_metadata,-43.185368,-22.856878, 10)

@@ -146,11 +146,12 @@ history_forecast <- function(history.tszoo, find.frequency=TRUE,... ){
 #' @return A object of type geodata containing coordinates (lon,lat) and values for selected variable
 #' @export
 #' @examples
-#' data <- Rio_conditions
+#' data(Rio_conditions)
 #' data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 #' data.geo
 #'
 create_geo_cond <- function(data.conditions,variable){
+  if(!(variable %in% colnames(data.conditions))) stop("undefined columns selected")
   coord.col <- c(which( colnames(data.conditions)=="longitude" ),which( colnames(data.conditions)=="latitude" ))
   geoR::as.geodata(data.conditions, coords.col=coord.col, data.col =  which( colnames(data.conditions)==variable ))
 }
@@ -169,7 +170,7 @@ create_geo_cond <- function(data.conditions,variable){
 #' @return A data frame containing the grid points with columns labelled (lon,lat)
 #' @export
 #' @examples
-#' data <- Rio_conditions
+#' data(Rio_conditions)
 #' data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 #' grid.positions <- create_grid(data.geo)
 #' grid.positions <- create_grid(data.geo, grid.lim= c(-43.6,-42.8,-23.2,-22.6) )
@@ -210,7 +211,7 @@ create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
 #' @return A Gaussian process fit of the variable on all points on a rectangular grid spanning the region
 #' @export
 #' @examples
-#' data <- Rio_conditions
+#' data(Rio_conditions)
 #' data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 #' model<-GP_fit(data.geo)
 #' ggplot2::ggplot(data = model, ggplot2::aes(x=lon, y=lat)) +

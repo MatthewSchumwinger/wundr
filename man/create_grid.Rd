@@ -23,7 +23,7 @@ Creates a grid of points in a rectangular over a sets of points coordinates from
 or any other object with coordinates saves in an attribute called 'coords'
 }
 \examples{
-data <- Rio_conditions
+data(Rio_conditions)
 data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 grid.positions <- create_grid(data.geo)
 grid.positions <- create_grid(data.geo, grid.lim= c(-43.6,-42.8,-23.2,-22.6) )

@@ -29,8 +29,10 @@ conditions history for all stations in the meta data. Note that 1 API per statio
 \examples{
 # You can download the current conditions from weather stations in Rio de Janeiro using
 # the command below if you replace 'your.key' with your API-key from Weather Underground:
-# data(Rio_metadata)
-# Rio_history <- PWS_history(Rio_metadata,"20151224","20151231",your.key)
+\dontrun{
+data(Rio_metadata)
+Rio_history <- PWS_history(Rio_metadata,"20151224","20151231",your.key)
+}
 # if you run the above code with your key the output should be the same as provided here:
 data(Rio_history)
 head(Rio_history)

@@ -19,7 +19,7 @@ Takes as input a data frame of conditions from weather stations and selects coor
 conditions for one variable and saves them as a geodata object
 }
 \examples{
-data <- Rio_conditions
+data(Rio_conditions)
 data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 data.geo
 

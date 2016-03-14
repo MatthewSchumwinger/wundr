@@ -4,7 +4,7 @@
 \name{Rio_conditions}
 \alias{Rio_conditions}
 \title{Rio_conditions dataset}
-\format{An object of class \code{data.frame} with 34 rows and 70 columns.}
+\format{An object of class \code{data.frame} with 35 rows and 70 columns.}
 \usage{
 Rio_conditions
 }

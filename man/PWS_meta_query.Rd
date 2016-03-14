@@ -36,9 +36,11 @@ zooms in, issuing more queries around this area to capture all stations. Those a
 API calls are denoted by ','
 }
 \examples{
-# your.key <- "xxxxxxxxxx" # replace this with your key
-# The following command downloads the meta data for all stations in the Rio de Janeiro region:
-# Rio_metadata <- PWS_meta_query(-43.185368,-22.856878, 50, your.key)
+# The following command downloads the meta data for all stations in the Rio de Janeiro region
+# if you replace 'your.key' with your API-key from Weather Underground:
+\dontrun{
+Rio_metadata <- PWS_meta_query(-43.185368,-22.856878, 50, your.key)
+}
 # if you run the above code with your key the output should be the same as provided here:
 data(Rio_basemap)
 data(Rio_metadata)

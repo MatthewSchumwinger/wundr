@@ -15,7 +15,7 @@
 # +                                                                                                 +
 # + There are also data sets which are included and which show the output of those functions:       +
 # +                                                                                                 +
-# + o Rio_basemap                                                                                  +
+# + o Rio_basemap                                                                                   +
 # + o Rio_metadata                                                                                  +
 # + o Rio_conditions                                                                                +
 # + o Rio_history                                                                                   +
@@ -150,9 +150,11 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
 #' @return A list of two entries. The first has information on the original arguments of the function (radius and coordinates of circle). The second entry contains a data frame with all personal weather stations in the region of the circle.
 #' @export
 #' @examples
-#' # your.key <- "xxxxxxxxxx" # replace this with your key
-#' # The following command downloads the meta data for all stations in the Rio de Janeiro region:
-#' # Rio_metadata <- PWS_meta_query(-43.185368,-22.856878, 50, your.key)
+#' # The following command downloads the meta data for all stations in the Rio de Janeiro region
+#' # if you replace 'your.key' with your API-key from Weather Underground:
+#' \dontrun{
+#' Rio_metadata <- PWS_meta_query(-43.185368,-22.856878, 50, your.key)
+#' }
 #' # if you run the above code with your key the output should be the same as provided here:
 #' data(Rio_basemap)
 #' data(Rio_metadata)
@@ -240,6 +242,13 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
   queries <- queries[queries$distance_km < radius,]
   queries$distance_mi <- queries$distance_km*mile_per_km
   queries <- queries[order(queries$distance_km),]
+
+  # Clean queries for non-ASCII names, e.g. city names such as Niter\'oi:
+  for(i in 1:ncol(queries)){
+    if(is.character(queries[,i]))
+        queries[,i] <- iconv(queries[,i], "latin1", "ASCII", sub="")
+  }
+
   cat("Done.")
   call=list("lon"=longitude,"lat"=latitude, "radius_km" = radius)
   list("PWSmetadata" = queries, "call" = call)
@@ -272,7 +281,7 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
 #' @examples
 #' # First we load the output of the command
 #' # Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
-#' # where our.key is your API-key for Weather Underground.
+#' # where your.key is your API-key for Weather Underground.
 #' data(Rio_metadata)
 #' # Now we subset:
 #' Rio_centre_metadata <- PWS_meta_subset(Rio_metadata,-43.185368,-22.856878, 10)
@@ -333,8 +342,10 @@ PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
 #' @examples
 #' # You can download the current conditions from waether stations in Rio de Janeiro using
 #' # the command below if you replace 'your.key' with your API-key from Weather Underground:
-#' # data(Rio_metadata)
-#' # Rio_conditions <- PWS_conditions(Rio_metadata, your.key)
+#' \dontrun{
+#' data(Rio_metadata)
+#' Rio_conditions <- PWS_conditions(Rio_metadata, your.key)
+#' }
 #' # if you run the above code with your key the output should be the same as provided here:
 #' data(Rio_conditions)
 #' head(Rio_conditions)
@@ -389,6 +400,12 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
   for(i in 1:ncol(conditions))
     if(numCheck[i]) conditions[,i] <- as.numeric(conditions[,i])
 
+  # Clean queries for non-ASCII names, e.g. city names such as Niter\'oi:
+  for(i in 1:ncol(conditions)){
+    if(is.character(conditions[,i]))
+      conditions[,i] <- iconv(conditions[,i], "latin1", "ASCII", sub="")
+  }
+
   cat("Done.")
   conditions
 }
@@ -424,8 +441,10 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
 #' @examples
 #' # You can download the current conditions from weather stations in Rio de Janeiro using
 #' # the command below if you replace 'your.key' with your API-key from Weather Underground:
-#' # data(Rio_metadata)
-#' # Rio_history <- PWS_history(Rio_metadata,"20151224","20151231",your.key)
+#' \dontrun{
+#' data(Rio_metadata)
+#' Rio_history <- PWS_history(Rio_metadata,"20151224","20151231",your.key)
+#' }
 #' # if you run the above code with your key the output should be the same as provided here:
 #' data(Rio_history)
 #' head(Rio_history)
@@ -487,6 +506,13 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
     for(i in 1:ncol(history))
       if(numCheck[i]) history[,i] <- as.numeric(history[,i])
   }
+
+  # Clean queries for non-ASCII names, e.g. city names such as Niter\'oi:
+  for(i in 1:ncol(history)){
+    if(is.character(history[,i]))
+      history[,i] <- iconv(history[,i], "latin1", "ASCII", sub="")
+  }
+
   cat("Done.")
   history
 }

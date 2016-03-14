@@ -23,8 +23,10 @@ the function 'PWS_conditions' downloads the weather conditions for all stations 
 \examples{
 # You can download the current conditions from waether stations in Rio de Janeiro using
 # the command below if you replace 'your.key' with your API-key from Weather Underground:
-# data(Rio_metadata)
-# Rio_conditions <- PWS_conditions(Rio_metadata, your.key)
+\dontrun{
+data(Rio_metadata)
+Rio_conditions <- PWS_conditions(Rio_metadata, your.key)
+}
 # if you run the above code with your key the output should be the same as provided here:
 data(Rio_conditions)
 head(Rio_conditions)

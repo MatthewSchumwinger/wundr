@@ -18,7 +18,7 @@ A Gaussian process fit of the variable on all points on a rectangular grid spann
 A Gaussian process fit (Kriging) on geodata object.
 }
 \examples{
-data <- Rio_conditions
+data(Rio_conditions)
 data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 model<-GP_fit(data.geo)
 ggplot2::ggplot(data = model, ggplot2::aes(x=lon, y=lat)) +

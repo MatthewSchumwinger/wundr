@@ -4,7 +4,7 @@
 \name{Rio_history}
 \alias{Rio_history}
 \title{Rio_history dataset}
-\format{An object of class \code{data.frame} with 40202 rows and 34 columns.}
+\format{An object of class \code{data.frame} with 40366 rows and 34 columns.}
 \usage{
 Rio_history
 }
