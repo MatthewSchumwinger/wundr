@@ -1,24 +1,48 @@
-#require(lubridate)
+##
+## Begin jamarin code
+##
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# The PWS.Conditions S4 class required for the projects is located herein along with                  +
+# functions related to its creation and initialization. Relevant validation testing is              +
+# done in the initialization function of the class.
+# +
+# + Data sets which are included and which show the output of those functions:                      +
+# +                                                                                                 +
+# + o PWS.Conds.Chicago.rda                                                                           +
+# +                                                                                                 +
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#' An S4 class to represent a bank account.
-#' @include S4.Locations.R
+# global.Conds.env <- new.env(parent = emptyenv())
+# global.Conds.env$repository = list()
+# length(global.Conds.env$repository)
+
+#' An S4 class to represent the PWS Conditions of a user search
 #' @importFrom sp SpatialPointsDataFrame
 #' @importFrom sp SpatialPoints
 #' @export
-#' @slot spatialPtDF A length-one numeric vector
-#' @slot spatialPt A legnth-one numeric vector
-#' @slot call list of stuff
+#' @slot spatialPtDF A SpatialPointsDataFrame
+#' @slot spatialPt A SpatialPoints Matrix
+#' @slot call list of user's desired location coordinates and radius
 #' @slot data data
 #'
 setClass(
   Class = "PWS.Conditions",
-  slots = c(spatialPtDF="SpatialPointsDataFrame", spatialPt="SpatialPoints", call="list", data="data.frame")
+  slots = c(spatialPtDF="ANY", spatialPt="ANY", call="list", data="data.frame")
 )
 
+#' PWS.Conditions constructor function
+#' @return S4 PWS.Condition class
+#' @param ... coordinates of PWS.Conditions initializer function
 PWS.Conditions <- function(...) return(new(Class="PWS.Conditions",...))
 
-#PWSmetadata <- PWS.Locations@spatialPtDF@data # feeds into lower level function as
-
+#' S4 PWS.Conditions Initializer function
+#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp SpatialPoints
+#' @export
+#' @param .Object S4 initializer object
+#' @param PWS.Locations A PWS.Locations S4 Class Object
+#' @param user.key character vector of user.key
+#' @param ... other user input
 setMethod("initialize",
           "PWS.Conditions",
 
@@ -39,17 +63,23 @@ setMethod("initialize",
             return(.Object)
           }
 )
+
+#' Chicago Conditions Dataset
+#'
+#' This contains the weather conditions for the Personal Weather Stations in
+#' a 5km region centered in Chicago, Illinois from March 13, 2016
+#' called with PWS.Conds.Chicago <- PWS.Conditions(PWS.Loc.Chicago, user.key=jam.key.2)
+#' where the PWS.Loc.Chicago call is described in the PWS.Locations S4 Class
+#'
+#' @examples
+#' data(PWS.Conds.Chicago)
+#' @author wundr team
+#'
+"PWS.Conds.Chicago"
 ##
-##  EXAMPLE
+## End jamarin code
+##
 ##
 
-# C.S4 <- PWS.Conditions(PWS.L, jam.key)
-# C.S4.sub <- PWS.Conditions(PWS.Sub, jam.key)
-# View(C.S4.sub@data)
-# h.S4.sub
-#
-# plot(C.S4)
-#
-# View(C.S4@data)
 
 
