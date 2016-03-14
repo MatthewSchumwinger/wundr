@@ -34,6 +34,7 @@ Collate:
     'api_functions.R'
     'cartoDB_functions.R'
     'global.R'
+    'subsetting_functions.R'
     'viz_functions.R'
 Suggests:
     knitr,

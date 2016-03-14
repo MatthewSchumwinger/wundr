@@ -117,7 +117,9 @@ gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
   pnts <- PWS.class@spatialPtDF
   ggmap::ggmap(basemap, extent = "device") +
     ggplot2::geom_point(data=as.data.frame(pnts),
-                        ggplot2::aes(coords.x1,coords.x2), col= "red",alpha =.8)
+                        ggplot2::aes(coords.x1,coords.x2),
+                        col= "red",alpha =.8) +
+    ggplot2::ggtitle(title)
 }
 
 #' webmap_pnts
