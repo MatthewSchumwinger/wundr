@@ -4,7 +4,7 @@
 \name{Rio_basemap}
 \alias{Rio_basemap}
 \title{Rio_basemap object}
-\format{\preformatted{ chr [1:639, 1:640] "#FFFFFF" "#A6A6A6" "#070707" "#070707" ...
+\format{\preformatted{ chr [1:639, 1:640] "#FFFFFF" "#A6A6A6" "#070707" "#070707" "#070707" "#070707" "#070707" ...
  - attr(*, "class")= chr [1:2] "ggmap" "raster"
  - attr(*, "bb")='data.frame':	1 obs. of  4 variables:
   ..$ ll.lat: num -23.2
