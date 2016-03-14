@@ -145,6 +145,7 @@ history_forecast <- function(history.tszoo, find.frequency=TRUE,... ){
 #' @examples
 #' data <- Rio_conditions
 #' data.geo <- create_geo_cond(Rio_conditions,"temp_c")
+#' data.geo
 #'
 create_geo_cond <- function(data.conditions,variable){
   coord.col <- c(which( colnames(data.conditions)=="longitude" ),which( colnames(data.conditions)=="latitude" ))
@@ -169,6 +170,7 @@ create_geo_cond <- function(data.conditions,variable){
 #' data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 #' grid.positions <- create_grid(data.geo)
 #' grid.positions <- create_grid(data.geo, grid.lim= c(-43.6,-42.8,-23.2,-22.6) )
+#' head(grid.positions)
 #'
 create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
   if(length(grid.lim)!=4 | typeof(grid.lim)!="double"){
@@ -208,11 +210,10 @@ create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
 #' data <- Rio_conditions
 #' data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 #' model<-GP_fit(data.geo)
-#' require(ggplot2)
-#' ggplot(data = model, aes(x=lon, y=lat)) +
-#'  geom_tile(aes(fill = value),colour = "white") +
-#'  scale_fill_gradient(low = "yellow", high = "red") +
-#'  geom_point(data=Rio_metadata$PWSmetadata,col='black')
+#' ggplot2::ggplot(data = model, ggplot2::aes(x=lon, y=lat)) +
+#'  ggplot2::geom_tile(ggplot2::aes(fill = value),colour = "white") +
+#'  ggplot2::scale_fill_gradient(low = "yellow", high = "red") +
+#'  ggplot2::geom_point(data=Rio_metadata$PWSmetadata,col='black')
 #'
 GP_fit <- function(data.geo,...){
   grid.positions <- create_grid(data.geo,...)

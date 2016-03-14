@@ -156,8 +156,7 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
 #' # if you run the above code with your key the output should be the same as provided here:
 #' data(Rio_basemap)
 #' data(Rio_metadata)
-#' require(ggmap);require(ggplot2);
-#' ggmap(Rio_basemap)+geom_point(data=Rio_metadata$PWSmetadata,col='red')
+#' ggmap::ggmap(Rio_basemap)+ggplot2::geom_point(data=Rio_metadata$PWSmetadata,col='red')
 #'
 PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
                             km_miles = TRUE, stdAPI = TRUE){
@@ -279,8 +278,7 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
 #' Rio_centre_metadata <- PWS_meta_subset(Rio_metadata,-43.185368,-22.856878, 10)
 #' # and plot it
 #' data(Rio_basemap)
-#' require(ggmap);require(ggplot2);
-#' ggmap(Rio_basemap)+geom_point(data=Rio_centre_metadata$PWSmetadata,col='red')
+#' ggmap::ggmap(Rio_basemap)+ggplot2::geom_point(data=Rio_centre_metadata$PWSmetadata,col='red')
 #'
 PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
                              km_miles = TRUE){
@@ -509,8 +507,7 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 #' @importFrom ggmap ggmap
 #' @examples
 #' data(Rio_basemap)
-#' require(ggmap)
-#' ggmap(Rio_basemap)
+#' ggmap::ggmap(Rio_basemap)
 #'
 #' @author retrived from google maps
 "Rio_basemap"

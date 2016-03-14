@@ -21,11 +21,10 @@ A Gaussian process fit (Kriging) on geodata object.
 data <- Rio_conditions
 data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 model<-GP_fit(data.geo)
-require(ggplot2)
-ggplot(data = model, aes(x=lon, y=lat)) +
- geom_tile(aes(fill = value),colour = "white") +
- scale_fill_gradient(low = "yellow", high = "red") +
- geom_point(data=Rio_metadata$PWSmetadata,col='black')
+ggplot2::ggplot(data = model, ggplot2::aes(x=lon, y=lat)) +
+ ggplot2::geom_tile(ggplot2::aes(fill = value),colour = "white") +
+ ggplot2::scale_fill_gradient(low = "yellow", high = "red") +
+ ggplot2::geom_point(data=Rio_metadata$PWSmetadata,col='black')
 
 }
 

@@ -42,8 +42,7 @@ API calls are denoted by ','
 # if you run the above code with your key the output should be the same as provided here:
 data(Rio_basemap)
 data(Rio_metadata)
-require(ggmap);require(ggplot2);
-ggmap(Rio_basemap)+geom_point(data=Rio_metadata$PWSmetadata,col='red')
+ggmap::ggmap(Rio_basemap)+ggplot2::geom_point(data=Rio_metadata$PWSmetadata,col='red')
 
 }
 

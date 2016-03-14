@@ -14,8 +14,7 @@ of example data sets. The base map can be plotted using 'ggmap'
 }
 \examples{
 data(Rio_basemap)
-require(ggmap)
-ggmap(Rio_basemap)
+ggmap::ggmap(Rio_basemap)
 
 }
 \author{
