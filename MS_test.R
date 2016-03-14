@@ -7,25 +7,26 @@ matt.cdb.account <- "biglakedata"
 # dm_cond <- PWS.Conditions("Des Moines, IA", radius=50, user.key=matt.wu.key)
 # devtools::use_data(dm_cond, overwrite = T)
 data("dm_cond")
-data()
+
+PWS.Conds.Chicago <- readRDS("data/PWS.Conds.Chicago.rds")
 
 # simple plots
-simple_pnts(dm_cond, "Hello World!")
-simple_density(dm_cond, "Hello World!")
+simple_pnts(PWS.Conds.Chicago, "Hello World!")
+simple_density(PWS.Conds.Chicago, "Hello World!")
 
 # static map
-basemapDM <- set_basemap(dm_cond, zoom = 9)
-gg_points(dm_cond, basemapDM)
+basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
+gg_points(PWS.Conds.Chicago, basemap)
 
 # interactive web maps
-webmap_pnts(dm_cond)
-webmap_raster(dm_cond)
+webmap_pnts(PWS.Conds.Chicago)
+webmap_raster(PWS.Conds.Chicago)
 
 # CartoDB
 cdbTable <- get_cdb_table("condTest", matt.cdb.account)
 head(cdbTable$rows)
 
-r2cdb(matt.cdb.key, matt.cdb.account, dm_cond)
+r2cdb(matt.cdb.key, matt.cdb.account, PWS.Conds.Chicago)
 
 
 # low-level plots for Stefan computation

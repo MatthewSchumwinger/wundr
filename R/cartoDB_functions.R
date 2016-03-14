@@ -51,7 +51,7 @@ get_cdb_table <- function(table_name, cdb_account) {
 #' @importFrom RSQLite SQLite dbDataType
 #' @param user_key A CartoDB user authorization key.
 #' @param cdb_account A CartoDB account name.
-#' @param pwsConds A S4.class PWS.Conditions object of PWS locations and conditions attribute
+#' @param PWS.Conditions A S4.class PWS.Conditions object of PWS locations and conditions attribute
 #'   data.
 #' @return NULL. Plus, printed information on status of CartoDB API and URL of
 #'   exported map data on CartoDB service.
@@ -92,7 +92,7 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
   # pick-off data from s4 object
   df <- PWS.Conditions@spatialPtDF@data
 
-  tableName <- eval(substitute(quote(pwsConds)))
+  tableName <- eval(substitute(quote(PWS.Conditions)))
   df.san <- sanitize(df)
   df.schema <- schema(df.san)
   cdb_url_base <- ".cartodb.com/api/v2/sql?q="
@@ -105,11 +105,11 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
     sql_create <- paste0("create table ", tableName," (", columns, ")")
     sql_register <- eval(substitute(paste0("select cdb_cartodbfytable('", tableName, "')")))
     cat(" Instantiating and registering new table with CartoDB ... ")
-    print(paste0("https://", cdb_account, cdb_url_base,
+    jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
                  fillblanks(sql_create),"&api_key=",user_key))
-    #     Sys.sleep(5) # this may need to be adjusted
-    #     jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
-    #                     fillblanks(sql_register),"&api_key=",user_key))
+    Sys.sleep(5) # this may need to be adjusted
+    jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
+                        fillblanks(sql_register),"&api_key=",user_key))
   }
 
   # populate empty table
@@ -138,7 +138,7 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
                  "https://", cdb_account, cdb_url_view, tolower(tableName), "/map "))
   }
   makeCdbTable(user_key, cdb_account, df)
-  # insertCdbTable(user_key, cdb_account, df)
+  insertCdbTable(user_key, cdb_account, df)
 }
 
 ## ---------- TODO -----------------------
