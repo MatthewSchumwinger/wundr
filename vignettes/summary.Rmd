@@ -1,6 +1,6 @@
 ---
 title: "wundr Package Summary"
-author: "J.A. Marin, Matthew Schumwinger, Stefan Zohren"
+author: "John Marin, Matthew Schumwinger, Stefan Zohren"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
