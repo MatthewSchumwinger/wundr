@@ -45,6 +45,11 @@ Package **wundr** has the following functionalities:
 ## Web interface with interactive Visuals
 [Coming soon from Matt]
 
+```{r, fig.show='hold'}
+# webmap_pnts(PWS.Conds.Chicago)
+# webmap_raster(PWS.Conds.Chicago)
+```
+
 ## Integration with other data providers and services 
 [Coming soon from Matt]
 
