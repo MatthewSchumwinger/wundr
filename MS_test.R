@@ -14,6 +14,7 @@ pizza2 <- PWS.Conds.Chicago
 r2cdb(matt.cdb.key, matt.cdb.account, pizza2)
 
 # simple plots
+data("PWS.Conds.Chicago")
 simple_pnts(PWS.Conds.Chicago, "Hello World!")
 simple_density(PWS.Conds.Chicago, "Hello World!")
 
@@ -127,7 +128,7 @@ ggmap::gglocator()
 # }
 
 
-## --- constants ---------------------------------------------------------------
+## --- misc helpers ------------------------------------------------------------
 # A local projection (Milwaukee, Wis.) for spatial calculations
 NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
              +lat_0=42 +lon_0=-90 +x_0=609601.2192024384 +y_0=0 +datum=NAD27
@@ -136,8 +137,6 @@ NAD27 <- CRS("+proj=lcc +lat_1=42.73333333333333 +lat_2=44.06666666666667
 
 # Web Mercator projection for web mapping
 WGS84 <- sp::CRS("+proj=longlat +datum=WGS84")
-
-## --- misc helpers ------------------------------------------------------------
 
 # transform CRS to Web Merator for web mapping
 toWGS84 <- function(sp) {

@@ -19,8 +19,8 @@ gg_points(PWS.class, basemap = basemap, title = NULL, ...)
 Plots PWS locations on a contextual basemap.
 }
 \examples{
-data(dm_cond)
-basemapDM <- set_basemap(dm_cond, zoom = 9)
-gg_points(dm_cond)
+data("PWS.Conds.Chicago")
+basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
+gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 }
 

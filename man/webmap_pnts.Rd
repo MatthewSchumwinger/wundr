@@ -17,7 +17,7 @@ data values should be in the followin format: `data$[columndname]'.}
 Interactive web map of PWS stations.
 }
 \examples{
-data(dm_cond)
-webmap_pnts(dm_cond)
+data(PWS.Conds.Chicago)
+webmap_pnts(PWS.Conds.Chicago)
 }
 

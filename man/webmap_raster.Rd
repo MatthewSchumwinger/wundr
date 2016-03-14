@@ -13,7 +13,7 @@ webmap_raster(PWS.class)
 Interactive web map of PWS stations density (heatmap).
 }
 \examples{
-data(dm_cond)
-webmap_raster(dm_cond)
+data(PWS.Conds.Chicago)
+webmap_raster(PWS.Conds.Chicago)
 }
 
