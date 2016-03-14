@@ -7,11 +7,11 @@
 history_ts(hist.data, id, variables)
 }
 \arguments{
+\item{hist.data}{data frame of historical weather data (e.g. as created by 'PWS_history')}
+
 \item{id}{Personal Weather Station ID}
 
 \item{variables}{Variable(s) to be selected as character (can be a vector, see example below)}
-
-\item{hist_data}{data frame of historical weather data (e.g. as created by 'PWS_history')}
 }
 \value{
 Time series object of type 'ts' with selected variables measured by selected weather station

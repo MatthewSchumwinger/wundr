@@ -34,6 +34,7 @@ data(Rio_metadata)
 Rio_centre_metadata <- PWS_meta_subset(Rio_metadata,-43.185368,-22.856878, 10)
 # and plot it
 data(Rio_basemap)
+require(ggmap);require(ggplot2);
 ggmap(Rio_basemap)+geom_point(data=Rio_centre_metadata$PWSmetadata,col='red')
 
 }

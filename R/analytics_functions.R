@@ -72,7 +72,7 @@ history_zoo <- function(hist.data,id,variables){
 #'
 #' @importFrom zoo zoo zooreg
 #'
-#' @param hist_data data frame of historical weather data (e.g. as created by 'PWS_history')
+#' @param hist.data data frame of historical weather data (e.g. as created by 'PWS_history')
 #' @param id Personal Weather Station ID
 #' @param variables Variable(s) to be selected as character (can be a vector, see example below)
 #' @return Time series object of type 'ts' with selected variables measured by selected weather station
@@ -99,7 +99,7 @@ history_ts <- function(hist.data,id,variables){
 #' @importFrom zoo zoo zooreg
 #' @importFrom forecast forecast
 #'
-#' @param hist_data data frame of historical weather data (e.g. as created by 'PWS_history')
+#' @param history.tszoo Time series object from history_ts or history_zoo
 #' @param find.frequency Boolean. Whether to find frequency automatically (default is TURE).
 #' @param ... Additional parameters to be passed to 'forecast'
 #' @return Time series object of type 'ts' with selected variables measured by selected weather station
@@ -208,6 +208,7 @@ create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
 #' data <- Rio_conditions
 #' data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 #' model<-GP_fit(data.geo)
+#' require(ggplot2)
 #' ggplot(data = model, aes(x=lon, y=lat)) +
 #'  geom_tile(aes(fill = value),colour = "white") +
 #'  scale_fill_gradient(low = "yellow", high = "red") +

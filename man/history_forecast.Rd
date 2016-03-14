@@ -7,11 +7,11 @@
 history_forecast(history.tszoo, find.frequency = TRUE, ...)
 }
 \arguments{
+\item{history.tszoo}{Time series object from history_ts or history_zoo}
+
 \item{find.frequency}{Boolean. Whether to find frequency automatically (default is TURE).}
 
 \item{...}{Additional parameters to be passed to 'forecast'}
-
-\item{hist_data}{data frame of historical weather data (e.g. as created by 'PWS_history')}
 }
 \value{
 Time series object of type 'ts' with selected variables measured by selected weather station
