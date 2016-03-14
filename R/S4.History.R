@@ -55,8 +55,8 @@ setClass(
             standard.Dev.Dew.Point="data.frame",
 
             history="data.frame",
-            spatialPtDF="SpatialPointsDataFrame",
-            spatialPt="SpatialPoints",
+            spatialPtDF="ANY",
+            spatialPt="ANY",
             call = "list"
   )
 )
@@ -167,6 +167,17 @@ setMethod("initialize",
 #' head(PWS.Hist.Chicago)
 #' @author wundr team
 #'
+"PWS.Hist.Chicago"
+#'
+#' Chicago 10-day Forecast
+#'
+#' This contains at 10-day Forecast over all the PWS using wundr's kriging method
+
+#' @examples
+#' data(Chicago.forecast.10day)
+#' @author wundr team
+#'
+"Chicago.forecast.10day"
 ##
 ## End jamarin code
 ##

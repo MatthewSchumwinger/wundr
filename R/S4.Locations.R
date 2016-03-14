@@ -20,7 +20,7 @@
 #' @export
 #' @return A vector of a (longitude,latitude) pair in numeric format
 #' @examples
-#' j.geocode("Santa Monica, CA")
+#' \dontrun{j.geocode("Santa Monica, CA")}
 #'
 j.geocode <- function(address){
   u <- sprintf("http://maps.googleapis.com/maps/api/geocode/json?address=%s",
@@ -97,6 +97,8 @@ setMethod("initialize",
 #' data(PWS.Loc.Chicago)
 #' head(PWS.Loc.Chicago)
 #' @author wundr team
+#'
+"PWS.Loc.Chicago"
 #'
 #' ##
 ## End jamarin code

@@ -73,9 +73,9 @@ setMethod("initialize",
 #'
 #' @examples
 #' data(PWS.Conds.Chicago)
-#' head(PWS.Conds.Chicago)
 #' @author wundr team
 #'
+"PWS.Conds.Chicago"
 ##
 ## End jamarin code
 ##

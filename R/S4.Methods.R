@@ -1,4 +1,6 @@
 #' @include S4.Locations.R
+#' @import methods
+#'
 setMethod("plot", signature(x=c("PWS.Locations")),
           function(x,y,...) {
             webmap_pnts(x)

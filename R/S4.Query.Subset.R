@@ -114,6 +114,7 @@ PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_
 #' head(PWS.Loca.Sub.Chicago.rda)
 #' @author wundr team
 #'
+"PWS.Loc.Sub.Chicago"
 ##
 ## End jamarin code
 ##
