@@ -1,0 +1,48 @@
+---
+title: "wundr Package Summary"
+author: "J.A. Marin, Matthew Schumwinger, Stefan Zohren"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{wundr Package Summary}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+**[note to team: this summary should prove that we have accomplsihed our 7 objectives outlined in the proposal. Below is a minimum structure with a section for each objective.]**
+
+Package **wundr** provides API interfaces to Personal Weather Station (PWS) data maintained by Weather Underground (wunderground.com). Tables of PWS
+locations and metadata for user specified geographic areas are constructed.
+Robust retrieval of current and historical weather condition data for
+selected PWS. Computational tools for spatial analysis, including Kriging
+(Gaussian processes) for interpolation, as well as prediction of missing
+data and forecasts. Visualization of microclimate data methods including
+contextual static maps, interactive web maps, and animated plots. Facility
+to export data to CartoDB's spatial database hosting and webmap publishing
+platform.
+
+Package **wundr** has the following functionalities:
+
+- Creation of S4-Class Table describing a given region's PWS
+- Subsettable tables based on #1
+- Web retrieval of data and storage in memory
+- Visualization of microclimate data
+- Computational tools for spatial analysis
+- Web interface with interactive Visuals
+- Integration with other data providers and services
+
+## Creation of S4-Class Table describing a given region's PWS 
+
+## Subsettable tables based on #1
+
+## Web retrieval of data and storage in memory
+
+## Visualization of microclimate data
+
+## Computational tools for spatial analysis
+
+## Web interface with interactive Visuals
+
+## Integration with other data providers and services 
+
+## Creation of S4-Class Table describing a given region's PWS 

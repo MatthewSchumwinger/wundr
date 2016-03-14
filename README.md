@@ -4,9 +4,9 @@ Final project R package for Stats 290
 ## Task List
  who | by when | what
 - [ ] team | 3-14 | compile tar of "safety" package
-- [ ] team | 3-13 | Your package must pass R CMD check --as-cran without errors. It should not produce any warnings or notes either!
-- [ ] team | 3-13 | Your package must have test scripts in the tests directory to demonstrate that the main computations in the package do work. We will discuss testing in later classes via testhat.
-- [ ] team | 3-13 | package documentation for all functions, clases, data.
+- [ ] team | 3-14 | Your package must pass R CMD check --as-cran without errors. It should not produce any warnings or notes either!
+- [ ] team | 3-14 | Your package must have test scripts in the tests directory to demonstrate that the main computations in the package do work. We will discuss testing in later classes via testhat.
+- [ ] team | 3-14 | package documentation for all functions, clases, data.
 - [ ] team | 3-14 | 4-page summary.Rmd vignette
 - [ ] team | 3-14 | Any code used must also be placed in the examples package folder for checking.
 - [ ] team | 3-14 | Your code must adhere to R coding style. See Wickham's Advanced R book and Google Style for some suggestions. I use camelCase for naming, except for well-known conventions like is.x. Transplanting loops from other languages is sure to earn demerits.
@@ -20,7 +20,7 @@ Final project R package for Stats 290
 - [x] J    | 3-10 | (something related to the %over% function) included as validator in PWS.Subset.S4
 - [ ] J    | .... | global.R file for package (global variable for Conditions)
 - [x] J    | 3-11 | set key latitude / longitude validation methods for S4 Classes (all of them)
-- [ ] M    | .... | feature for user to graphically select point for search radius
+- [ ] M    | 3-14 | feature for user to graphically select point for search radius
 - [x] M    | 3-9 | wire plotting/mapping and cdb functions to new S4object
 - [ ] M    | 3-10 | part 6 - improve web map pop-ups
 - [ ] M    | 3-10 | create custom ggplot/ggmap mapping theme(s)
