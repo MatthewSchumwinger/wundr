@@ -71,6 +71,7 @@ history_zoo <- function(hist.data,id,variables){
 #' given station and given variable(s) and returns a time series object of class 'ts'.
 #'
 #' @importFrom zoo zoo zooreg
+#' @importFrom stats as.ts
 #'
 #' @param hist.data data frame of historical weather data (e.g. as created by 'PWS_history')
 #' @param id Personal Weather Station ID
@@ -84,7 +85,7 @@ history_zoo <- function(hist.data,id,variables){
 #'
 history_ts <- function(hist.data,id,variables){
   hist.data.zoo <- history_zoo(hist.data,id,variables)
-  as.ts(zoo::zooreg(hist.data.zoo))
+  stats::as.ts(zoo::zooreg(hist.data.zoo))
 }
 
 
@@ -98,6 +99,7 @@ history_ts <- function(hist.data,id,variables){
 #'
 #' @importFrom zoo zoo zooreg
 #' @importFrom forecast forecast
+#' @importFrom stats as.ts
 #'
 #' @param history.tszoo Time series object from history_ts or history_zoo
 #' @param find.frequency Boolean. Whether to find frequency automatically (default is TURE).
@@ -114,7 +116,7 @@ history_forecast <- function(history.tszoo, find.frequency=TRUE,... ){
   if((class(history.tszoo) != "zoo") & (class(history.tszoo) != "ts"))
     stop("Argument must be a time series of class 'zoo' or 'ts'.")
   if(class(history.tszoo) == "zoo")
-    history.tszoo <- as.ts(zoo::zooreg(history.tszoo))
+    history.tszoo <- stats::as.ts(zoo::zooreg(history.tszoo))
   if(!is.null(dim(history.tszoo))) stop("Forecasting is only possible for univariate time series.")
   forecast::forecast(history.tszoo,find.frequency=find.frequency,...)
 }
