@@ -3,11 +3,14 @@ Final project R package for Stats 290
 
 ## Task List
  who | by when | what
-
-- [ ] team | 3-14 | final exportable package passing all checks
+- [ ] team | 3-14 | compile tar of "safety" package
+- [ ] team | 3-13 | Your package must pass R CMD check --as-cran without errors. It should not produce any warnings or notes either!
+- [ ] team | 3-13 | Your package must have test scripts in the tests directory to demonstrate that the main computations in the package do work. We will discuss testing in later classes via testhat.
+- [ ] team | 3-13 | package documentation for all functions, clases, data.
+- [ ] team | 3-14 | 4-page summary.Rmd vignette
+- [ ] team | 3-14 | Any code used must also be placed in the examples package folder for checking.
+- [ ] team | 3-14 | Your code must adhere to R coding style. See Wickham's Advanced R book and Google Style for some suggestions. I use camelCase for naming, except for well-known conventions like is.x. Transplanting loops from other languages is sure to earn demerits.
 - [x] team | 3-10 | consolidate all code into draft package
-- [ ] team | .... | package documentation
-- [ ] team | .... | package vignettes
 - [ ] S    | 3-11 | part 5 - Computational Facility based on Interpolations, etc.
 - [x] S    | 3-10 | part 1 - optimized api functions
 - [x] J    | 3-09 | Properly functional PWS.Conditions S4

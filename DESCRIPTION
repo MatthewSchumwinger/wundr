@@ -37,3 +37,12 @@ Suggests:
     knitr,
     testthat
 VignetteBuilder: knitr
+Imports: sp,
+    raster,
+    spatstat,
+    jsonlite,
+    geosphere,
+    ggmap,
+    leaflet,
+    RSQLite,
+    ggplot2
