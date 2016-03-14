@@ -10,14 +10,12 @@
 # + o history_zoo                                                                                   +
 # + o history_ts                                                                                    +
 # + o history_forecast                                                                              +
-# + o ...                                                                                           +
 # +                                                                                                 +
 # + The functions for spatial analysis include:                                                     +
 # +                                                                                                 +
-# + o ...                                                                           +
-# + o ...                                                                                +
-# + o ...                                                                              +
-# + o ...                                                                                +
+# + o create_geo_cond                                                                               +
+# + o create_grid                                                                                   +
+# + o GP_fit                                                                                        +
 # +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
