@@ -54,5 +54,4 @@ Imports:
     zoo,
     httr,
     lubridate,
-    methods,
-    rgdal
+    methods
