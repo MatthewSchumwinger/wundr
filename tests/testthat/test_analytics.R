@@ -1,16 +1,30 @@
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +             Test script for functions in 'analytics_functions.R' of wundr package               +
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 
 library(wundr)
+
 context("Analytics")
 
+# Data to be used in test for temporal analysis functions:
 data(Rio_history)
+# Data to be used in test for spatial analysis functions:
+data(Rio_conditions)
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +                          TESTS FOR TEMPORAL ANALYSIS FUNCTIONS                                  +
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 test_that("history_zoo",{
   #data(Rio_history)
   # Check that the time series has the correct length
   expect_equal(length(history_zoo(Rio_history,"IRIODEJA53","tempm")) ,nrow(subset(Rio_history, id=="IRIODEJA53")))
-  # Check that the time series has the correct number of columns
+  # Check that the time series has the correct number of columns (variables)
   expect_equal(ncol(history_zoo(Rio_history,"IRIODEJA53",c("hum","tempm"))) , 2)
-  # Check that we get an error when selecting undefined columns
+  # Check that we get an error when selecting undefined columns (variables)
   expect_error(history_zoo(Rio_history,"IRIODEJA53","wrongVariable"),"undefined columns selected")
   expect_error(history_zoo(Rio_history,"WrongId","wrongVariable"),"undefined columns selected")
   # Check that you get the correct error when the time series is empty
@@ -22,9 +36,9 @@ test_that("history_ts",{
   #data(Rio_history)
   # Check that the time series has the correct length
   expect_equal(length(history_ts(Rio_history,"IRIODEJA53",c("tempm"))) ,nrow(subset(Rio_history, id=="IRIODEJA53")))
-  # Check that the time series has the correct number of columns
+  # Check that the time series has the correct number of columns  (variables)
   expect_equal(ncol(history_ts(Rio_history,"IRIODEJA53",c("hum","tempm"))) , 2)
-  # Check that we get an error when selecting undefined columns
+  # Check that we get an error when selecting undefined columns  (variables)
   expect_error(history_ts(Rio_history,"IRIODEJA53","wrongVariable"),"undefined columns selected")
   expect_error(history_ts(Rio_history,"WrongId","wrongVariable"),"undefined columns selected")
   # Check that you get the correct error when the time series is empty
@@ -41,6 +55,19 @@ test_that("history_forecast",{
   # Check that we get an error if time series is not univariate
   expect_error(history_forecast(history_ts(Rio_history,"IRIODEJA53",c("hum","tempm"))),"Forecasting is only possible for univariate time series.")
 })
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +                         TESTS FOR SPATIAL ANALYSIS FUNCTIONS                                    +
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+test_that("create_geo_cond",{
+  #data(Rio_conditions)
+  # Check that we get an error when selecting undefined columns (variables)
+  expect_error(create_geo_cond(Rio_conditions,"wrongVariable"),"undefined columns selected")
+})
+
 
 
 
