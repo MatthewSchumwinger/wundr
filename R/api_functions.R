@@ -1,7 +1,7 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# + This document contain the low level API functions which downlaod data from Weather Undergroound +
-# + Those API functions form Part 1 of the projects and are used in later parts of the project by   +
-# + by eaither calling them directly or incorporating parts of them. While the user is supposed to  +
+# + This document contains the low level API functions which downlaod data from Wheather Underground+
+# + Those API functions form Part 1 of the projects and are used in later parts of the project      +
+# + by either calling them directly or incorporating parts of them. While the user is supposed to   +
 # + interact with those functions through the S4 class, we have sufficiently documented the func-   +
 # + tions, making it possible to use them indepentently.                                            +
 # +                                                                                                 +
@@ -138,6 +138,8 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
 #' @importFrom jsonlite fromJSON
 #' @importFrom geosphere destPoint
 #' @importFrom sp spDistsN1
+#' @importFrom ggmap ggmap
+#' @importFrom ggplot2 geom_point
 #'
 #' @param longitude Standard Longitude in range -/+180
 #' @param latitude Standard latitude in range -/+90
@@ -152,8 +154,9 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
 #' # The following command downloads the meta data for all stations in the Rio de Janeiro region:
 #' # Rio_metadata <- PWS_meta_query(-43.185368,-22.856878, 50, your.key)
 #' # if you run the above code with your key the output should be the same as provided here:
+#' data(Rio_basemap)
 #' data(Rio_metadata)
-#' head(Rio_metadata$PWSmetadata)
+#' ggmap(Rio_basemap)+geom_point(data=Rio_metadata$PWSmetadata,col='red')
 #'
 PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
                             km_miles = TRUE, stdAPI = TRUE){
@@ -256,6 +259,8 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
 #' subsets the meta data to only cotain stations inside the new circle. The output is the subsetted meta data.
 #'
 #' @importFrom sp spDistsN1
+#' @importFrom ggmap ggmap
+#' @importFrom ggplot2 geom_point
 #'
 #' @param PWSmetadata Meta data object of weather stations (output of 'PWS_meta_query')
 #' @param longitude Standard Longitude in range -/+180
@@ -271,7 +276,9 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
 #' data(Rio_metadata)
 #' # Now we subset:
 #' Rio_centre_metadata <- PWS_meta_subset(Rio_metadata,-43.185368,-22.856878, 10)
-#' head(Rio_centre_metadata$PWSmetadata)
+#' # and plot it
+#' data(Rio_basemap)
+#' ggmap(Rio_basemap)+geom_point(data=Rio_centre_metadata$PWSmetadata,col='red')
 #'
 PWS_meta_subset  <- function(PWSmetadata,longitude, latitude, radius,
                              km_miles = TRUE){
@@ -421,6 +428,8 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
 #' # if you run the above code with your key the output should be the same as provided here:
 #' data(Rio_history)
 #' head(Rio_history)
+#' hist.zoo <- history_zoo(Rio_history,"IRIODEJA53",c("hum","tempm"))
+#' plot(hist.zoo,col='red', main = "Humidity and Temperatur")
 #'
 PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
                          stdAPI = TRUE){
@@ -494,7 +503,7 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 #' Object of tyoe ggmapraster containing the base map of Rio de Janiero. For visualisation
 #' of example data sets. The base map can be plotted using 'ggmap'
 #'
-#' @importFrom sp spDistsN1
+#' @importFrom ggmap ggmap
 #' @examples
 #' data(Rio_basemap)
 #' require(ggmap)
