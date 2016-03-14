@@ -147,8 +147,8 @@ history_forecast <- function(history.tszoo, find.frequency=TRUE,... ){
 #' data.geo <- create_geo_cond(Rio_conditions,"temp_c")
 #'
 create_geo_cond <- function(data.conditions,variable){
-  coord.col <- c(which( colnames(data)=="longitude" ),which( colnames(data)=="latitude" ))
-  geoR::as.geodata(data.conditions, coords.col=coord.col, data.col =  which( colnames(data)==variable ))
+  coord.col <- c(which( colnames(data.conditions)=="longitude" ),which( colnames(data.conditions)=="latitude" ))
+  geoR::as.geodata(data.conditions, coords.col=coord.col, data.col =  which( colnames(data.conditions)==variable ))
 }
 
 
