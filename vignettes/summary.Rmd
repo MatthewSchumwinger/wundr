@@ -34,6 +34,7 @@ Package **wundr** has the following functionalities:
 ## Creation of S4-Class Table describing a given region's PWS 
 
 ## Subsettable tables based on #1
+[John, we can add my new draw_subset method to your other work on this]
 
 ## Web retrieval of data and storage in memory
 
@@ -42,7 +43,8 @@ Package **wundr** has the following functionalities:
 ## Computational tools for spatial analysis
 
 ## Web interface with interactive Visuals
+[Coming soon from Matt]
 
 ## Integration with other data providers and services 
+[Coming soon from Matt]
 
-## Creation of S4-Class Table describing a given region's PWS 
