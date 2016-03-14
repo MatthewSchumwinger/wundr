@@ -183,7 +183,7 @@ create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
     min.lat <- min(data.geo$coords[,2])
     max.lat <- max(data.geo$coords[,2])
   } else {
-    min.lon = grid.lim[1];
+    min.lon = grid.lim[1]
     max.lon = grid.lim[2]
     min.lat = grid.lim[3]
     max.lat = grid.lim[4]
