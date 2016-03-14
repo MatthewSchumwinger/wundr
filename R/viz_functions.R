@@ -172,7 +172,7 @@ webmap_raster <- function(PWS.class){
   ppp <- spatstat::ppp(spdf$lon, spdf$lat, range(spdf$lon), range(spdf$lat))
   D <- raster::density(ppp)
   D <- as(D, "RasterLayer")
-  raster::crs(D) <- sp::CRS("+proj=longlat +datum=WGS84") # projection for web mapping
+  D@crs <- sp::CRS("+proj=longlat +datum=WGS84") # projection for web mapping
   pal <- leaflet::colorNumeric(c("transparent", "#41B6C4", "#FFFFCC"), raster::values(D),
                       na.color = "transparent", alpha=TRUE)
   d = leaflet::leaflet(spdf)  %>%

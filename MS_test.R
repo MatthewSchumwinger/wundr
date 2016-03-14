@@ -7,8 +7,11 @@ matt.cdb.account <- "biglakedata"
 # dm_cond <- PWS.Conditions("Des Moines, IA", radius=50, user.key=matt.wu.key)
 # devtools::use_data(dm_cond, overwrite = T)
 data("dm_cond")
+data("PWS.Conds.Chicago")
 
-PWS.Conds.Chicago <- readRDS("data/PWS.Conds.Chicago.rds")
+# PWS.Conds.Chicago <- readRDS("data/PWS.Conds.Chicago.rds")
+pizza2 <- PWS.Conds.Chicago
+r2cdb(matt.cdb.key, matt.cdb.account, pizza2)
 
 # simple plots
 simple_pnts(PWS.Conds.Chicago, "Hello World!")
@@ -26,7 +29,7 @@ webmap_raster(PWS.Conds.Chicago)
 cdbTable <- get_cdb_table("condTest", matt.cdb.account)
 head(cdbTable$rows)
 
-r2cdb(matt.cdb.key, matt.cdb.account, PWS.Conds.Chicago)
+
 
 
 # low-level plots for Stefan computation

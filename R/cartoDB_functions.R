@@ -125,10 +125,11 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
       # values <- paste("'foo'", "'bar'", sep = ",") # strings need to be quoted, numeric not so
       values <- paste(df[i, ], collapse = ",")
       coord <- paste(", ST_SetSRID(ST_Point(" , df$longitude[i], ", ", df$latitude[i], "),4326))")
+      print(coord)
       sql_insert <- paste0("INSERT INTO ", tableName, " (", columns, ",the_geom)",
                            " VALUES (", values, coord)
-      jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
-                                fillblanks(sql_insert),"&api_key=",user_key))
+#       jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
+#                                 fillblanks(sql_insert),"&api_key=",user_key))
       cat(".")
     }
     cat(" Export complete.")
@@ -137,9 +138,11 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
     print(paste0("Direct link to your new map --> ",
                  "https://", cdb_account, cdb_url_view, tolower(tableName), "/map "))
   }
-  makeCdbTable(user_key, cdb_account, df)
+  # makeCdbTable(user_key, cdb_account, df)
   insertCdbTable(user_key, cdb_account, df)
 }
+# r2cdb(matt.cdb.key, matt.cdb.account, pizza2)
+
 
 ## ---------- TODO -----------------------
 # consider using dplyr::build_sql and/or httr::build_url
