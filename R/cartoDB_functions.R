@@ -25,7 +25,10 @@ fillblanks <- function(x){
 
 #' get_cdb_table
 #'
-#' ... yada yada
+#' Provides a simple facilty to the CartoDB SQL API
+#' (\url{http://docs.cartodb.com/cartodb-platform/sql-api/}) to import SQL
+#' spatial tabledata from CartoDB into an R data frame. NOTE: you will need to
+#' use your account name and Authorization Key.
 #'
 #' @importFrom jsonlite fromJSON
 #' @param table_name A PostGres-based table from CartoDB.
@@ -45,7 +48,11 @@ get_cdb_table <- function(table_name, cdb_account) {
 
 #' r2cdb
 #'
-#' ... yada yada
+#' Povides facilities to export Weather Underground PWS data to CartoDB's
+#' spatial database hosting and webmap publishing platform through its API
+#' (\url{http://docs.cartodb.com/cartodb-platform/sql-api/}). NOTE: you will need
+#' have an account and Authorization Key with CartoDB. You can create a free
+#' account and get your key at \url{https://cartodb.com/signup}.
 #'
 #' @importFrom jsonlite fromJSON
 #' @importFrom RSQLite SQLite dbDataType

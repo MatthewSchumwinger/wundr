@@ -15,7 +15,10 @@ get_cdb_table(table_name, cdb_account)
 A data frame.
 }
 \description{
-... yada yada
+Provides a simple facilty to the CartoDB SQL API
+(\url{http://docs.cartodb.com/cartodb-platform/sql-api/}) to import SQL
+spatial tabledata from CartoDB into an R data frame. NOTE: you will need to
+use your account name and Authorization Key.
 }
 \examples{
 # test CartoDB connection by retrieving existing table ...

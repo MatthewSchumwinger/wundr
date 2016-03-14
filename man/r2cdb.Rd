@@ -19,7 +19,11 @@ NULL. Plus, printed information on status of CartoDB API and URL of
   exported map data on CartoDB service.
 }
 \description{
-... yada yada
+Povides facilities to export Weather Underground PWS data to CartoDB's
+spatial database hosting and webmap publishing platform through its API
+(\url{http://docs.cartodb.com/cartodb-platform/sql-api/}). NOTE: you will need
+have an account and Authorization Key with CartoDB. You can create a free
+account and get your key at \url{https://cartodb.com/signup}.
 }
 \examples{
 # export PWS locations and conditions data to CartoDB
