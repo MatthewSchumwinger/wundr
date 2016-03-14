@@ -23,6 +23,8 @@ gg_points(PWS.Conds.Chicago, basemap)
 
 # interactive web maps
 webmap_pnts(PWS.Conds.Chicago)
+
+data("PWS.Conds.Chicago")
 webmap_raster(PWS.Conds.Chicago)
 
 # CartoDB
