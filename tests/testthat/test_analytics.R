@@ -5,16 +5,42 @@ context("Analytics")
 data(Rio_history)
 
 test_that("history_zoo",{
-  data(Rio_history)
+  #data(Rio_history)
+  # Check that the time series has the correct length
   expect_equal(length(history_zoo(Rio_history,"IRIODEJA53","tempm")) ,nrow(subset(Rio_history, id=="IRIODEJA53")))
+  # Check that the time series has the correct number of columns
   expect_equal(ncol(history_zoo(Rio_history,"IRIODEJA53",c("hum","tempm"))) , 2)
+  # Check that we get an error when selecting undefined columns
   expect_error(history_zoo(Rio_history,"IRIODEJA53","wrongVariable"),"undefined columns selected")
+  expect_error(history_zoo(Rio_history,"WrongId","wrongVariable"),"undefined columns selected")
+  # Check that you get the correct error when the time series is empty
+  expect_error(history_zoo(Rio_history,"WrongId","tempm"),"Time series is empty.")
 })
 
 
 test_that("history_ts",{
-  data(Rio_history)
+  #data(Rio_history)
+  # Check that the time series has the correct length
   expect_equal(length(history_ts(Rio_history,"IRIODEJA53",c("tempm"))) ,nrow(subset(Rio_history, id=="IRIODEJA53")))
+  # Check that the time series has the correct number of columns
   expect_equal(ncol(history_ts(Rio_history,"IRIODEJA53",c("hum","tempm"))) , 2)
+  # Check that we get an error when selecting undefined columns
   expect_error(history_ts(Rio_history,"IRIODEJA53","wrongVariable"),"undefined columns selected")
+  expect_error(history_ts(Rio_history,"WrongId","wrongVariable"),"undefined columns selected")
+  # Check that you get the correct error when the time series is empty
+  expect_error(history_ts(Rio_history,"WrongId","tempm"),"Time series is empty.")
 })
+
+
+test_that("history_forecast",{
+  #data(Rio_history)
+  # Check that we get a meaningfull fit with correct dimension
+  expect_equal(length(history_forecast(history_ts(Rio_history,"IRIODEJA53","hum"))$fitted) ,length(history_ts(Rio_history,"IRIODEJA53","hum")))
+  # Check that we get an error if the argument is not a time series
+  expect_error(history_forecast(Rio_history) ,"Argument must be a time series of class 'zoo' or 'ts'.")
+  # Check that we get an error if time series is not univariate
+  expect_error(history_forecast(history_ts(Rio_history,"IRIODEJA53",c("hum","tempm"))),"Forecasting is only possible for univariate time series.")
+})
+
+
+

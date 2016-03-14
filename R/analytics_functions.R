@@ -55,6 +55,7 @@ history_zoo <- function(hist.data,id,variables){
   hist.data$time <- as.POSIXct(strptime(paste(hist.data$year,hist.data$mon,hist.data$mday,hist.data$hour,hist.data$min,sep = "-"),
                     "%Y-%m-%d-%H-%M"))
   hist.data.zoo <- zoo::zoo(hist.data[,variables], order.by=hist.data$time)
+  if(length(hist.data.zoo)==0) stop("Time series is empty.")
   hist.data.zoo
 }
 
@@ -113,9 +114,9 @@ history_ts <- function(hist.data,id,variables){
 #' plot(hist.forecast, main = 'Forecast', xlab='Time (days)', ylab='Humidity (%)')
 #'
 history_forecast <- function(history.tszoo, find.frequency=TRUE,... ){
-  if((class(history.tszoo) != "zoo") & (class(history.tszoo) != "ts"))
+  if(!("zoo" %in% class(history.tszoo)) & !("ts" %in% class(history.tszoo) ))
     stop("Argument must be a time series of class 'zoo' or 'ts'.")
-  if(class(history.tszoo) == "zoo")
+  if("zoo" %in% class(history.tszoo) )
     history.tszoo <- stats::as.ts(zoo::zooreg(history.tszoo))
   if(!is.null(dim(history.tszoo))) stop("Forecasting is only possible for univariate time series.")
   forecast::forecast(history.tszoo,find.frequency=find.frequency,...)
