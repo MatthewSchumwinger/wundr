@@ -48,4 +48,6 @@ Imports:
     ggmap,
     leaflet,
     RSQLite,
-    ggplot2
+    ggplot2,
+    forecast,
+    geoR
