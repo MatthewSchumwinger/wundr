@@ -10,6 +10,8 @@ simple_pnts(PWS.class, title = NULL, add = FALSE, ...)
 \item{PWS.class}{A PWS.class points S4 object.}
 
 \item{title}{A title for you plot. Default = NULL.}
+
+\item{...}{...}
 }
 \description{
 A simple 2D plot of spatial points.

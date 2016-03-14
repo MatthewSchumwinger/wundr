@@ -38,7 +38,9 @@ toSPntsDF <- function(df){
 #' A simple 2D plot of spatial points.
 #'
 #' @param PWS.class A PWS.class points S4 object.
-#' @param title A title for you plot. Default = NULL.
+#' @param title character string. A title for you plot. Default = NULL.
+#' @param add logical. If TRUE, add to already existing plot.
+#' @param ... ...
 #' @return NULL
 #' @export
 #' @examples
@@ -56,6 +58,7 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' @importFrom raster density contour
 #' @param PWS.class A PWS.class points S4 object.
 #' @param title A title for you plot. Default = NULL.
+#' @param ... ...
 #' @param add Whether to add this "on top" of previous plot. Default = NULL.
 #' @return A RasterLayer.
 #' @export
@@ -104,6 +107,8 @@ set_basemap <- function(PWS.class, zoom = 9) {
 #' @importFrom ggplot2 geom_point aes
 #' @param PWS.class A PWS.class points S4 object.
 #' @param basemap A contextual basemap. See set_basemap.
+#' @param title A character string title for the map. Default = NULL.
+#' @param ... ...
 #' @return NULL
 #' @export
 #' @examples

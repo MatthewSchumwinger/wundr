@@ -10,6 +10,10 @@ gg_points(PWS.class, basemap = basemap, title = NULL, ...)
 \item{PWS.class}{A PWS.class points S4 object.}
 
 \item{basemap}{A contextual basemap. See set_basemap.}
+
+\item{title}{A character string title for the map. Default = NULL.}
+
+\item{...}{...}
 }
 \description{
 Plots PWS locations on a contextual basemap.

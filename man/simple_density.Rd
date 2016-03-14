@@ -12,6 +12,8 @@ simple_density(PWS.class, title = NULL, add = FALSE, ...)
 \item{title}{A title for you plot. Default = NULL.}
 
 \item{add}{Whether to add this "on top" of previous plot. Default = NULL.}
+
+\item{...}{...}
 }
 \value{
 A RasterLayer.
