@@ -34,6 +34,8 @@ conditions history for all stations in the meta data. Note that 1 API per statio
 # if you run the above code with your key the output should be the same as provided here:
 data(Rio_history)
 head(Rio_history)
+hist.zoo <- history_zoo(Rio_history,"IRIODEJA53",c("hum","tempm"))
+plot(hist.zoo,col='red', main = "Humidity and Temperatur")
 
 }
 

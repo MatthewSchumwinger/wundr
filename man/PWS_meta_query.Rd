@@ -40,8 +40,9 @@ API calls are denoted by ','
 # The following command downloads the meta data for all stations in the Rio de Janeiro region:
 # Rio_metadata <- PWS_meta_query(-43.185368,-22.856878, 50, your.key)
 # if you run the above code with your key the output should be the same as provided here:
+data(Rio_basemap)
 data(Rio_metadata)
-head(Rio_metadata$PWSmetadata)
+ggmap(Rio_basemap)+geom_point(data=Rio_metadata$PWSmetadata,col='red')
 
 }
 

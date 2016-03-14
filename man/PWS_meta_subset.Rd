@@ -32,7 +32,9 @@ subsets the meta data to only cotain stations inside the new circle. The output 
 data(Rio_metadata)
 # Now we subset:
 Rio_centre_metadata <- PWS_meta_subset(Rio_metadata,-43.185368,-22.856878, 10)
-head(Rio_centre_metadata$PWSmetadata)
+# and plot it
+data(Rio_basemap)
+ggmap(Rio_basemap)+geom_point(data=Rio_centre_metadata$PWSmetadata,col='red')
 
 }
 

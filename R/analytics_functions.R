@@ -154,7 +154,7 @@ create_geo_cond <- function(data.conditions,variable){
 }
 
 
-#' grid
+#' create_grid
 #'
 #' Creates a grid of points in a rectangular over a sets of points coordinates from a geodata object
 #' or any other object with coordinates saves in an attribute called 'coords'
@@ -169,10 +169,10 @@ create_geo_cond <- function(data.conditions,variable){
 #' @examples
 #' data <- Rio_conditions
 #' data.geo <- create_geo_cond(Rio_conditions,"temp_c")
-#' grid.positions <- grid(data.geo)
-#' grid.positions <- grid(data.geo, grid.lim= c(-43.6,-42.8,-23.2,-22.6) )
+#' grid.positions <- create_grid(data.geo)
+#' grid.positions <- create_grid(data.geo, grid.lim= c(-43.6,-42.8,-23.2,-22.6) )
 #'
-grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
+create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
   if(length(grid.lim)!=4 | typeof(grid.lim)!="double"){
     min.lon <- min(data.geo$coords[,1])
     max.lon <- max(data.geo$coords[,1])
@@ -203,7 +203,7 @@ grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
 #' @importFrom ggplot2 ggplot geom_raster geom_point scale_colour_gradient
 #'
 #' @param data.geo geodata object with coordinates and variable
-#' @param ... Additional parameters to be passed to grid, i.e. for changing the grid limitations
+#' @param ... Additional parameters to be passed to create_grid, i.e. for changing the grid limitations
 #' @return A Gaussian process fit of the variable on all points on a rectangular grid spanning the region
 #' @export
 #' @examples
@@ -216,7 +216,7 @@ grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
 #'  geom_point(data=Rio_metadata$PWSmetadata,col='black')
 #'
 GP_fit <- function(data.geo,...){
-  grid.positions <- grid(data.geo,...)
+  grid.positions <- create_grid(data.geo,...)
   fit <- geoR::ksline(data.geo, cov.model="exp",cov.pars=c(10,3), nugget=0,locations=grid.positions)
   grid.values <- as.data.frame(cbind(grid.positions,fit$predict))
   colnames(grid.values) <- c(colnames(grid.positions),"value")
