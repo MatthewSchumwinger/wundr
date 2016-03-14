@@ -139,7 +139,7 @@ createCentroidTable <- function(longitude,latitude,radius,max_radius_km) {
 #' @importFrom geosphere destPoint
 #' @importFrom sp spDistsN1
 #' @importFrom ggmap ggmap
-#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 ggplot geom_point
 #'
 #' @param longitude Standard Longitude in range -/+180
 #' @param latitude Standard latitude in range -/+90
@@ -260,7 +260,7 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
 #'
 #' @importFrom sp spDistsN1
 #' @importFrom ggmap ggmap
-#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 ggplot geom_point
 #'
 #' @param PWSmetadata Meta data object of weather stations (output of 'PWS_meta_query')
 #' @param longitude Standard Longitude in range -/+180
@@ -412,6 +412,7 @@ PWS_conditions  <- function(PWSmetadata,user_key ,
 #'
 #'
 #' @importFrom jsonlite fromJSON
+#' @importFrom zoo zoo
 #'
 #' @param PWSmetadata Meta data object of weather stations (output of 'PWS_meta_query')
 #' @param begin_YYYYMMDD Beginning date in format "YYYYMMDD"

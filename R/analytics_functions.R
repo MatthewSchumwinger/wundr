@@ -70,7 +70,7 @@ history_zoo <- function(hist.data,id,variables){
 #' weather data e.g. as created by 'PWS_history' or corresponding S4 function. It selects the data for a
 #' given station and given variable(s) and returns a time series object of class 'ts'.
 #'
-#' @importFrom zoo zoo
+#' @importFrom zoo zoo zooreg
 #'
 #' @param hist_data data frame of historical weather data (e.g. as created by 'PWS_history')
 #' @param id Personal Weather Station ID
@@ -96,7 +96,7 @@ history_ts <- function(hist.data,id,variables){
 #'
 #' Forecasts of time series created from 'history_zoo' or 'history_ts'. Note that the time series must be univariate.
 #'
-#' @importFrom zoo zoo
+#' @importFrom zoo zoo zooreg
 #' @importFrom forecast forecast
 #'
 #' @param hist_data data frame of historical weather data (e.g. as created by 'PWS_history')
