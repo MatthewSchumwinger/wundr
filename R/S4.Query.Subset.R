@@ -29,8 +29,22 @@ setClass(
   slots = c(spatialPtDF="ANY", spatialPt="ANY", call="list")
 )
 
+#' PWS.Query.Subset constructor function
+#' @return S4 PWS.Query.Subset class
+#' @param ... Additional Details Specified by User
 PWS.Query.Subset <- function(...) return(new(Class="PWS.Query.Subset",...))
 
+#' S4 PWS.Query.Subset Initializer function
+#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp SpatialPoints
+#' @export
+#' @param .Object S4 initializer object
+#' @param PWS.Locations A PWS.Locations S4 Class Object
+#' @param longitude User's Longitude of Choice
+#' @param latitude User's Latitude of Choice
+#' @param radius desired within confines of larger search
+#' @param ... other user input
+#'
 setMethod("initialize",
           "PWS.Query.Subset",
 
@@ -111,10 +125,10 @@ PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_
 #'
 #' @examples
 #' data(PWS.Loc.Sub.Chicago.rda)
-#' head(PWS.Loca.Sub.Chicago.rda)
 #' @author wundr team
 #'
 "PWS.Loc.Sub.Chicago"
+
 ##
 ## End jamarin code
 ##
