@@ -1,6 +1,18 @@
-#require(lubridate)
+##
+## Begin jamarin code
+##
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# The PWS.History S4 class organizes history information for user searches
+# and spontaneously provides a variety of information about the PWS stations including
+# average, variance, and standard deviation data about Temperature, Humidity, Pressure, and Dewpoint
+# + Data sets which are included and which show the output of those functions:                      +
+# +                                                                                                 +
+# + o PWS.Hist.Chicago.rda                                                                           +
+# +                                                                                                 +
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #' @include S4.Locations.R
+#' @importFrom lubridate now
 #' @importFrom sp SpatialPointsDataFrame
 #' @importFrom sp SpatialPoints
 #' @export
@@ -48,10 +60,26 @@ setClass(
             call = "list"
   )
 )
-
-
+#' PWS.Locations constructor function
+#' @return S4 class
+#' @export
+#' @param ... coordinates of initializer function
+#'
 PWS.History <- function(...) return(new(Class="PWS.History",...))
 
+#' S4 Initializer function
+#' @importFrom sp SpatialPointsDataFrame
+#' @importFrom sp SpatialPoints
+#' @importFrom lubridate now
+#' @export
+#' @param .Object S4 initializer object
+#' @param PWS.Locations S4 Object Required
+#' @param begin_YYYYMMDD begin of query
+#' @param end_YYYYMMDD end of query
+#' @param user.key user.key of user
+#' @param imperial whether the user wants imperial or metric
+#' @param ... sundry
+#'
 setMethod("initialize",
           "PWS.History",
 
@@ -127,14 +155,21 @@ setMethod("initialize",
           }
 )
 
+#' Chicago History Dataset
+#'
+#' This contains the weather history for the Personal Weather Stations in
+#' a 5km region centered in Chicago, Illinois from March 13, 2016
+#' called with PWS.Hist.Chicago <- PWS.History(PWS.Loc.Chicago, "20150306", "20150310", user.key)
+#' where the PWS.Loc.Chicago call is described in the PWS.Locations S4 Class
+#'
+#' @examples
+#' data(PWS.Hist.Chicago)
+#' head(PWS.Hist.Chicago)
+#' @author wundr team
+#'
 ##
-##  EXAMPLE
+## End jamarin code
 ##
 ##
-# h.S4.sub <- PWS.History(PWS.Sub, "20160306", "20160306", jam.key)
-# View(h.S4.sub@history)
-# h.S4 <- PWS.History(PWS.L, "20160306", "20160306", jam.key)
-#
-# View(h.S4@history)
 
 

@@ -2,83 +2,64 @@
 ## Begin jamarin code
 ##
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# + The S4 classes required for the projects are located herein.  Functions related to the
-# creation and initalization functions are also contained below.  Furthermore, relevant
-# validation functions are attached as well since their presence in the initalization function
-# generally make other 'setValidation' functions largely redundant.
-#
-# The author endeavored to take the json-based API output from the low level functions and render
-# it into a useful format for developers and researchers alike.  The slots include 'SpatialPointsDataFrame'
-# and 'SpatialPoints' thusly an extension of R's most popular geospatial package 'sp'.
-#
-# + Those API functions form Part 1 of the projects and are used in later parts of the project      +
-# + by either calling them directly or incorporating parts of them. While the user is supposed to   +
-# + interact with those functions through the S4 class, we have sufficiently documented the func-   +
-# + tions, making it possible to use them indepentently.                                            +
+# The PWS.Location S4 class required for the projects is located herein along with                  +
+# functions related to its creation and initialization. Relevant validation testing is              +
+# done in the initialization function of the class.
+# +
+# + Data sets which are included and which show the output of those functions:                      +
 # +                                                                                                 +
-# + The functions include:                                                                          +
-# +                                                                                                 +
-# + o createCentroidTable                                                                           +
-# + o PWS_meta_query                                                                                +
-# + o PWS_meta_subset                                                                               +
-# + o PWS_conditions                                                                                +
-# + o PWS_history                                                                                   +
-# +                                                                                                 +
-# + There are also data sets which are included and which show the output of those functions:       +
-# +                                                                                                 +
-# + o Rio_basemap                                                                                  +
-# + o Rio_metadata                                                                                  +
-# + o Rio_conditions                                                                                +
-# + o Rio_history                                                                                   +
+# + o PWS.Loc.Chicago.rda                                                                           +
 # +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-
-
-#require(sp)
-## library(sp); library(jsonlite); library(httr)
-
 #' j.geocode
-#'
-#'
 #' @importFrom jsonlite fromJSON
-#' @param address name
-#' @return Coordinates of desired location
+#' @importFrom httr GET
+#' @importFrom httr content
+#' @param address user character input
 #' @export
+#' @return A vector of a (longitude,latitude) pair in numeric format
 #' @examples
 #' j.geocode("Santa Monica, CA")
 #'
 j.geocode <- function(address){
   u <- sprintf("http://maps.googleapis.com/maps/api/geocode/json?address=%s",
                gsub('\\s+', '+', enc2utf8(address)))
-  query <- jsonlite::fromJSON(content(GET(u), as='text'))
+  query <- jsonlite::fromJSON(httr::content(httr::GET(u), as='text'))
   data <- query$results$geometry$location
   return(as.numeric(data))
 }
 
-#' An S4 class to represent a bank account.
+#' PWS.Locations
+#' An S4 class to store and display data related to PWS searches
 #' @importFrom sp SpatialPointsDataFrame
 #' @importFrom sp SpatialPoints
 #' @export
-#' @slot spatialPtDF A length-one numeric vector
-#' @slot spatialPt A legnth-one numeric vector
-#' @slot call list of stuff
+#' @return S4 class
+#' @slot spatialPtDF ANY SpatialPointsDataFrame
+#' @slot spatialPt ANY SpatialPoints
+#' @slot call list of called coordinates
 #'
 setClass(
   Class = "PWS.Locations",
-  slots = c(spatialPtDF="SpatialPointsDataFrame", spatialPt="SpatialPoints", call="list")
+  slots = c(spatialPtDF="ANY", spatialPt="ANY", call="list")
 )
 
+#' PWS.Locations constructor function
+#' @return S4 class
+#' @param ... coordinates of initializer function
 PWS.Locations <- function(...) return(new(Class="PWS.Locations",...))
 
-#' An S4 class to represent a bank account.
+#' S4 Initializer function
 #' @importFrom sp SpatialPointsDataFrame
 #' @importFrom sp SpatialPoints
-#' @slot spatialPtDF A length-one numeric vector
 #' @export
+#' @param .Object S4 initializer object
+#' @param longitude desired longitude
+#' @param latitude desired latitude
+#' @param radius desired radius
+#' @param user.key user.key of user
 #'
-
 setMethod("initialize",
           "PWS.Locations",
           function(.Object, longitude, latitude, radius, user.key){
@@ -106,15 +87,18 @@ setMethod("initialize",
           }
 )
 
-
-# PWS.Locations("Santa Monica, CA", radius=3, user.key=jam.key)
-#
-# PWS.L <- PWS.Locations(-118.49119, 34.01945, radius=3, user.key=jam.key)
-# PWS.L
-# PWS.L@spatialPtDF
-
-#PWS.Locations("Santa Monica, CA", radius=3, user.key=user.key)
-
-#PWS.Locations(-118.49119, 34.01945, radius=3, user.key=user.key)
-
+#' Chicago Locations Dataset
+#'
+#' This contains a listing of the Personal Weather Stations in
+#' a 5km region centered in Chicago, Illinois from March 13, 2016
+#' (PWS.Loc.Chicago <- PWS.Locations("Chicago, IL", radius=5, user.key)).
+#'
+#' @examples
+#' data(PWS.Loc.Chicago)
+#' head(PWS.Loc.Chicago)
+#' @author wundr team
+#'
+#' ##
+## End jamarin code
+##
 
