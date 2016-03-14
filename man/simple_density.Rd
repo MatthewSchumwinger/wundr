@@ -22,7 +22,7 @@ A RasterLayer.
 Creates a simple density raster plot (heatmap) of PWS locations.
 }
 \examples{
-data(dm_cond)
-simple_density(dm_cond, "Des Moines, IA PWS Locations")
+data("PWS.Conds.Chicago")
+simple_density(PWS.Conds.Chicago, "Hello World!")
 }
 

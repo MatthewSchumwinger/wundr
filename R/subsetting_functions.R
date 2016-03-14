@@ -9,13 +9,15 @@
 #' @return A PWS.class points S4 object.
 #' @export
 #' @examples
+#' \dontrun{
+#' # not run because this is an function that requires user interaction.
 #' my_ss  <-  draw_subset(PWS.Conds.Chicago)
-#' my_ss2 <-  draw_subset(my_ss)
+#' my_ss2 <-  draw_subset(my_ss)}
 
 # draw polygon to subset # methods from Bivand ASDA pp. 76-78
-draw_subset <- function(PWS.Class){
+draw_subset <- function(PWS.class){
   cat("select points on graphics device and click finish (Esc)")
-  spdf <- PWS.Class@spatialPtDF
+  spdf <- PWS.class@spatialPtDF
   sp::plot(spdf)
   poly <- locator(type = "o")
   n <- length(poly$x)
@@ -26,6 +28,6 @@ draw_subset <- function(PWS.Class){
   cat("Please select points on graphics device and click finish (Esc).\n")
   cat("IDs of PWS in subset:\n")
   print(spdf[sps, ]@data$id)
-  PWS.Class@spatialPtDF <- spdf[sps, ] # subset spdf
-  PWS.Class
+  PWS.class@spatialPtDF <- spdf[sps, ] # subset spdf
+  PWS.class
 }

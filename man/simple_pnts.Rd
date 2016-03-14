@@ -19,7 +19,7 @@ simple_pnts(PWS.class, title = NULL, add = FALSE, ...)
 A simple 2D plot of spatial points.
 }
 \examples{
-data(dm_cond)
-simple_pnts(dm_cond, "Des Moines, IA PWS Locations")
+data("PWS.Conds.Chicago")
+simple_pnts(PWS.Conds.Chicago, "Hello World!")
 }
 

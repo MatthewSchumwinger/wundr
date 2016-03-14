@@ -19,7 +19,7 @@ A ggmap raster object.
 Creates subtle contextual map background for ggplots based on extent points.
 }
 \examples{
-data(dm_cond)
-set_basemap(dm_cond)
+data("PWS.Conds.Chicago")
+basemap <- set_basemap(PWS.Conds.Chicago)
 }
 

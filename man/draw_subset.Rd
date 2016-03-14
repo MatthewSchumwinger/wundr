@@ -4,7 +4,7 @@
 \alias{draw_subset}
 \title{draw_subset}
 \usage{
-draw_subset(PWS.Class)
+draw_subset(PWS.class)
 }
 \arguments{
 \item{PWS.class}{A PWS.class points S4 object.}
@@ -18,7 +18,9 @@ plotted in graphics device. Adapted from Roger Bivand's Applied Spatial Data
 Analysis with R (pp. 76-78).
 }
 \examples{
+\dontrun{
+# not run because this is an function that requires user interaction.
 my_ss  <-  draw_subset(PWS.Conds.Chicago)
-my_ss2 <-  draw_subset(my_ss)
+my_ss2 <-  draw_subset(my_ss)}
 }
 

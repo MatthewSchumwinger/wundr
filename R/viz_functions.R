@@ -22,12 +22,8 @@
 #' @examples
 #' toSPntsDF(Rio_metadata)
 toSPntsDF <- function(df){
+  # ESPG:WGS84 is Web Mercator projection for web mapping
   WGS84 <- sp::CRS("+proj=longlat +datum=WGS84")
-  WGS84
-  # transform CRS to Web Merator for web mapping
-  toWGS84 <- function(spatialPtDF) {
-    sp::spTransform(sp, WGS84)
-  }
   df_mat <- cbind(df$lon, df$lat)
   row.names(df_mat) <- row.names(df)
   sp::SpatialPointsDataFrame(df_mat, df, proj4string = WGS84, match.ID = TRUE)
@@ -44,8 +40,8 @@ toSPntsDF <- function(df){
 #' @return NULL
 #' @export
 #' @examples
-#' data(dm_cond)
-#' simple_pnts(dm_cond, "Des Moines, IA PWS Locations")
+#' data("PWS.Conds.Chicago")
+#' simple_pnts(PWS.Conds.Chicago, "Hello World!")
 simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
   spatialPtDF <- PWS.class@spatialPtDF
   plot(spatialPtDF, add=add, col="red", cex=.5, pch =20, main = title)
@@ -63,8 +59,8 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' @return A RasterLayer.
 #' @export
 #' @examples
-#' data(dm_cond)
-#' simple_density(dm_cond, "Des Moines, IA PWS Locations")
+#' data("PWS.Conds.Chicago")
+#' simple_density(PWS.Conds.Chicago, "Hello World!")
 simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
   df <- PWS.class@spatialPtDF@data
   ppp <- spatstat::ppp(df$lon, df$lat, range(df$lon), range(df$lat))
@@ -87,8 +83,8 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' @return A ggmap raster object.
 #' @export
 #' @examples
-#' data(dm_cond)
-#' set_basemap(dm_cond)
+#' data("PWS.Conds.Chicago")
+#' basemap <- set_basemap(PWS.Conds.Chicago)
 set_basemap <- function(PWS.class, zoom = 9) {
   cat("Note: zoom = 9 captures 50-mile radius.")
   df <- PWS.class@spatialPtDF@data
@@ -104,7 +100,7 @@ set_basemap <- function(PWS.class, zoom = 9) {
 #' Plots PWS locations on a contextual basemap.
 #'
 #' @importFrom ggmap ggmap
-#' @importFrom ggplot2 geom_point aes
+#' @importFrom ggplot2 geom_point aes_string
 #' @param PWS.class A PWS.class points S4 object.
 #' @param basemap A contextual basemap. See set_basemap.
 #' @param title A character string title for the map. Default = NULL.
@@ -112,17 +108,17 @@ set_basemap <- function(PWS.class, zoom = 9) {
 #' @return NULL
 #' @export
 #' @examples
-#' data(dm_cond)
-#' basemapDM <- set_basemap(dm_cond, zoom = 9)
-#' gg_points(dm_cond)
+#' data("PWS.Conds.Chicago")
+#' basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
+#' gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
   cat("Note: zoom = 9 captures 50-mile radius.", "\n",
       "Data points outside zoom area are considered 'missing values'", "\n",
       "and may not plot on gg_map if zoom > 9")
-  pnts <- PWS.class@spatialPtDF
+  pnts <- PWS.class@spatialPtDF@data
   ggmap::ggmap(basemap, extent = "device") +
-    ggplot2::geom_point(data=as.data.frame(pnts),
-                        ggplot2::aes(coords.x1,coords.x2),
+    ggplot2::geom_point(data=pnts,
+                        ggplot2::aes_string(x = 'lon', y = 'lat'),
                         col= "red",alpha =.8) +
     ggplot2::ggtitle(title)
 }
@@ -140,8 +136,8 @@ gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
 #' @return NULL
 #' @export
 #' @examples
-#' data(dm_cond)
-#' webmap_pnts(dm_cond)
+#' data(PWS.Conds.Chicago)
+#' webmap_pnts(PWS.Conds.Chicago)
 webmap_pnts <- function(PWS.class, content = content) {
   data <- PWS.class@spatialPtDF
   bounds <- data@bbox
@@ -172,8 +168,8 @@ webmap_pnts <- function(PWS.class, content = content) {
 #' @return NULL
 #' @export
 #' @examples
-#' data(dm_cond)
-#' webmap_raster(dm_cond)
+#' data(PWS.Conds.Chicago)
+#' webmap_raster(PWS.Conds.Chicago)
 webmap_raster <- function(PWS.class){
   spdf <- toSPntsDF(PWS.class@spatialPtDF@data)
   ppp <- spatstat::ppp(spdf$lon, spdf$lat, range(spdf$lon), range(spdf$lat))
