@@ -1,3 +1,41 @@
+##
+## Begin jamarin code
+##
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# + The S4 classes required for the projects are located herein.  Functions related to the
+# creation and initalization functions are also contained below.  Furthermore, relevant
+# validation functions are attached as well since their presence in the initalization function
+# generally make other 'setValidation' functions largely redundant.
+#
+# The author endeavored to take the json-based API output from the low level functions and render
+# it into a useful format for developers and researchers alike.  The slots include 'SpatialPointsDataFrame'
+# and 'SpatialPoints' thusly an extension of R's most popular geospatial package 'sp'.
+#
+# + Those API functions form Part 1 of the projects and are used in later parts of the project      +
+# + by either calling them directly or incorporating parts of them. While the user is supposed to   +
+# + interact with those functions through the S4 class, we have sufficiently documented the func-   +
+# + tions, making it possible to use them indepentently.                                            +
+# +                                                                                                 +
+# + The functions include:                                                                          +
+# +                                                                                                 +
+# + o createCentroidTable                                                                           +
+# + o PWS_meta_query                                                                                +
+# + o PWS_meta_subset                                                                               +
+# + o PWS_conditions                                                                                +
+# + o PWS_history                                                                                   +
+# +                                                                                                 +
+# + There are also data sets which are included and which show the output of those functions:       +
+# +                                                                                                 +
+# + o Rio_basemap                                                                                  +
+# + o Rio_metadata                                                                                  +
+# + o Rio_conditions                                                                                +
+# + o Rio_history                                                                                   +
+# +                                                                                                 +
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
 #require(sp)
 ## library(sp); library(jsonlite); library(httr)
 
@@ -69,8 +107,6 @@ setMethod("initialize",
 )
 
 
-# jam.key <- "00d9766eedab434e"
-#
 # PWS.Locations("Santa Monica, CA", radius=3, user.key=jam.key)
 #
 # PWS.L <- PWS.Locations(-118.49119, 34.01945, radius=3, user.key=jam.key)
