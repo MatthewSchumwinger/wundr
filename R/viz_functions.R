@@ -20,7 +20,8 @@
 #' @return A spatialPointsDataFrame.
 #' @export
 #' @examples
-#' toSPntsDF(Rio_metadata)
+#' data(Rio_metadata)
+#' toSPntsDF(Rio_metadata$PWSmetadata)
 toSPntsDF <- function(df){
   # ESPG:WGS84 is Web Mercator projection for web mapping
   WGS84 <- sp::CRS("+proj=longlat +datum=WGS84")
