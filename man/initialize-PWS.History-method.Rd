@@ -21,7 +21,7 @@
 
 \item{imperial}{whether the user wants imperial or metric}
 
-\item{...}{sundry}
+\item{...}{Passed on to next function}
 }
 \description{
 S4 Initializer function

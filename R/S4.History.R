@@ -11,11 +11,12 @@
 # +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#' @include S4.Locations.R
+#' PWS.History
+#' An S4 class to store history data related to PWS searches
 #' @importFrom lubridate now
 #' @importFrom sp SpatialPointsDataFrame
 #' @importFrom sp SpatialPoints
-#' @export
+#' @return S4 class
 #' @slot average.Temp values
 #' @slot average.Humidity values
 #' @slot average.Pressure values
@@ -31,11 +32,11 @@
 #' @slot standard.Dev.Pressure values
 #' @slot standard.Dev.Dew.Point values
 #'
-#' @slot spatialPtDF A length-one n
-#' @slot spatialPt A legnth-one numeric vector
-#' @slot call list of stuff
+#' @slot spatialPtDF ANY SpatialPointsDataFrame
+#' @slot spatialPt ANY SpatialPoints
+#' @slot call list of query search
 #' @slot history data
-#'
+#' @export
 #'
 setClass(
   Class = "PWS.History",
@@ -60,11 +61,10 @@ setClass(
             call = "list"
   )
 )
-#' PWS.Locations constructor function
+#' PWS.History constructor function
 #' @return S4 class
 #' @export
 #' @param ... coordinates of initializer function
-#'
 PWS.History <- function(...) return(new(Class="PWS.History",...))
 
 #' S4 Initializer function
@@ -78,7 +78,7 @@ PWS.History <- function(...) return(new(Class="PWS.History",...))
 #' @param end_YYYYMMDD end of query
 #' @param user.key user.key of user
 #' @param imperial whether the user wants imperial or metric
-#' @param ... sundry
+#' @param ... Passed on to next function
 #'
 setMethod("initialize",
           "PWS.History",
@@ -164,11 +164,10 @@ setMethod("initialize",
 #'
 #' @examples
 #' data(PWS.Hist.Chicago)
-#' head(PWS.Hist.Chicago)
 #' @author wundr team
 #'
 "PWS.Hist.Chicago"
-#'
+
 #' Chicago 10-day Forecast
 #'
 #' This contains at 10-day Forecast over all the PWS using wundr's kriging method
@@ -178,6 +177,7 @@ setMethod("initialize",
 #' @author wundr team
 #'
 "Chicago.forecast.10day"
+
 ##
 ## End jamarin code
 ##

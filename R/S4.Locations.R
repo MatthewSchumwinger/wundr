@@ -95,12 +95,13 @@ setMethod("initialize",
 #'
 #' @examples
 #' data(PWS.Loc.Chicago)
-#' head(PWS.Loc.Chicago)
 #' @author wundr team
 #'
 "PWS.Loc.Chicago"
-#'
-#' ##
+
+
+
+##
 ## End jamarin code
 ##
 

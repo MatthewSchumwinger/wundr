@@ -53,7 +53,6 @@ a 5km region centered in Chicago, Illinois from March 13, 2016
 }
 \examples{
 data(PWS.Loc.Chicago)
-head(PWS.Loc.Chicago)
 }
 \author{
 wundr team

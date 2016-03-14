@@ -2,7 +2,7 @@
 % Please edit documentation in R/S4.History.R
 \name{PWS.History}
 \alias{PWS.History}
-\title{PWS.Locations constructor function}
+\title{PWS.History constructor function}
 \usage{
 PWS.History(...)
 }
@@ -13,6 +13,6 @@ PWS.History(...)
 S4 class
 }
 \description{
-PWS.Locations constructor function
+PWS.History constructor function
 }
 

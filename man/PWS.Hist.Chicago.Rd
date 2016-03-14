@@ -125,7 +125,6 @@ where the PWS.Loc.Chicago call is described in the PWS.Locations S4 Class
 }
 \examples{
 data(PWS.Hist.Chicago)
-head(PWS.Hist.Chicago)
 }
 \author{
 wundr team

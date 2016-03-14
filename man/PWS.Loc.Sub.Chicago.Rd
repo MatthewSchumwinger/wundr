@@ -55,7 +55,6 @@ The subregion lies within the larger region.
 }
 \examples{
 data(PWS.Loc.Sub.Chicago.rda)
-head(PWS.Loca.Sub.Chicago.rda)
 }
 \author{
 wundr team
