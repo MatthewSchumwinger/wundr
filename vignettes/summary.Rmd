@@ -31,6 +31,15 @@ Package **wundr** has the following functionalities:
 
 ## Creation of S4-Class Table describing a given region's PWS 
 
+**wundr** offers several S4 classes capturing the essence of different PWS attributes including weather history, conditions, and subquerying.  It has the advantage of elegance and utility.
+
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE}
+str(PWS.Hist.Chicago, max.level = 2)
+```
+
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE}
+knitr::kable( head( PWS.Loc.Chicago@spatialPtDF@data[,1:7] ) )
+```
 ## Subsettable tables based on #1
 
 Graphicly subset PWS.class objects by drawing a poylgon around PWS points
@@ -66,8 +75,8 @@ A maior issue is caused by the limitations of the API, which only allows for sea
 Simple plots of PWS for exploratory analysis:
 
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, include = TRUE}
-simple_pnts(PWS.Conds.Chicago, "Downtown Chicago PWS")
-simple_density(PWS.Conds.Chicago, "Downtown Chicago PWS")
+simple_density(PWS.Conds.Chicago, title = "Chicago PWS points over \nPWS density contour")
+simple_pnts(PWS.Conds.Chicago, add = TRUE)
 ```
 
 Contextual mapping of PWS for exploratory analysis:
@@ -158,7 +167,7 @@ webmap_raster(PWS.Conds.Chicago)
 **wundr** also contains functions that interface with the CartoDB SQL API
 (http://docs.cartodb.com/cartodb-platform/sql-api/). This allows users to exploit the robust PostGIS spatial database and web publishing services of CartoDB.  
 
-*(note: these code chunks cannot evaluated using knitr, but you can run from console with your own account and key)*
+*(note: these code chunks cannot be evaluated using knitr, but you can run from console with your own account and key)*
 
 Here, we export Downtown Chicago Weather Underground PWS data to CartoDB's:  
 
@@ -172,9 +181,9 @@ You can view this map here: https://biglakedata.cartodb.com/tables/pizza/map
 
 This interface goes both ways; we can also import spatial SQL tables into R data frame objects. 
 
-```{r, eval=FALSE}
+```{r, eval = TRUE}
 # matt_cdb_table <- get_cdb_table("condTest", matt.cdb.account)
 head(matt_cdb_table$rows[ , c("cartodb_id", "station_id", "temperature_string", 
-                              "dewpoint_string")])# pulled from presaved data file
+                              "dewpoint_string")],2)# pulled from presaved data file
 ```
 

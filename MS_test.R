@@ -3,52 +3,104 @@ matt.wu.key <- "fd9858dfc94a85ea"
 matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
 matt.cdb.account <- "biglakedata"
 
-# get weather data
-# dm_cond <- PWS.Conditions("Des Moines, IA", radius=50, user.key=matt.wu.key)
-# devtools::use_data(dm_cond, overwrite = T)
-data("dm_cond")
-data("PWS.Conds.Chicago")
 
-# PWS.Conds.Chicago <- readRDS("data/PWS.Conds.Chicago.rds")
-pizza2 <- PWS.Conds.Chicago
-r2cdb(matt.cdb.key, matt.cdb.account, pizza2)
+#################### prototype #################################################
 
-# simple plots
-data("PWS.Conds.Chicago")
-simple_pnts(PWS.Conds.Chicago, "Hello World!")
-simple_density(PWS.Conds.Chicago, "Hello World!")
+#' click_meta_query
+#'
+#' Graphicly select new geographic location and run PSW_meta_query.
+#'
+#' @importFrom ggmap make_bbox get_map gglocator
+#' @importFrom ggplot2 geom_point aes_string
+#' @param PWS.Conditions A PWS.Conditions points S4 object.
+#' @return A PWS.Locations S4 object.
+#' @export
+#' @examples
+#' \dontrun{
+#' ## TODO this doesn't work because unexpected object type returned by PWS_meta_query
+#' milw_metadata <- click_meta_query(PWS.Conds.Chicago, matt.wu.key)
+#' milw_conds <- PWS_conditions(milw_metadata, matt.wu.key)
+#' basemap <- set_basemap(PWS.Conds.Chicago, zoom = 8)
+#' gg_points(milw_conds, basemap, title = "Milwaukee PWS in Greater Chicago Context")
+#'
+#' ## this one-off hack works...
+#' milw_metadata <- click_meta_query(PWS.Conds.Chicago, matt.wu.key)
+#' basemap <- set_basemap(PWS.Conds.Chicago, zoom = 8)
+#' ggmap::ggmap(basemap, extent = "device") +
+#'  ggplot2::geom_point(data=milw_conds,
+#'                      ggplot2::aes_string(x = 'longitude', y = 'latitude'),
+#'                      col= "red",alpha =.8) +
+#'  ggplot2::ggtitle("Milwaukee PWS in Greater Chicago Context")
+#' }
 
-# static map
-basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
-gg_points(PWS.Conds.Chicago, basemap, title = "Pizza")
-ggmap::gglocator()
+# TODO figure out how to stick more of this in the function
+basemap <- set_basemap(PWS.Conds.Chicago, zoom = 8)
+gg_points(PWS.Conds.Chicago, basemap, title = "Centered on Downtown Chicago PWS")
+click_meta_query <- function(PWS.Conditions, user_key){
+  # returns cond object
+  user_point <- ggmap::gglocator()
+  PWS_meta_query(user_point[[1]], user_point[[2]], 50, user_key = user_key)
+}
+# milw_metadata <- click_meta_query(PWS.Conds.Chicago, matt.wu.key)
+milw_metadata <- data(milw_metadata)
+# milw_conds <- PWS_conditions(milw_metadata, matt.wu.key)
+data(milw_conds)
+ggmap::ggmap(basemap, extent = "device") +
+  ggplot2::geom_point(data=milw_conds,
+                      ggplot2::aes_string(x = 'longitude', y = 'latitude'),
+                      col= "red",alpha =.8) +
+  ggplot2::ggtitle("Milwaukee PWS in Greater Chicago Context")
 
-# interactive web maps
+
+
+## what function should do  ....
+# basemap <- set_basemap(PWS.Conds.Chicago, zoom = 8)
+# gg_points(PWS.Conds.Chicago, basemap, title = "Centered on Downtown Chicago PWS")
+# user_point <- ggmap::gglocator()
+# milw_metadata <- PWS_meta_query(user_point[[1]], user_point[[2]], 50, matt.wu.key <- "fd9858dfc94a85ea")
+
+# devtools::use_data(milw_metadata)
+# devtools::use_data(milw_conds)
+
+#################### end prototype #############################################
+
+
+
+
+
+
+
+
+
+### search radius
+click_meta_query <- function(PWS.Class){
+  # returns cond object
+  basemap <- set_basemap(PWS.Class)
+  gg_points(PWS.Class, basemap)
+  user_point <- ggmap::gglocator()
+  PWS_meta_query(user_point[[1]], user_point[[2]], 50,
+                 matt.wu.key <- "fd9858dfc94a85ea")
+}
+
+
+basemap <- set_basemap(PWS.Conds.Chicago, zoom = 8)
+gg_points(PWS.Conds.Chicago, basemap, title = "Centered on Downtown Chicago PWS")
+user_point <- ggmap::gglocator()
+# u_centre_table <- createCentroidTable(user_point[[1]], user_point[[2]], 100, 40)
+milw_metadata <- PWS_meta_query(user_point[[1]], user_point[[2]], 50, matt.wu.key <- "fd9858dfc94a85ea")
+milw_conds <- PWS_conditions(milw_metadata, matt.wu.key)
+basemap <- set_basemap(PWS.Conds.Chicago, zoom = 8)
+gg_points(milw_conds, basemap, title = "Milwaukee PWS in Greater Chicago Context")
+
+
+
+spdf <- toSPntsDF(greater_chi_metadata[[1]])
+sp::plot(spdf, main = "Greater Chicago PWS", col = "red")
+
+
 webmap_pnts(PWS.Conds.Chicago)
-
-data("PWS.Conds.Chicago")
-webmap_raster(PWS.Conds.Chicago)
-
-
-# CartoDB
-
-cdbTable <- get_cdb_table("condTest", matt.cdb.account)
-head(cdbTable$rows)
-
-matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
-matt.cdb.account <- "biglakedata"
-data("PWS.Conds.Chicago")
-pizza <- PWS.Conds.Chicago
-r2cdb(matt.cdb.key, matt.cdb.account, pizza)
-r2cdb(matt.cdb.key, matt.cdb.account, PWS.Conds.Chicago)
-
-# graphical subsetting
-my_ss  <-  draw_subset(PWS.Conds.Chicago)
-my_ss2 <-  draw_subset(my_ss)
-
-
-
-
+webmap_pnts(PWS.Hist.Chicago) # doesn't work
+webmap_pnts(PWS.Loc.Chicago) # doesn't work
 
 ## prototype graphical interface -----------
 ## simple plot
@@ -143,3 +195,6 @@ toWGS84 <- function(sp) {
   WGS84 <- sp::CRS("+proj=longlat +datum=WGS84")
   sp::spTransform(sp, WGS84)
 }
+
+
+

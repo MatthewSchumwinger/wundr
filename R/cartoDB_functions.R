@@ -22,7 +22,7 @@
 #' @export
 #' @examples
 #' fillblanks("foo bar")
-fillblanks <- function(x){
+fillblanks <- function(x) {
   gsub(" ", '%20', x)
 }
 
@@ -69,26 +69,22 @@ get_cdb_table <- function(table_name, cdb_account) {
 #' @examples
 #' # export PWS locations and conditions data to CartoDB
 #' \dontrun{r2cdb(your.cdb.key, your.cdb.account, PWS.Conds.Chicago)}
-
-## export df to CartoDB
 r2cdb <- function(user_key, cdb_account, PWS.Conditions){
 
-  ## -- helpers ------
-  # get SQL column types
+  # helper: get SQL column types
   schema <- function(df){
     drv <- SQLite()
     sapply(df, function(x) dbDataType(drv, x))
   }
 
-  # remove "display" columns with offending "." that throws API syntax error
-  # TODO maybe swap for this? htmltools::htmlEscape
+  # helper: columns with offending ".", throws API syntax error
   sanitize <- function(df){
     colnames(df)[1] <- "full_location"
     names(df) <- gsub("\\.", "_", names(df))
     df
   }
 
-  # enquote data strings for url export
+  # helper: enquote data strings for url export
   singleQuoter <- function(df){
     if (!is.numeric(df)) {
       df[] <- gsub("^|$", "\047", df[])
@@ -97,7 +93,6 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
     }
     df
   }
-  ## -- end helpers --
 
   # pick-off data from s4 object
   df <- PWS.Conditions@spatialPtDF@data
@@ -110,10 +105,12 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
 
   # instantiate empty table with desired structure
   makeCdbTable <- function(user_key, cdb_account, df){
-    colTypes <- sapply(seq_along(df.schema), function(i) paste(names(df.schema)[[i]], df.schema[[i]]))
+    colTypes <- sapply(seq_along(df.schema),
+                       function(i) paste(names(df.schema)[[i]], df.schema[[i]]))
     columns <- paste(colTypes, collapse = ",")
     sql_create <- paste0("create table ", tableName," (", columns, ")")
-    sql_register <- eval(substitute(paste0("select cdb_cartodbfytable('", tableName, "')")))
+    sql_register <- eval(substitute(paste0("select cdb_cartodbfytable('",
+                                           tableName, "')")))
     cat(" Instantiating and registering new table with CartoDB ... ")
     jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
                  fillblanks(sql_create),"&api_key=",user_key))
@@ -124,17 +121,17 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
 
   # populate empty table
   insertCdbTable <- function(user_key, cdb_account, df){
-    # TODO tolower() in appropriate places
     c <- sapply(seq_along(df.schema), function(i) paste(names(df.schema)[[i]]))
-    # columns <- paste(c[1:2], collapse = ",") # just first two columns to test
     columns <- paste(c, collapse = ",")
-    cat("Exporting ", nrow(df), " rows of data to table ", "'", tableName, "' ", sep = "")
+    cat("Exporting ", nrow(df), " rows of data to table ", "'", tableName,
+        "' ", sep = "")
     df[1:nrow(df),] <- lapply(df, singleQuoter)
     for (i in 1:nrow(df)){
-      # values <- paste("'foo'", "'bar'", sep = ",") # strings need to be quoted, numeric not so
       values <- paste(df[i, ], collapse = ",")
-      coord <- paste(", ST_SetSRID(ST_Point(" , df$lon[i], ", ", df$lat[i], "),4326))")
-      sql_insert <- paste0("INSERT INTO ", tableName, " (", columns, ",the_geom)",
+      coord <- paste(", ST_SetSRID(ST_Point(" , df$lon[i], ", ",
+                     df$lat[i], "),4326))")
+      sql_insert <- paste0("INSERT INTO ", tableName,
+                           " (", columns, ",the_geom)",
                            " VALUES (", values, coord)
       jsonlite::fromJSON(paste0("https://", cdb_account, cdb_url_base,
                                 fillblanks(sql_insert),"&api_key=",user_key))

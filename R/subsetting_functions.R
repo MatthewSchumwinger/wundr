@@ -17,22 +17,43 @@
 #' @examples
 #' \dontrun{
 #' # not run because this is an function that requires user interaction.
-#' my_ss  <-  draw_subset(PWS.Conds.Chicago)}
-
-# draw polygon to subset # methods from Bivand ASDA pp. 76-78
+#' my_ss  <-  draw_subset(PWS.Conds.Chicago)
+#' }
 draw_subset <- function(PWS.class){
-  cat("select points on graphics device and click finish (Esc)")
+  message("select points on graphics device and click finish (Esc)")
   spdf <- PWS.class@spatialPtDF
   sp::plot(spdf)
   poly <- locator(type = "o")
   n <- length(poly$x)
-  p <- sp::Polygon(cbind(poly$x, poly$y)[c(1:n, 1), ], hole = FALSE)
-  ps <- sp::Polygons(list(p), ID = "poly")
-  sps <- sp::SpatialPolygons(list(ps))
+  p <- sp::Polygon(coords = cbind(poly$x, poly$y)[c(1:n, 1), ], hole = FALSE)
+  ps <- sp::Polygons(srl = list(p), ID = "poly")
+  sps <- sp::SpatialPolygons(Srl = list(ps))
   sp::plot(spdf[sps, ], col="red", pch = 20, add = TRUE)
-  cat("Please select points on graphics device and click finish (Esc).\n")
   cat("IDs of PWS in subset:\n")
   print(spdf[sps, ]@data$id)
   PWS.class@spatialPtDF <- spdf[sps, ] # subset spdf
   PWS.class
 }
+
+#' milw_metadata dataset
+#'
+#' This contains Personal Weather Stations meta data for the Milwaukee, Wis.
+#' area.
+#'
+#' @examples
+#' data(milw_metadata)
+#'
+#' @author wundr team
+"milw_metadata"
+
+
+#' milw_conds dataset
+#'
+#' This contains Personal Weather Stations conditions data for the Milwaukee,
+#' Wis. PWS.
+#'
+#' @examples
+#' data(milw_conds)
+#'
+#' @author wundr team
+"milw_conds"

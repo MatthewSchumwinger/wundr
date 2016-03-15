@@ -30,7 +30,8 @@ toSPntsDF <- function(df){
   WGS84 <- sp::CRS("+proj=longlat +datum=WGS84")
   df_mat <- cbind(df$lon, df$lat)
   row.names(df_mat) <- row.names(df)
-  sp::SpatialPointsDataFrame(df_mat, df, proj4string = WGS84, match.ID = TRUE)
+  sp::SpatialPointsDataFrame(coords = df_mat, data = df, proj4string = WGS84,
+                             match.ID = TRUE)
 }
 
 #' simple_pnts
@@ -39,16 +40,17 @@ toSPntsDF <- function(df){
 #'
 #' @param PWS.class A PWS.class points S4 object.
 #' @param title character string. A title for you plot. Default = NULL.
-#' @param add logical. If TRUE, add to already existing plot.
+#' @param add logical. Default = FALSE. If TRUE, add to already existing plot.
+#' @param col character. Color of points. Default = "red".
 #' @param ... ...
 #' @return NULL
 #' @export
 #' @examples
 #' data("PWS.Conds.Chicago")
 #' simple_pnts(PWS.Conds.Chicago, "Hello World!")
-simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
+simple_pnts <- function(PWS.class, title = NULL, add = FALSE, col = "red", ...){
   spatialPtDF <- PWS.class@spatialPtDF
-  plot(spatialPtDF, add=add, col="red", cex=.5, pch =20, main = title)
+  plot(spatialPtDF, add = add, cex = .5, pch = 20, main = title)
 }
 
 #' simple_density
@@ -64,15 +66,21 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' @export
 #' @examples
 #' data("PWS.Conds.Chicago")
-#' simple_density(PWS.Conds.Chicago, "Hello World!")
+#' simple_density(PWS.Conds.Chicago)
+#' simple_pnts(PWS.Conds.Chicago,
+#' "Chicago PWS points over \nPWS density contour", add = TRUE)
 simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
   df <- PWS.class@spatialPtDF@data
-  ppp <- spatstat::ppp(df$lon, df$lat, range(df$lon), range(df$lat))
+  ppp <- spatstat::ppp(x = df$lon, y = df$lat, xrange = range(df$lon),
+                       yrange = range(df$lat))
   D <- raster::density(ppp)
   D <- as(D, "RasterLayer")
-  mycol <- colorRampPalette(c("transparent", "transparent","yellow", "orange","red"))(256)
-  plot(D, legend = F, box = F, axes = F, col=mycol, add=F, main = title)
-  raster::contour(D, axes = FALSE, add=T, col = "white", drawlabels=F)
+  mycol <- colorRampPalette(colors = c("transparent", "transparent", "yellow",
+                                       "orange", "red"))(256)
+  plot(D, legend = FALSE, box = FALSE, axes = FALSE, col = mycol, add = FALSE,
+       main = title)
+  raster::contour(D, axes = FALSE, add = TRUE, col = "white",
+                  drawlabels = FALSE)
 }
 
 #' set_basemap
@@ -88,10 +96,9 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' data("PWS.Conds.Chicago")
 #' basemap <- set_basemap(PWS.Conds.Chicago)
 set_basemap <- function(PWS.class, zoom = 9) {
-  cat("Note: zoom = 9 captures 50-mile radius.")
+  message("Note: zoom = 9 captures 50-mile radius.")
   df <- PWS.class@spatialPtDF@data
-  bbox <- ggmap::make_bbox(df$lon, df$lat)
-  # center <- c(-87.896118, 42.946622) # MKE airport
+  bbox <- ggmap::make_bbox(lon = df$lon, lat = df$lat)
   center <- c(mean(c(bbox[1], bbox[3])), mean(c(bbox[2], bbox[4])))
   basemap <- ggmap::get_map(location = center, zoom = zoom,
                      maptype = "toner-lite", source = "stamen")
@@ -114,14 +121,13 @@ set_basemap <- function(PWS.class, zoom = 9) {
 #' basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
 #' gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
-  cat("Note: zoom = 9 captures 50-mile radius.", "\n",
-      "Data points outside zoom area are considered 'missing values'", "\n",
-      "and may not plot on gg_map if zoom > 9")
+  message(c("Data points outside zoom area are considered 'missing values'",
+            "\nand may not plot on gg_map if zoom > 9."))
   pnts <- PWS.class@spatialPtDF@data
   ggmap::ggmap(basemap, extent = "device") +
-    ggplot2::geom_point(data=pnts,
-                        ggplot2::aes_string(x = 'lon', y = 'lat'),
-                        col= "red",alpha =.8) +
+    ggplot2::geom_point(data = pnts,
+                        ggplot2::aes_string(x = "lon", y = "lat"),
+                        col = "red", alpha =.8) +
     ggplot2::ggtitle(title)
 }
 
@@ -141,7 +147,6 @@ gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
 #' data(PWS.Conds.Chicago)
 #' webmap_pnts(PWS.Conds.Chicago)
 webmap_pnts <- function(PWS.class, content = content) {
-  # data <- PWS.class@spatialPtDF
   metadata <- PWS.class@spatialPtDF
   data <- PWS.class@data
   bounds <- metadata@bbox
@@ -150,13 +155,11 @@ webmap_pnts <- function(PWS.class, content = content) {
                      data$temperature_string, "<br/>",
                      data$weather, "<br/>",
                      data$observation_time)
-#                      "<a href=", data$history_url, ">current and historical
-#                       data</a>")
   m <- leaflet::leaflet(metadata)  %>%
     leaflet::addProviderTiles("Stamen.TonerLines",
                      options = leaflet::providerTileOptions(opacity = 0.35)) %>%
     leaflet::fitBounds(bounds[1,1], bounds[2,1], bounds[1,2], bounds[2,2]) %>%
-    leaflet::addCircles(color="red", popup = content)
+    leaflet::addCircles(color = "red", popup = content)
   m
 }
 
@@ -178,15 +181,17 @@ webmap_pnts <- function(PWS.class, content = content) {
 #' webmap_raster(PWS.Conds.Chicago)
 webmap_raster <- function(PWS.class){
   spdf <- toSPntsDF(PWS.class@spatialPtDF@data)
-  ppp <- spatstat::ppp(spdf$lon, spdf$lat, range(spdf$lon), range(spdf$lat))
+  ppp <- spatstat::ppp(x = spdf$lon, y = spdf$lat, xrange= range(spdf$lon),
+                       yrange = range(spdf$lat))
   D <- raster::density(ppp)
   D <- as(D, "RasterLayer")
   D@crs <- sp::CRS("+proj=longlat +datum=WGS84") # projection for web mapping
-  pal <- leaflet::colorNumeric(c("transparent", "#41B6C4", "#FFFFCC"), raster::values(D),
-                      na.color = "transparent", alpha=TRUE)
+  pal <- leaflet::colorNumeric(palette = c("transparent", "#41B6C4", "#FFFFCC"),
+                               domain = raster::values(D), na.color = "transparent",
+                               alpha = TRUE)
   d = leaflet::leaflet(spdf)  %>%
-    leaflet::addProviderTiles("Stamen.TonerLines",options =
-                              leaflet::providerTileOptions(opacity = 0.35)) %>%
+    leaflet::addProviderTiles("Stamen.TonerLines", options =
+                                leaflet::providerTileOptions(opacity = 0.35)) %>%
     leaflet::addRasterImage(D, colors = pal, opacity = 0.8)
 
   d
