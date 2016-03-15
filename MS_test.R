@@ -38,9 +38,9 @@ head(cdbTable$rows)
 matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
 matt.cdb.account <- "biglakedata"
 data("PWS.Conds.Chicago")
-pizza2 <- PWS.Conds.Chicago
-r2cdb(matt.cdb.key, matt.cdb.account, pizza2)
-
+pizza <- PWS.Conds.Chicago
+r2cdb(matt.cdb.key, matt.cdb.account, pizza)
+r2cdb(matt.cdb.key, matt.cdb.account, PWS.Conds.Chicago)
 
 # graphical subsetting
 my_ss  <-  draw_subset(PWS.Conds.Chicago)

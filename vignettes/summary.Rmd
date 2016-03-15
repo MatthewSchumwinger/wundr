@@ -71,13 +71,15 @@ webmap_raster(PWS.Conds.Chicago)
 
 *(note: these code chunks cannot evaluated using knitr, but you can run from console with your own account and key)*
 
-Here, we export Weather Underground PWS data to CartoDB's:  
+Here, we export Downtown Chicago Weather Underground PWS data to CartoDB's:  
 
 ```{r, eval = FALSE}
 matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
 matt.cdb.account <- "biglakedata"
-r2cdb(matt.cdb.key, matt.cdb.account, PWS.Conds.Chicago)
+pizza <- PWS.Conds.Chicago
+r2cdb(matt.cdb.key, matt.cdb.account, pizza)
 ```
+You can view this map here: https://biglakedata.cartodb.com/tables/pizza/map 
 
 This interface goes both ways; we can also import spatial SQL tables into R data frame objects. 
 
