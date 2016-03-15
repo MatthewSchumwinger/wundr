@@ -7,19 +7,27 @@ vignette: >
   %\VignetteIndexEntry{wundr Package Summary}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+
+    output:
+      rmarkdown::html_vignette:
+        fig_caption: yes
 ---
+
+```{r, echo = FALSE}
+library(wundr)
+```
 
 **[note to team: this summary should prove that we have accomplsihed our 7 objectives outlined in the proposal. Below is a minimum structure with a section for each objective.]**
 
-Package **wundr** provides API interfaces to Personal Weather Station (PWS) data maintained by Weather Underground (wunderground.com). Tables of PWS
+Package **wundr** provides API interfaces to Personal Weather Station (PWS) data 
+maintained by Weather Underground (wunderground.com). Tables of PWS
 locations and metadata for user specified geographic areas are constructed.
 Robust retrieval of current and historical weather condition data for
 selected PWS. Computational tools for spatial analysis, including Kriging
 (Gaussian processes) for interpolation, as well as prediction of missing
 data and forecasts. Visualization of microclimate data methods including
-contextual static maps, interactive web maps, and animated plots. Facility
-to export data to CartoDB's spatial database hosting and webmap publishing
-platform.
+contextual static and interactive web maps. Additional facility to export data 
+to CartoDB's spatial database hosting and webmap publishing platform.
 
 Package **wundr** has the following functionalities:
 
@@ -34,7 +42,6 @@ Package **wundr** has the following functionalities:
 ## Creation of S4-Class Table describing a given region's PWS 
 
 ## Subsettable tables based on #1
-[John, we can add my new draw_subset method to your other work on this]
 
 ## Web retrieval of data and storage in memory
 
@@ -43,11 +50,19 @@ Package **wundr** has the following functionalities:
 ## Computational tools for spatial analysis
 
 ## Web interface with interactive Visuals
-[Coming soon from Matt]
+For explanitory purposes, the user can also create interactive web maps powered 
+by leaflet.js. Here, PWS locations are plotted. Station specific data can 
+also be retrieved via interactive pop-ups. (click on a station)
 
 ```{r, fig.show='hold'}
-# webmap_pnts(PWS.Conds.Chicago)
-# webmap_raster(PWS.Conds.Chicago)
+webmap_pnts(PWS.Conds.Chicago)
+```
+
+Raster images can also be sent to the interactive map. Below, a simple 
+density (heatmap) of PWS locations.
+
+```{r}
+webmap_raster(PWS.Conds.Chicago)
 ```
 
 ## Integration with other data providers and services 

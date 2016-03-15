@@ -140,14 +140,18 @@ gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
 #' data(PWS.Conds.Chicago)
 #' webmap_pnts(PWS.Conds.Chicago)
 webmap_pnts <- function(PWS.class, content = content) {
-  data <- PWS.class@spatialPtDF
-  bounds <- data@bbox
+  # data <- PWS.class@spatialPtDF
+  metadata <- PWS.class@spatialPtDF
+  data <- PWS.class@data
+  bounds <- metadata@bbox
   content <- paste(sep = "",
-                     "<b>", data$id,"</b>", "<br/>",
+                     "<b>ID: ", data$station_id,"</b>", "<br/>",
                      data$temperature_string, "<br/>",
-                     "<a href=", data$history_url, ">current and historical
-                      data</a>")
-  m <- leaflet::leaflet(data)  %>%
+                     data$weather, "<br/>",
+                     data$observation_time)
+#                      "<a href=", data$history_url, ">current and historical
+#                       data</a>")
+  m <- leaflet::leaflet(metadata)  %>%
     leaflet::addProviderTiles("Stamen.TonerLines",
                      options = leaflet::providerTileOptions(opacity = 0.35)) %>%
     leaflet::fitBounds(bounds[1,1], bounds[2,1], bounds[1,2], bounds[2,2]) %>%
