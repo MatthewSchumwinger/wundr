@@ -23,6 +23,10 @@
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+##
+## Begin zohren code
+##
+
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # +                                            FUNCTIONS                                            +
@@ -465,7 +469,7 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
   count = 0
   date_list <- tryCatch(seq(as.Date(begin_YYYYMMDD,"%Y%m%d"),
                             as.Date(end_YYYYMMDD,"%Y%m%d"), by="days"),
-                        error = function(e) {stop("Dates must be in format 'YYYYMMDD' and in chronological order.")})
+                        error = function(e) {stop("Dates must be in format 'YYYYMMDD' and in cronological order.")})
 
   date_list = gsub("-","",date_list)
   cat("A total of ",nrow(PWSmetadata$PWSmetadata)*length(date_list),
@@ -593,7 +597,9 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 
 
 
-
+##
+## End zohren code
+##
 
 
 

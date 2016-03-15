@@ -2,11 +2,13 @@
 # +             Test script for functions in 'analytics_functions.R' of wundr package               +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
+##
+## Begin zohren code
+##
 
 library(wundr)
 
-context("Analytics")
+context("Analytics-functions")
 
 # Data to be used in test for temporal analysis functions:
 data(Rio_history)
@@ -64,10 +66,39 @@ test_that("history_forecast",{
 
 test_that("create_geo_cond",{
   #data(Rio_conditions)
+  # Check that output runs through and is of correct class
+  expect_equal(class(create_geo_cond(Rio_conditions,"temp_c")), "geodata")
+  # Check that the output has the right number of observations
+  expect_equal(nrow(create_geo_cond(Rio_conditions,"temp_c")$coord),nrow(Rio_conditions))
   # Check that we get an error when selecting undefined columns (variables)
   expect_error(create_geo_cond(Rio_conditions,"wrongVariable"),"undefined columns selected")
+  # Check that we get an error when variable is not of length 1
+  expect_error(create_geo_cond(Rio_conditions,c("temp_c","temp_f")),"Select only one variable.")
+})
+
+
+test_that("create_grid",{
+  #data(Rio_conditions)
+  # Check that the function runs correctly and is of correct class
+  expect_equal(class(create_grid(create_geo_cond(Rio_conditions,"temp_c"))), "matrix")
+  # Check that the output has the right number of columns
+  expect_equal(ncol(create_grid(create_geo_cond(Rio_conditions,"temp_c"))),2)
+  # Check that we get an error when first argument is not of class 'geodata'
+  expect_error(create_grid(Rio_conditions),"First argument must be of class 'geodata'.")
 })
 
 
 
+test_that("GP_fit",{
+  #data(Rio_conditions)
+  # Check that the function runs correctly and is of correct class
+  expect_equal(class(GP_fit(create_geo_cond(Rio_conditions,"temp_c"))), "data.frame")
+  # Check that we get an error when first argument is not of class 'geodata'
+  expect_error(GP_fit(Rio_conditions),"First argument must be of class 'geodata'.")
+})
+
+
+##
+## End zohren code
+##
 
