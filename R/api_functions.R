@@ -190,7 +190,7 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
 
   cat("A minimum of ",nrow(centroidTable)," API calls is needed to download the metadata.\n")
   if(stdAPI) cat("Under standard API settings only 10 calls per minute are allowed.\n")
-  cat("(API calls are denoted by '.' If WUnderground return only partial data,\n")
+  cat("(API calls are denoted by '.' If W. Underground returns only partial data,\n")
   cat("new additional API calls are made. Leading to more than ",nrow(centroidTable)," calls.\n")
   cat("Those new calls are denoted by ',')\n")
   cat("Downloading ")
@@ -205,7 +205,11 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
                                      url_geo,centroidTable[i,2],",",centroidTable[i,1],".json"))
     # Check JSON for error, i.e. wrong key etc.
     if(!is.null(req$response$error)) stop(paste("JSON error:",req$response$error$description))
-    queries=rbind(queries,req$location$nearby_weather_stations$pws$station)
+
+    if(!is.null(req$location$nearby_weather_stations$pws$station)){
+      queries=rbind(queries,req$location$nearby_weather_stations$pws$station)
+    }
+
     count <- count + 1
     cat(".")
 
@@ -215,6 +219,7 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
     #cat(" max dist:",max(req$location$nearby_weather_stations$pws$station$distance_km),"\n")
 
     # Zoom in:
+    if(!is.null(req$location$nearby_weather_stations$pws$station$distance_km)){
     if(max(req$location$nearby_weather_stations$pws$station$distance_km)<25){
       for(ind_i in c(-1,1)){
         for(ind_j in c(-1,1)){
@@ -229,12 +234,18 @@ PWS_meta_query  <- function(longitude, latitude, radius, user_key ,
           }
           req <- jsonlite::fromJSON(paste0(url_base,user_key,
                                            url_geo,vec[2],",",vec[1],".json"))
+
           if(!is.null(req$response$error)) stop(paste("JSON error:",req$response$error$description))
-          queries=rbind(queries,req$location$nearby_weather_stations$pws$station)
+
+          if(!is.null(req$location$nearby_weather_stations$pws$station)){
+            queries=rbind(queries,req$location$nearby_weather_stations$pws$station)
+          }
+
           count <- count + 1
           cat(",")
         }
       }
+    }
     }
   }
   cat(" Post-processing. ")
