@@ -33,6 +33,13 @@ Package **wundr** has the following functionalities:
 
 ## Subsettable tables based on #1
 
+Graphicly subset PWS.class objects by drawing a poylgon around PWS points
+plotted in graphics device. *Note: this is interactive, so must be run run from 
+the console.*
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
+my_subset  <-  draw_subset(PWS.Conds.Chicago)
+```
+
 ## Web retrieval of data and storage in memory
 
 ## Visualization of microclimate data

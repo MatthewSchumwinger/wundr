@@ -17,8 +17,7 @@
 #' @examples
 #' \dontrun{
 #' # not run because this is an function that requires user interaction.
-#' my_ss  <-  draw_subset(PWS.Conds.Chicago)
-#' my_ss2 <-  draw_subset(my_ss)}
+#' my_ss  <-  draw_subset(PWS.Conds.Chicago)}
 
 # draw polygon to subset # methods from Bivand ASDA pp. 76-78
 draw_subset <- function(PWS.class){
