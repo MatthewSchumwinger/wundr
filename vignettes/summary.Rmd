@@ -38,8 +38,7 @@ str(PWS.Hist.Chicago, max.level = 2)
 ```
 
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE}
-require(pander)
-pandoc.table(head(PWS.Loc.Chicago@spatialPtDF@data)[,1:7])
+head( PWS.Loc.Chicago@spatialPtDF@data[,2:7] ) 
 ```
 ## Subsettable tables based on #1
 
