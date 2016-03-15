@@ -30,7 +30,7 @@ plot(PWS.Loc.Chicago)   ##yields plot similar to one below
 ```
 The initial API pull through (`PWS.Locations()`) results in a S4-Class Object with a slot for a data.table as well as another for a "SpatialPointsDataFrame".  The latter allows **wundr** users to engage in a variety of geospatial analytics without having to recompute the table.  
 
-```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE} 
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE} 
 knitr::kable(head(PWS.Loc.Chicago@spatialPtDF@data)[,1:7])
 ```
 
@@ -51,16 +51,8 @@ Once the initial API of the larger region is complete, the user may plot the dat
 PWS.Loc.Sub.Chicago <- PWS.Query.Subset(PWS.Loc.Chicago, -87.62, 41.88, 2)
 subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago)   ##yields the geospatial plot here below
 ```
-<!---
+
 <img src="subRegion.jpg" align="middle" height="350" width="350" />
--->
-
-In addition to the Table-Subset function provided above, the **wundr** user may graphically subset PWS.class objects by drawing a poylgon around PWS points plotted in graphics device.
-
-```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
-my_subset  <-  draw_subset(PWS.Conds.Chicago)
-```
-
 
 ### Web retrieval of data and storage in memory
 
@@ -72,21 +64,16 @@ A maior issue is caused by the limitations of the API, which only allows for sea
 <img src="api_illustration2.png" width="250">
 
 
-
-
-
-
-
 ### Visualization of microclimate data
 
-To faciliate exploratory analysis, simple plots of PWS using simple_pnts() and simple_density() functions. Enhanced contextual mapping of PWS is also available:
+To faciliate exploratory analysis, simple plots of PWS using `simple_pnts()` and `simple_density()` functions. Enhanced contextual mapping of PWS is also available:
 
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, include = TRUE}
 basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
 gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 ```
 
-Graphically subset PWS.class objects by drawing a poylgon around PWS points
+Users may graphically subset PWS.class objects by drawing a poylgon around PWS points
 plotted in graphics device. *Note: this is interactive, so must be run run from 
 the console.*
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
@@ -146,14 +133,9 @@ ggplot2::ggplot(data = model, ggplot2::aes(x=lon, y=lat)) +
 
 Those results can then be used in more advanced visualisations. We predented a basic computational analysis toolkit. In future updates it would be intersting to include Gaussian Processes analysis for time series which is still an active field of research, as well as a combined spatio-temporal analysis using GPs with combined kernels, which could be visualised using animated spatial visualisations.
 
-
-
-
-
-
 ### Web interface with interactive Visuals
-For explanitory purposes, the user can also create interactive web maps powered 
-by leaflet.js. Here, PWS locations are plotted. Station specific data can 
+For explanitory purposes, the user may also create interactive web maps powered 
+by Leaflet.js. Here, Downtown Chicago PWS locations are plotted. Station specific data can 
 also be retrieved via interactive pop-ups. **(click on a station)**
 
 ```{r, fig.show='hold'}
@@ -169,21 +151,22 @@ webmap_raster(PWS.Conds.Chicago)
 
 ### Integration with the CartoDB platform  
 **wundr** also contains functions that interface with the CartoDB SQL API
-(http://docs.cartodb.com/cartodb-platform/sql-api/). This allows users to exploit the robust PostGIS spatial database and web publishing services of CartoDB.  
+(http://docs.cartodb.com/cartodb-platform/sql-api/). This allows users to exploit the extensive PostGIS spatial database and web publishing services of CartoDB.  
 
 *(note: these code chunks cannot be evaluated using knitr, but you can run from console with your own account and key)*
 
-Here, we export Downtown Chicago Weather Underground PWS data to CartoDB's:  
+Here, we export Downtown Chicago Weather Underground PWS data to CartoDB:  
 
 ```{r, eval = FALSE}
+# demo account and key provided for illustriation purposes
 matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
 matt.cdb.account <- "biglakedata"
 pizza <- PWS.Conds.Chicago
 r2cdb(matt.cdb.key, matt.cdb.account, pizza)
 ```
-You can view this map here: https://biglakedata.cartodb.com/tables/pizza/map 
+A live version of this map can be found here: https://biglakedata.cartodb.com/tables/pizza/map 
 
-This interface goes both ways; we can also import spatial SQL tables into R data frame objects. 
+The **wunder** CartoDB interface goes both ways; users can also import spatial SQL tables into R data frame objects. 
 
 ```{r, eval = TRUE}
 # matt_cdb_table <- get_cdb_table("condTest", matt.cdb.account)
