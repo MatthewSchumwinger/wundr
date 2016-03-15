@@ -120,7 +120,8 @@ history_forecast <- function(history.tszoo, find.frequency=TRUE,... ){
     stop("Argument must be a time series of class 'zoo' or 'ts'.")
   if("zoo" %in% class(history.tszoo) )
     history.tszoo <- stats::as.ts(zoo::zooreg(history.tszoo))
-  if(!is.null(dim(history.tszoo))) stop("Forecasting is only possible for univariate time series.")
+  if(!is.null(dim(history.tszoo)))
+    stop("Forecasting is only possible for univariate time series.")
   forecast::forecast(history.tszoo,find.frequency=find.frequency,...)
 }
 
@@ -181,16 +182,17 @@ create_geo_cond <- function(data.conditions,variable){
 #'
 create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
   if(class(data.geo)!="geodata") stop("First argument must be of class 'geodata'.")
+  # If grid limits are not provided correctly, set to defaults (full lon,lat range)
   if(length(grid.lim)!=4 | typeof(grid.lim)!="double"){
     min.lon <- min(data.geo$coords[,1])
     max.lon <- max(data.geo$coords[,1])
     min.lat <- min(data.geo$coords[,2])
     max.lat <- max(data.geo$coords[,2])
   } else {
-    min.lon = grid.lim[1]
-    max.lon = grid.lim[2]
-    min.lat = grid.lim[3]
-    max.lat = grid.lim[4]
+    min.lon <- grid.lim[1]
+    max.lon <- grid.lim[2]
+    min.lat <- grid.lim[3]
+    max.lat <- grid.lim[4]
   }
   lon.range <- seq(min.lon, max.lon, by=(max.lon-min.lon)/size.lon)
   lat.range <- seq(min.lat, max.lat, by=(max.lat-min.lat)/size.lat)
@@ -225,10 +227,15 @@ create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
 #'
 GP_fit <- function(data.geo,...){
   if(class(data.geo)!="geodata") stop("First argument must be of class 'geodata'.")
+  # Create grid to make predictions on:
   grid.positions <- create_grid(data.geo,...)
+  # Fit Gaussian process and make predictions for the points on the grid
   fit <- geoR::ksline(data.geo, cov.model="exp",cov.pars=c(10,3), nugget=0,locations=grid.positions)
   grid.values <- as.data.frame(cbind(grid.positions,fit$predict))
   colnames(grid.values) <- c(colnames(grid.positions),"value")
+  # Return predictions:
+  # For the visualisations we have only been interested in retruning the fitted values
+  # but in the future we could also return more information on the underlying fit
   grid.values
 }
 
