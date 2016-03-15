@@ -19,7 +19,9 @@
 # +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
+##
+## Begin zohren code
+##
 
 
 #require(zoo);require(forecast);
@@ -151,6 +153,7 @@ history_forecast <- function(history.tszoo, find.frequency=TRUE,... ){
 #' data.geo
 #'
 create_geo_cond <- function(data.conditions,variable){
+  if(length(variable)>1) stop("Select only one variable.")
   if(!(variable %in% colnames(data.conditions))) stop("undefined columns selected")
   coord.col <- c(which( colnames(data.conditions)=="longitude" ),which( colnames(data.conditions)=="latitude" ))
   geoR::as.geodata(data.conditions, coords.col=coord.col, data.col =  which( colnames(data.conditions)==variable ))
@@ -177,6 +180,7 @@ create_geo_cond <- function(data.conditions,variable){
 #' head(grid.positions)
 #'
 create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
+  if(class(data.geo)!="geodata") stop("First argument must be of class 'geodata'.")
   if(length(grid.lim)!=4 | typeof(grid.lim)!="double"){
     min.lon <- min(data.geo$coords[,1])
     max.lon <- max(data.geo$coords[,1])
@@ -220,6 +224,7 @@ create_grid <- function(data.geo, size.lon=50,size.lat=50, grid.lim=NULL){
 #'  ggplot2::geom_point(data=Rio_metadata$PWSmetadata,col='black')
 #'
 GP_fit <- function(data.geo,...){
+  if(class(data.geo)!="geodata") stop("First argument must be of class 'geodata'.")
   grid.positions <- create_grid(data.geo,...)
   fit <- geoR::ksline(data.geo, cov.model="exp",cov.pars=c(10,3), nugget=0,locations=grid.positions)
   grid.values <- as.data.frame(cbind(grid.positions,fit$predict))
@@ -228,4 +233,6 @@ GP_fit <- function(data.geo,...){
 }
 
 
-
+##
+## End zohren code
+##
