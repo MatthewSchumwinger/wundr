@@ -3,13 +3,12 @@ Final project R package for Stats 290
 
 ## Task List
  who | by when | what
-- [ ] team | 3-14 | compile tar of "safety" package
+- [x] team | 3-14 | compile tar of "safety" package
 - [x] team | 3-14 | Your package must pass R CMD check --as-cran without errors. It should not produce any warnings or notes either!
-- [ ] team | 3-14 | Your package must have test scripts in the tests directory to demonstrate that the main computations in the package do work. We will discuss testing in later classes via testhat.
+- [x] team | 3-14 | Your package must have test scripts in the tests directory to demonstrate that the main computations in the package do work. We will discuss testing in later classes via testhat.
 - [ ] team | 3-14 | 4-page summary.Rmd vignette
-- [ ] team | 3-14 | Any code used must also be placed in the examples package folder for checking.
-- [ ] team | 3-14 | Your code must adhere to R coding style. See Wickham's Advanced R book and Google Style for some suggestions. I use camelCase for naming, except for well-known conventions like is.x. Transplanting loops from other languages is sure to earn demerits.
-- [ ] S    | 3-11 | part 5 - Computational Facility based on Interpolations, etc.
+- [x] team | 3-14 | Your code must adhere to R coding style. See Wickham's Advanced R book and Google Style for some suggestions. I use camelCase for naming, except for well-known conventions like is.x. Transplanting loops from other languages is sure to earn demerits.
+- [x] S    | 3-11 | part 5 - Computational Facility based on Interpolations, etc.
 - [ ] J    | .... | Getter for S4 global.R object with respect to Temperature, Humidity, etc.
 - [ ] J    | .... | global.R file for package (global variable for Conditions)
 - [ ] M    | 3-14 | feature for user to graphically select point for search radius

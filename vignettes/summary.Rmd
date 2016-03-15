@@ -18,38 +18,51 @@ library(wundr)
 ```
 
 Package **wundr** provides API interfaces to Personal Weather Station (PWS) data 
-maintained by Weather Underground (wunderground.com). Tables of PWS
-locations and metadata for user specified geographic areas are constructed.
-Robust retrieval of current and historical weather condition data for
-selected PWS. Computational tools for spatial analysis, including Kriging
-(Gaussian processes) for interpolation, as well as prediction of missing
-data and forecasts. Visualization of microclimate data methods including
-contextual static and interactive web maps. Additional facility to export data 
-to CartoDB's spatial database hosting and webmap publishing platform.
+maintained by Weather Underground (wunderground.com). **wundr** represents a robust retrieval mechanism of data and computational tools for visual and spatial analysis as well as forecasting through Gaussian Kriging. An additional facility to export data to CartoDB's spatial database hosting and webmap publishing platform is included. Package **wundr** specifically offers the following functionalities:
 
-Package **wundr** has the following functionalities:
+### Creation of S4-Class Table describing a given region's PWS 
 
-## Creation of S4-Class Table describing a given region's PWS 
+**wundr** provides its users tables of PWS locations and metadata for user-specified geographic regions. Subsequently, weather condition and historical data may easily be retrieved for the selected PWS.  First, the user inputs her desired coordinates--or, alternatively, a character string of a name of a state or region--as well as a search radius and their wunderground API user key.  The user's input is validated to ensure that only proper longitude and latitude coordinates get entered or a proper location-based character string.
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
+PWS.Loc.Chicago <- PWS.Locations(-87.6298, 41.87811 radius=5, user.key)
+PWS.Loc.Chicago <- PWS.Locations("Chicago, IL", radius=5, user.key)
+plot(PWS.Loc.Chicago)   ##yields plot similar to one below 
+```
+The initial API pull through (`PWS.Locations()`) results in a S4-Class Object with a slot for a data.table as well as another for a "SpatialPointsDataFrame".  The latter allows **wundr** users to engage in a variety of geospatial analytics without having to recompute the table.  
 
-**wundr** offers several S4 classes capturing the essence of different PWS attributes including weather history, conditions, and subquerying.  It has the advantage of elegance and utility.
-
-```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE}
-str(PWS.Hist.Chicago, max.level = 2)
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE} 
+knitr::kable(head(PWS.Loc.Chicago@spatialPtDF@data)[,1:7])
 ```
 
-```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE}
-knitr::kable( head( PWS.Loc.Chicago@spatialPtDF@data[,1:7] ) )
+Subsequently, the user has immediate access to diverse PWS weather data:  the `PWS.Conditions()` gives the current weather conditions, whereas `PWS.History()` takes a starting and ending date from the user and retrieves reported weather conditions for all the stations in a table. Each of the returned objects is an S4 class, with the one returned by `PWS.History()` providing the user immediate slot access to the average Temperature, Humidity, Pressure and DewPoint for all of the PWS included.  Each station also has variance and standard deviation information included for easy use in further visualization and analysis.  
+
+Furthermore, **wundr**'s environmental variable `wundr.env$conds` keeps track of the user's most recent condition search so it's always available.  One-stroke commands such as `PWS.temp()`, `PWS.humidity()`, `PWS.feels.like()`, and `PWS.dewpoint()` give the user instant access to information he wants about his PWS of interest.
+
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
+PWS.Conds.Chicago <- PWS.Conditions(PWS.Loc.Chicago, user.key=jam.key.2)
+PWS.Hist.Chicago <- PWS.History(PWS.Loc.Chicago, "20150306", "20150310", user.key)
 ```
-## Subsettable tables based on #1
+
+### Subsettable tables based on #1
+Once the initial API of the larger region is complete, the user may plot the data immediately via an S4-method that is invoked by the `plot()` function. He may also use the same criterion of location and distance used to generate the initial table to extract a smaller table of interest and a subregion plot superimposed above the points in the larger radius query. 
+
+**wundr**'s region-subsetting function proceeds by creating a SpatialPolygon shaped as a convex hull around the Private Weather Stations from the larger region and checking which spatial coordinate points from the smaller subregion fall within it.  The returned table contains the a subset of the larger table, but retains the S4 features, slots, and methods. The algorithm also checks whether the entire search radius is confined within the limits of the prior search, providing the user a warning in the event the new search exceeded the boundaries of the first.  The `subRegion.Pnts()` lets the user see where the subregion points lie geospatially with respect to the larger selection of stations. 
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
+PWS.Loc.Sub.Chicago <- PWS.Query.Subset(PWS.Loc.Chicago, -87.62, 41.88, 2)
+subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago)   ##yields the geospatial plot here below
+```
+<!---
+<img src="subRegion.jpg" align="middle" height="350" width="350" />
+-->
+
+In addition to the Table-Subset function provided above, the **wundr** user may graphically subset PWS.class objects by drawing a poylgon around PWS points plotted in graphics device.
+
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
+my_subset  <-  draw_subset(PWS.Conds.Chicago)
+```
 
 
-
-
-
-
-
-
-## Web retrieval of data and storage in memory
+### Web retrieval of data and storage in memory
 
 The interface to the Weather Underground API system is done through the low-level API-functions (note that we use `_` in names of low-level objects and `.` in others). Those functions include `PWS_meta_query` (and its auxilliary `createCentroidTable` function), the `PWS_meta_subset` function, the `PWS_conditions` function and the `PWS_history` function. The package also includes a number of datasets to illustrate the functionality of those functions (`Rio_basemap`, `Rio_metadata`, `Rio_conditions`, `Rio_history`). The user is supposed to interact with the API-functions through the aforementioned S4 obbject which call those functions. Nonetheless, full documentation is provided.
 
@@ -64,23 +77,16 @@ A maior issue is caused by the limitations of the API, which only allows for sea
 
 
 
-## Visualization of microclimate data
+### Visualization of microclimate data
 
-Simple plots of PWS for exploratory analysis:
-
-```{r, fig.show='hold', warning = FALSE, message = FALSE, include = TRUE}
-simple_density(PWS.Conds.Chicago, title = "Chicago PWS points over \nPWS density contour")
-simple_pnts(PWS.Conds.Chicago, add = TRUE)
-```
-
-Contextual mapping of PWS for exploratory analysis:
+To faciliate exploratory analysis, simple plots of PWS using simple_pnts() and simple_density() functions. Enhanced contextual mapping of PWS is also available:
 
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, include = TRUE}
 basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
 gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 ```
 
-Graphicly subset PWS.class objects by drawing a poylgon around PWS points
+Graphically subset PWS.class objects by drawing a poylgon around PWS points
 plotted in graphics device. *Note: this is interactive, so must be run run from 
 the console.*
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
@@ -89,14 +95,10 @@ basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
 gg_points(my_subset, basemap, title = "Downtown Chicago PWS")
 ```
 
+Additional facilities to visualize microclimate predictive models are 
+demonstrated in the following section.
 
-
-
-
-
-
-
-## Computational tools for temporal and spatial analysis
+### Computational tools for temporal and spatial analysis
 
 The package includes a number of computational facilities, which are devided in temporal and spatial analysis. We first discuss the **temporal analysis** using time series techniques. The functions discussed below take as inputs data.frames with historical weather data as obtained through `PWS.History` or the underlying low-level API function `PWS_history`. The first step is to select data from those data.frames and convert it into time series objects. Since the data obtained from the weather stations is irregular we have to use a package which supports **irregular time-series** (such as `zoo`). Our funciton `history_zoo` takes a historical data frame, subsets it to select data from a given station and a number of variables and creates a time series object of class `zoo`. Here is an example:
 
@@ -149,23 +151,23 @@ Those results can then be used in more advanced visualisations. We predented a b
 
 
 
-## Web interface with interactive Visuals
+### Web interface with interactive Visuals
 For explanitory purposes, the user can also create interactive web maps powered 
 by leaflet.js. Here, PWS locations are plotted. Station specific data can 
-also be retrieved via interactive pop-ups. (click on a station)
+also be retrieved via interactive pop-ups. **(click on a station)**
 
 ```{r, fig.show='hold'}
 webmap_pnts(PWS.Conds.Chicago)
 ```
 
-Raster images can also be sent to the interactive map. Below, a simple 
-density (heatmap) of PWS locations.
+Raster images can also be sent to the interactive map. This code (not evaluated 
+here), produces  a simple density (heatmap) of PWS locations.
 
-```{r}
+```{r, eval = FALSE}
 webmap_raster(PWS.Conds.Chicago)
 ```
 
-## Integration with the CartoDB platform  
+### Integration with the CartoDB platform  
 **wundr** also contains functions that interface with the CartoDB SQL API
 (http://docs.cartodb.com/cartodb-platform/sql-api/). This allows users to exploit the robust PostGIS spatial database and web publishing services of CartoDB.  
 
