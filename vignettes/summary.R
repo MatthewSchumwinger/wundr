@@ -1,6 +1,7 @@
 ## ---- echo = FALSE-------------------------------------------------------
 library(wundr)
 
+<<<<<<< HEAD
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
 #  PWS.Loc.Chicago <- PWS.Locations(-87.6298, 41.87811 radius=5, user.key=jam.key.2)
 #  PWS.Loc.Chicago <- PWS.Locations("Chicago, IL", radius=5, user.key=jam.key.2)
@@ -19,6 +20,26 @@ simple_density(PWS.Conds.Chicago, "Downtown Chicago PWS")
 
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
 #  my_subset  <-  draw_subset(PWS.Conds.Chicago) ## this is interactive and must run from console
+=======
+## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE-----
+str(PWS.Hist.Chicago, max.level = 2)
+
+## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE-----
+knitr::kable( head( PWS.Loc.Chicago@spatialPtDF@data[,1:7] ) )
+
+## ---- fig.show='hold', warning = FALSE, message = FALSE, include = TRUE----
+simple_density(PWS.Conds.Chicago, title = "Chicago PWS points over \nPWS density contour")
+simple_pnts(PWS.Conds.Chicago, add = TRUE)
+
+## ---- fig.show='hold', warning = FALSE, message = FALSE, include = TRUE----
+basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
+gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
+
+## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
+#  my_subset  <-  draw_subset(PWS.Conds.Chicago)
+#  basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
+#  gg_points(my_subset, basemap, title = "Downtown Chicago PWS")
+>>>>>>> origin/master
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  hist.zoo <- history_zoo(Rio_history,"IRIODEJA53",c("hum","tempm"))
