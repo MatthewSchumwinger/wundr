@@ -132,7 +132,7 @@ PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_
 ##
 ## End jamarin code
 ##
-##
+
 
 
 

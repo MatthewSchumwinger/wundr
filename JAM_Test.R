@@ -225,3 +225,5 @@ PWS.Loc.Chicago@spatialPt@coords
               })
 
 validObject(PWS.Loc.Chicago)
+
+
