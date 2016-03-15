@@ -17,8 +17,6 @@ vignette: >
 library(wundr)
 ```
 
-**[note to team: this summary should prove that we have accomplsihed our 7 objectives outlined in the proposal. Below is a minimum structure with a section for each objective.]**
-
 Package **wundr** provides API interfaces to Personal Weather Station (PWS) data 
 maintained by Weather Underground (wunderground.com). Tables of PWS
 locations and metadata for user specified geographic areas are constructed.
@@ -31,14 +29,6 @@ to CartoDB's spatial database hosting and webmap publishing platform.
 
 Package **wundr** has the following functionalities:
 
-- Creation of S4-Class Table describing a given region's PWS
-- Subsettable tables based on #1
-- Web retrieval of data and storage in memory
-- Visualization of microclimate data
-- Computational tools for spatial analysis
-- Web interface with interactive Visuals
-- Integration with other data providers and services
-
 ## Creation of S4-Class Table describing a given region's PWS 
 
 ## Subsettable tables based on #1
@@ -46,6 +36,20 @@ Package **wundr** has the following functionalities:
 ## Web retrieval of data and storage in memory
 
 ## Visualization of microclimate data
+
+Simple plots of PWS for exploratory analysis:
+
+```{r, fig.show='hold', warning = FALSE, message = FALSE, include = TRUE}
+simple_pnts(PWS.Conds.Chicago, "Downtown Chicago PWS")
+simple_density(PWS.Conds.Chicago, "Downtown Chicago PWS")
+```
+
+Contextual mapping of PWS for exploratory analysis:
+
+```{r, fig.show='hold', warning = FALSE, message = FALSE, include = TRUE}
+basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
+gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
+```
 
 ## Computational tools for spatial analysis
 

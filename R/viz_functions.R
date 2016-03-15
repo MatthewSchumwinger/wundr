@@ -72,9 +72,7 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
   D <- as(D, "RasterLayer")
   mycol <- colorRampPalette(c("transparent", "transparent","yellow", "orange","red"))(256)
   plot(D, legend = F, box = F, axes = F, col=mycol, add=F, main = title)
-  # box()
   raster::contour(D, axes = FALSE, add=T, col = "white", drawlabels=F)
-  D
 }
 
 #' set_basemap
