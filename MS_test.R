@@ -66,9 +66,23 @@ ggmap::ggmap(basemap, extent = "device") +
 
 
 
+### search radius
+click_meta_query <- function(PWS.Class){
+  basemap <- set_basemap(PWS.Class)
+  gg_points(PWS.Class, basemap)
+  user_point <- ggmap::gglocator()
+  PWS_meta_query(user_point[[1]], user_point[[2]], 50,
+                 matt.wu.key <- "fd9858dfc94a85ea")
+}
 
 
-
+basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
+gg_points(PWS.Conds.Chicago, basemap, title = "Pizza")
+user_point <- ggmap::gglocator()
+# u_centre_table <- createCentroidTable(user_point[[1]], user_point[[2]], 100, 40)
+Chi_subset_metadata <- PWS_meta_query(user_point[[1]], user_point[[2]], 50, matt.wu.key <- "fd9858dfc94a85ea")
+spdf <- toSPntsDF(Chi_subset_metadata[[1]])
+sp::plot(spdf, main = "Greater Chicago PWS", col = "red")
 
 
 

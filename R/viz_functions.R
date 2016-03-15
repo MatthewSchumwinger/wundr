@@ -121,6 +121,12 @@ set_basemap <- function(PWS.class, zoom = 9) {
 #' basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
 #' gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
+<<<<<<< HEAD
+#   cat("Note: zoom = 9 captures 50-mile radius.", "\n",
+#       "Data points outside zoom area are considered 'missing values'", "\n",
+#       "and may not plot on gg_map if zoom > 9")
+=======
+>>>>>>> origin/master
   message(c("Data points outside zoom area are considered 'missing values'",
             "\nand may not plot on gg_map if zoom > 9."))
   pnts <- PWS.class@spatialPtDF@data

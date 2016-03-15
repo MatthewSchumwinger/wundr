@@ -1,11 +1,11 @@
 ##
-## Begin jamarin code
+## Begin jamarin (John A. Marin) code
 ##
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# The PWS.Location S4 class required for the projects is located herein along with                  +
-# functions related to its creation and initialization. Relevant validation testing is              +
-# done in the initialization function of the class.
-# +
+# + The PWS.Location S4 class required for the projects is located herein along with                +
+# + functions related to its creation and initialization. Relevant validation testing is            +
+# + done in the initialization function of the class.                                               +
+# +                                                                                                 +
 # + Data sets which are included and which show the output of those functions:                      +
 # +                                                                                                 +
 # + o PWS.Loc.Chicago.rda                                                                           +
@@ -98,8 +98,6 @@ setMethod("initialize",
 #' @author wundr team
 #'
 "PWS.Loc.Chicago"
-
-
 
 ##
 ## End jamarin code
