@@ -88,7 +88,7 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
 #' data("PWS.Conds.Chicago")
 #' basemap <- set_basemap(PWS.Conds.Chicago)
 set_basemap <- function(PWS.class, zoom = 9) {
-  cat("Note: zoom = 9 captures 50-mile radius.")
+  message("Note: zoom = 9 captures 50-mile radius.")
   df <- PWS.class@spatialPtDF@data
   bbox <- ggmap::make_bbox(df$lon, df$lat)
   # center <- c(-87.896118, 42.946622) # MKE airport
@@ -114,9 +114,11 @@ set_basemap <- function(PWS.class, zoom = 9) {
 #' basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
 #' gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 gg_points <- function(PWS.class, basemap = basemap, title = NULL, ...) {
-  cat("Note: zoom = 9 captures 50-mile radius.", "\n",
-      "Data points outside zoom area are considered 'missing values'", "\n",
-      "and may not plot on gg_map if zoom > 9")
+#   cat("Note: zoom = 9 captures 50-mile radius.", "\n",
+#       "Data points outside zoom area are considered 'missing values'", "\n",
+#       "and may not plot on gg_map if zoom > 9")
+  message(c("Data points outside zoom area are considered 'missing values'",
+            "\nand may not plot on gg_map if zoom > 9."))
   pnts <- PWS.class@spatialPtDF@data
   ggmap::ggmap(basemap, extent = "device") +
     ggplot2::geom_point(data=pnts,

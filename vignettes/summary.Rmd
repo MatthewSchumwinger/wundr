@@ -152,9 +152,9 @@ You can view this map here: https://biglakedata.cartodb.com/tables/pizza/map
 
 This interface goes both ways; we can also import spatial SQL tables into R data frame objects. 
 
-```{r, eval=FALSE}
+```{r, eval = TRUE}
 # matt_cdb_table <- get_cdb_table("condTest", matt.cdb.account)
 head(matt_cdb_table$rows[ , c("cartodb_id", "station_id", "temperature_string", 
-                              "dewpoint_string")])# pulled from presaved data file
+                              "dewpoint_string")],2)# pulled from presaved data file
 ```
 
