@@ -82,7 +82,27 @@ test_that("PWS.Query.Subset",{
   nrow(PWS.Loc.Sub.Chicago@spatialPtDF@coords) < nrow(PWS.Loc.Chicago@spatialPtDF@coords)
 })
 
-
+test_that("PWS.History",{
+  data("PWS.Hist.Chicago")
+  #Verify uniformity of history data
+  expect_equal(dim(PWS.Hist.Chicago@variance.Humidity), dim(PWS.Hist.Chicago@average.Temp))
+  #Verify that original PWS.Location is within Wunderground History - lat below or equal max lat
+  expect_true(PWS.Hist.Chicago@call$lat <= max(PWS.Hist.Chicago@history$latitude))
+  #Verify that original PWS.Location is within Wunderground History - lat above or equal min lat
+  expect_true(PWS.Hist.Chicago@call$lat >= min(PWS.Hist.Chicago@history$latitude))
+  #Verify that original PWS.Location is within Wunderground History - llon below or equal max lon
+  expect_true(PWS.Hist.Chicago@call$lon <= max(PWS.Hist.Chicago@history$longitude))
+  #Verify that original PWS.Location is within Wunderground History - lon above or equal min lon
+  expect_true(PWS.Hist.Chicago@call$lon >= min(PWS.Hist.Chicago@history$longitude))
+  #Verify that output year is equal to or before current date
+  expect_true(
+    as.numeric(substring(PWS.Hist.Chicago@history$pretty[1],27,30)) <= as.numeric(substring(lubridate:::now(),1,4))
+  )
+  #Verify that output year is equal to or after 1945 (earliest date held by wunderground.com)
+  expect_true(
+    as.numeric(substring(PWS.Hist.Chicago@history$pretty[1],27,30)) >= 1945
+  )
+})
 ##
 ## End jamarin code
 ##
