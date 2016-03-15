@@ -198,3 +198,9 @@ toWGS84 <- function(sp) {
 
 
 
+## towards fixing draw_subset function; subsets only top slot, not conditions @data:
+data(PWS.Conds.Chicago)
+sp::plot(PWS.Conds.Chicago, col="red", pch = 20, add = FALSE)
+simple_pnts(PWS.Conds.Chicago, col="red", pch = 20, add = FALSE)
+my_ss  <-  draw_subset(PWS.Conds.Chicago)
+sp::plot(my_ss@spatialPtDF)

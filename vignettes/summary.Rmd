@@ -42,12 +42,6 @@ knitr::kable( head( PWS.Loc.Chicago@spatialPtDF@data[,1:7] ) )
 ```
 ## Subsettable tables based on #1
 
-Graphicly subset PWS.class objects by drawing a poylgon around PWS points
-plotted in graphics device. *Note: this is interactive, so must be run run from 
-the console.*
-```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
-my_subset  <-  draw_subset(PWS.Conds.Chicago)
-```
 
 
 
@@ -86,6 +80,14 @@ basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
 gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 ```
 
+Graphicly subset PWS.class objects by drawing a poylgon around PWS points
+plotted in graphics device. *Note: this is interactive, so must be run run from 
+the console.*
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
+my_subset  <-  draw_subset(PWS.Conds.Chicago)
+basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
+gg_points(my_subset, basemap, title = "Downtown Chicago PWS")
+```
 
 
 
