@@ -6,8 +6,8 @@ library(wundr)
 #  PWS.Loc.Chicago <- PWS.Locations("Chicago, IL", radius=5, user.key)
 #  plot(PWS.Loc.Chicago)   ##yields plot similar to one below
 
-## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
-#  knitr::kable(head(PWS.Loc.Chicago@spatialPtDF@data)[,1:7])
+## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE-----
+knitr::kable(head(PWS.Loc.Chicago@spatialPtDF@data)[,1:7])
 
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
 #  PWS.Conds.Chicago <- PWS.Conditions(PWS.Loc.Chicago, user.key=jam.key.2)
@@ -16,9 +16,6 @@ library(wundr)
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
 #  PWS.Loc.Sub.Chicago <- PWS.Query.Subset(PWS.Loc.Chicago, -87.62, 41.88, 2)
 #  subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago)   ##yields the geospatial plot here below
-
-## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
-#  my_subset  <-  draw_subset(PWS.Conds.Chicago)
 
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, include = TRUE----
 basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
@@ -69,6 +66,7 @@ webmap_pnts(PWS.Conds.Chicago)
 #  webmap_raster(PWS.Conds.Chicago)
 
 ## ---- eval = FALSE-------------------------------------------------------
+#  # demo account and key provided for illustriation purposes
 #  matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
 #  matt.cdb.account <- "biglakedata"
 #  pizza <- PWS.Conds.Chicago
