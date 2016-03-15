@@ -148,7 +148,7 @@ webmap_raster(PWS.Conds.Chicago)
 **wundr** also contains functions that interface with the CartoDB SQL API
 (http://docs.cartodb.com/cartodb-platform/sql-api/). This allows users to exploit the robust PostGIS spatial database and web publishing services of CartoDB.  
 
-*(note: these code chunks cannot evaluated using knitr, but you can run from console with your own account and key)*
+*(note: these code chunks cannot be evaluated using knitr, but you can run from console with your own account and key)*
 
 Here, we export Downtown Chicago Weather Underground PWS data to CartoDB's:  
 
