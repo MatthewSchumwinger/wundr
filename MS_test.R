@@ -204,3 +204,18 @@ sp::plot(PWS.Conds.Chicago, col="red", pch = 20, add = FALSE)
 simple_pnts(PWS.Conds.Chicago, col="red", pch = 20, add = FALSE)
 my_ss  <-  draw_subset(PWS.Conds.Chicago)
 sp::plot(my_ss@spatialPtDF)
+
+
+### test scripts ###
+
+# test_that("get_cdb_table",{
+#   #
+#   # Check that the function produces correct errors if arguments are worngly specified
+#   expect_error(get_cdb_table("public.stations", 12345),
+#                "cdb_account must be of type character.")
+#
+#   expect_error(get_cdb_table(112233, "your.cdb.account"),
+#                "table name (of CartoDB table) must be of type character.")
+# })
+
+# get_cdb_table("public.stations", your.cdb.account)
