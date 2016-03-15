@@ -70,6 +70,13 @@ get_cdb_table <- function(table_name, cdb_account) {
 #' # export PWS locations and conditions data to CartoDB
 #' \dontrun{r2cdb(your.cdb.key, your.cdb.account, PWS.Conds.Chicago)}
 r2cdb <- function(user_key, cdb_account, PWS.Conditions){
+  # error test inputs
+  if(class(PWS.Conditions) != "PWS.Conditions")
+    stop("PWS.Conditions must be of class PWS.Conditions.")
+  if(typeof(user_key)!="character")
+    stop("user_key must be of type character.")
+  if(typeof(cdb_account)!="character")
+    stop("cdb_account must be of type character.")
 
   # helper: get SQL column types
   schema <- function(df){
