@@ -1,10 +1,10 @@
 ##
-## Begin jamarin code
+## Begin jamarin (John A. Marin) code
 ##
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# The PWS.Query.Subset S4 class provides regional subset information for user searches
+# The PWS.Query.Subset S4 class provides regional subset information for user searches              +
 # +                                                                                                 +
-# + o PWS.Loc.Sub.Chicago.rda                                                                           +
+# + o PWS.Loc.Sub.Chicago.rda                                                                       +
 # +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -114,6 +114,39 @@ PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_
   }
 }
 
+#' subRegion.Pnts
+#'
+#' #' Plots PWS locations and subregions on a contextual basemap.
+#'
+#' @importFrom ggmap ggmap
+#' @importFrom ggplot2 geom_point aes_string
+#' @param PWS.class A PWS.class points S4 object.
+#' @param PWS.sub A subregion of the initial PWS.class
+#' @param title A character string title for the map. Default = NULL.
+#' @param ... ...
+#' @return NULL
+#' @export
+#' @examples
+#' data("PWS.Loc.Chicago")
+#' data("PWS.Loc.Sub.Chicago")
+#' subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago)
+#'
+subRegion.Pnts <- function(PWS.class, PWS.sub, title = NULL, ...) {
+
+  pnts <- PWS.class@spatialPtDF@data
+  pnts.sub <- PWS.sub@spatialPtDF@data
+  basemap <- set_basemap(PWS.class, zoom=13)
+
+  ggmap::ggmap(basemap, extent = "device") +
+
+    ggplot2::geom_point(data=pnts,
+                        ggplot2::aes_string(x = 'lon', y = 'lat'),
+                        col= "red",alpha = 1) +
+    ggplot2::geom_point(data=pnts.sub,
+                        ggplot2::aes_string(x = 'lon', y = 'lat'),
+                        col= "black",alpha = 1) +
+    ggplot2::ggtitle(title)
+}
 
 #' Chicago History Dataset
 #'

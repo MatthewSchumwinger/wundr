@@ -2,19 +2,15 @@
 ## Begin jamarin code
 ##
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# The PWS.Conditions S4 class required for the projects is located herein along with                  +
-# functions related to its creation and initialization. Relevant validation testing is              +
-# done in the initialization function of the class.
-# +
+# + The PWS.Conditions S4 class required for the projects is located herein along with              +
+# + functions related to its creation and initialization. Relevant validation testing is            +
+# + done in the initialization function of the class.                                               +
+# +                                                                                                 +
 # + Data sets which are included and which show the output of those functions:                      +
 # +                                                                                                 +
-# + o PWS.Conds.Chicago.rda                                                                           +
+# + o PWS.Conds.Chicago.rda                                                                         +
 # +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-# global.Conds.env <- new.env(parent = emptyenv())
-# global.Conds.env$repository = list()
-# length(global.Conds.env$repository)
 
 #' An S4 class to represent the PWS Conditions of a user search
 #' @importFrom sp SpatialPointsDataFrame
@@ -35,6 +31,9 @@ setClass(
 #' @param ... coordinates of PWS.Conditions initializer function
 PWS.Conditions <- function(...) return(new(Class="PWS.Conditions",...))
 
+wundr.env <- new.env(parent = emptyenv())
+wundr.env$conds = NA
+
 #' S4 PWS.Conditions Initializer function
 #' @importFrom sp SpatialPointsDataFrame
 #' @importFrom sp SpatialPoints
@@ -43,6 +42,7 @@ PWS.Conditions <- function(...) return(new(Class="PWS.Conditions",...))
 #' @param PWS.Locations A PWS.Locations S4 Class Object
 #' @param user.key character vector of user.key
 #' @param ... other user input
+#'
 setMethod("initialize",
           "PWS.Conditions",
 
@@ -59,6 +59,8 @@ setMethod("initialize",
             .Object@spatialPt <- PWS.Locations@spatialPt
 
             .Object@data <- PWS_conditions(list(PWSmetadata = PWS.Locations@spatialPtDF@data), user.key)
+
+            wundr.env$conds <- .Object@data
 
             return(.Object)
           }

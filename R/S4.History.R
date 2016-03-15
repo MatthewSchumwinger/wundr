@@ -1,13 +1,14 @@
 ##
-## Begin jamarin code
+## Begin jamarin (John A. Marin) code
 ##
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# The PWS.History S4 class organizes history information for user searches
-# and spontaneously provides a variety of information about the PWS stations including
-# average, variance, and standard deviation data about Temperature, Humidity, Pressure, and Dewpoint
+# + The PWS.History S4 class organizes history information for user searches                        +
+# + and spontaneously provides a variety of information about the PWS stations including            +
+# + average, variance, and standard deviation data about Temperature, Humidity, Pressure,           +
+# + and Dewpoint                                                                                    +
 # + Data sets which are included and which show the output of those functions:                      +
 # +                                                                                                 +
-# + o PWS.Hist.Chicago.rda                                                                           +
+# + o PWS.Hist.Chicago.rda                                                                          +
 # +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

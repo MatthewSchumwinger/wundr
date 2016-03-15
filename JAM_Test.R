@@ -45,14 +45,44 @@ jam.key.2 <- "00d9766eedab434e"
 saveRDS(ch_cond, "ch_cond.rds")
 readRDS("ch_cond.rds")
 
-
+PWS.Loc.Chicago
+PWS.Loc.Chicago <- PWS.Locations(-87.6298, 41.87811 radius=5, user.key=jam.key.2)
 PWS.Loc.Chicago <- PWS.Locations("Chicago, IL", radius=5, user.key=jam.key.2)
-PWS.Conds.Chicago <- PWS.Conditions(PWS.Loc.Chicago, user.key=jam.key.2)
+
+PWS.Conds.Chicago <- PWS.Conditions(PWS.Loc.Chicago, user.key=jam.key)
 PWS.Hist.Chicago <- PWS.History(PWS.Loc.Chicago, "20150306", "20150310", user.key=jam.key.2)
 saveRDS(PWS.Loc.Chicago, "data/PWS.Loc.Chicago.rds")
 saveRDS(PWS.Conds.Chicago, "data/PWS.Conds.Chicago.rds")
 saveRDS(PWS.Hist.Chicago , "data/PWS.Hist.Chicago.rds")
 
+wundr.env$conds$temp_f
+wundr.env$conds$station_id
+wundr.env$conds$city
+
+PWS.temp <- function() {
+  if ( length(wundr.env$conds) == 0 ) { stop("Please create a PWS.Conditions() Object before proceeding.")
+  }else{
+    temp_f = wundr.env$conds$temp_f
+    PWS_station = wundr.env$conds$station_id
+    City = wundr.env$conds$city
+    data.frame( temp_f, PWS_station, City )
+  }}
+
+PWS.temp()
+
+PWS.temp()
+PWS.humidity()
+PWS.feels.like()
+PWS.dewpoint()
+
+wundr.env$conds
+
+names(wundr.env$conds)
+
+
+a <- 1:3
+b <- 2:4
+data.frame(a,b)
 
 
 nrow(PWS.Loc.Chicago@spatialPtDF@data)
@@ -226,4 +256,38 @@ PWS.Loc.Chicago@spatialPt@coords
 
 validObject(PWS.Loc.Chicago)
 
+basemap <- set_basemap(PWS.Loc.Chicago, zoom=13)
+gg_points(PWS.Loc.Chicago, basemap=basemap)
 
+basemap.sub <- set_basemap(PWS.Loc.Sub.Chicago, zoom=13)
+gg_points(PWS.Loc.Sub.Chicago, basemap=basemap)
+
+
+basemap <- set_basemap(PWS.Loc.Chicago, zoom=13)
+subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago, basemap=basemap)
+
+subRegion.Pnts <- function(PWS.class, PWS.sub, title = NULL, ...) {
+
+  pnts <- PWS.class@spatialPtDF@data
+  pnts.sub <- PWS.sub@spatialPtDF@data
+  basemap <- set_basemap(PWS.class, zoom=13)
+
+  ggmap::ggmap(basemap, extent = "device") +
+
+    ggplot2::geom_point(data=pnts,
+                        ggplot2::aes_string(x = 'lon', y = 'lat'),
+                        col= "red",alpha = 1) +
+    ggplot2::geom_point(data=pnts.sub,
+                        ggplot2::aes_string(x = 'lon', y = 'lat'),
+                        col= "black",alpha = 1) +
+    ggplot2::ggtitle(title)
+}
+
+
+
+subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago)
+
+dev.off()
+
+dev.copy(jpeg,filename="subRegion.jpg");
+dev.off()
