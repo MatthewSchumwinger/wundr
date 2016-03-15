@@ -31,14 +31,14 @@ Package **wundr** has the following functionalities:
 
 ## Creation of S4-Class Table describing a given region's PWS 
 
-wundr offers several S4 classes capturing the essence of different PWS attributes including weather history, conditions, and subquerying.  It has the advantage of elegance and utility.
+**wundr** offers several S4 classes capturing the essence of different PWS attributes including weather history, conditions, and subquerying.  It has the advantage of elegance and utility.
 
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE}
 str(PWS.Hist.Chicago, max.level = 2)
 ```
 
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE}
-head( PWS.Loc.Chicago@spatialPtDF@data[,2:7] ) 
+knitr::kable( head( PWS.Loc.Chicago@spatialPtDF@data[,1:7] ) )
 ```
 ## Subsettable tables based on #1
 
