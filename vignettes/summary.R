@@ -1,12 +1,18 @@
 ## ---- echo = FALSE-------------------------------------------------------
 library(wundr)
 
+## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE-----
+str(PWS.Hist.Chicago, max.level = 2)
+
+## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE-----
+knitr::kable( head( PWS.Loc.Chicago@spatialPtDF@data[,1:7] ) )
+
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
 #  my_subset  <-  draw_subset(PWS.Conds.Chicago)
 
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, include = TRUE----
-simple_pnts(PWS.Conds.Chicago, "Downtown Chicago PWS")
-simple_density(PWS.Conds.Chicago, "Downtown Chicago PWS")
+simple_density(PWS.Conds.Chicago, title = "Chicago PWS points over \nPWS density contour")
+simple_pnts(PWS.Conds.Chicago, add = TRUE)
 
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, include = TRUE----
 basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
@@ -57,8 +63,8 @@ webmap_raster(PWS.Conds.Chicago)
 #  pizza <- PWS.Conds.Chicago
 #  r2cdb(matt.cdb.key, matt.cdb.account, pizza)
 
-## ---- eval=FALSE---------------------------------------------------------
-#  # matt_cdb_table <- get_cdb_table("condTest", matt.cdb.account)
-#  head(matt_cdb_table$rows[ , c("cartodb_id", "station_id", "temperature_string",
-#                                "dewpoint_string")])# pulled from presaved data file
+## ---- eval = TRUE--------------------------------------------------------
+# matt_cdb_table <- get_cdb_table("condTest", matt.cdb.account)
+head(matt_cdb_table$rows[ , c("cartodb_id", "station_id", "temperature_string", 
+                              "dewpoint_string")],2)# pulled from presaved data file
 
