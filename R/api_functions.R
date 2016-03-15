@@ -551,6 +551,8 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 #' It is the output of the following call of the 'PWS_meta_query' function, where
 #' 'your.key' shoudl be replaced with your API-key for Weather Underground:
 #' Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
+#' The purpose of this data set is to illustrate the functionality of the internal
+#' low-level API functions of the package.
 #'
 #' @examples
 #' data(Rio_metadata)
@@ -569,6 +571,8 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 #' Rio_metadata <- PWS_meta_query(-22.856878, -43.185368, 50, your.key)
 #' where, your.key' should be replaced with your API-key for Weather Underground
 #' and 'Rio_metadata' is provided in the package (load it via data(Rio_metadata)).
+#' The purpose of this data set is to illustrate the functionality of the internal
+#' low-level API functions of the package.
 #'
 #' @examples
 #' data(Rio_conditions)
@@ -586,6 +590,8 @@ PWS_history  <- function(PWSmetadata,begin_YYYYMMDD,end_YYYYMMDD,user_key ,
 #' Rio_history <- PWS_history(Rio_metadata,"20151224","20151231",your.key)
 #' where, your.key' should be replaced with your API-key for Weather Underground
 #' and 'Rio_metadata' is provided in the package (load it via data(Rio_metadata)).
+#' The purpose of this data set is to illustrate the functionality of the internal
+#' low-level API functions of the package.
 #'
 #' @examples
 #' data(Rio_history)
