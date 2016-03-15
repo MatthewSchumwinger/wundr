@@ -32,8 +32,10 @@ draw_subset <- function(PWS.class){
   cat("IDs of PWS in subset:\n")
   print(spdf[sps, ]@data$id)
   PWS.class@spatialPtDF <- spdf[sps, ] # subset spdf
+  # note: currently, this does not subsset the conditions data slot
   PWS.class
 }
+
 
 #' milw_metadata dataset
 #'
