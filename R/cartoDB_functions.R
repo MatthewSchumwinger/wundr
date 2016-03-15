@@ -1,4 +1,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# This file contains Matthew Schumwinger's (mjs13) code.
+#
 # This document contains functions that interface with the CartoDB SQL API
 # (http://docs.cartodb.com/cartodb-platform/sql-api/). This povides facilities
 # to export Weather Underground PWS data to CartoDB's spatial database hosting
@@ -65,7 +68,7 @@ get_cdb_table <- function(table_name, cdb_account) {
 #' @export
 #' @examples
 #' # export PWS locations and conditions data to CartoDB
-#' \dontrun{r2cdb(your.cdb.key, your.cdb.account, PWS.Conditions)}
+#' \dontrun{r2cdb(your.cdb.key, your.cdb.account, PWS.Conds.Chicago)}
 
 ## export df to CartoDB
 r2cdb <- function(user_key, cdb_account, PWS.Conditions){
@@ -152,7 +155,14 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
   insertCdbTable(user_key, cdb_account, df)
 }
 
-
-## ---------- TODO -----------------------
-# consider using dplyr::build_sql and/or httr::build_url
-# or httr::modify_url  to improve functions
+#' matt_cdb_table dataset
+#'
+#' This contains Personal Weather Stations meta data exported to CartoDB with
+#' r2cdb() and imported back to R as a dataframe.
+#'
+#' @examples
+#' data(matt_cdb_table)
+#' head(matt_cdb_table)
+#'
+#' @author wundr team
+"matt_cdb_table"

@@ -1,3 +1,9 @@
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# This file contains Matthew Schumwinger's (mjs13) code.
+#
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 #' draw_subset
 #'
 #' Graphicly subset PWS.class objects by drawing a poylgon around PWS points

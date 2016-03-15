@@ -1,4 +1,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#
+# This file contains Matthew Schumwinger's (mjs13) code.
+#
 # This document contains functions that visualize Weatherunderground personal
 # weather station (PWS) locations and data. Functions that allow the R user to
 # make exploratory and explanitory plots and maps are provided.

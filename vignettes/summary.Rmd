@@ -65,6 +65,25 @@ density (heatmap) of PWS locations.
 webmap_raster(PWS.Conds.Chicago)
 ```
 
-## Integration with other data providers and services 
-[Coming soon from Matt]
+## Integration with the CartoDB platform  
+**wundr** also contains functions that interface with the CartoDB SQL API
+(http://docs.cartodb.com/cartodb-platform/sql-api/). This allows users to exploit the robust PostGIS spatial database and web publishing services of CartoDB.  
+
+*(note: these code chunks cannot evaluated using knitr, but you can run from console with your own account and key)*
+
+Here, we export Weather Underground PWS data to CartoDB's:  
+
+```{r, eval = FALSE}
+matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
+matt.cdb.account <- "biglakedata"
+r2cdb(matt.cdb.key, matt.cdb.account, PWS.Conds.Chicago)
+```
+
+This interface goes both ways; we can also import spatial SQL tables into R data frame objects. 
+
+```{r}
+# matt_cdb_table <- get_cdb_table("condTest", matt.cdb.account)
+head(matt_cdb_table$rows[ , c("cartodb_id", "station_id", "temperature_string", 
+                              "dewpoint_string")])# pulled from presaved data file
+```
 

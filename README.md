@@ -6,28 +6,17 @@ Final project R package for Stats 290
 - [ ] team | 3-14 | compile tar of "safety" package
 - [x] team | 3-14 | Your package must pass R CMD check --as-cran without errors. It should not produce any warnings or notes either!
 - [ ] team | 3-14 | Your package must have test scripts in the tests directory to demonstrate that the main computations in the package do work. We will discuss testing in later classes via testhat.
-- [x] team | 3-14 | package documentation for all functions, clases, data.
 - [ ] team | 3-14 | 4-page summary.Rmd vignette
 - [ ] team | 3-14 | Any code used must also be placed in the examples package folder for checking.
 - [ ] team | 3-14 | Your code must adhere to R coding style. See Wickham's Advanced R book and Google Style for some suggestions. I use camelCase for naming, except for well-known conventions like is.x. Transplanting loops from other languages is sure to earn demerits.
-- [x] team | 3-10 | consolidate all code into draft package
 - [ ] S    | 3-11 | part 5 - Computational Facility based on Interpolations, etc.
-- [x] S    | 3-10 | part 1 - optimized api functions
-- [x] J    | 3-09 | Properly functional PWS.Conditions S4
-- [x] J    | 3-10 | part 2 - Properly functional PWS.Subset S4
-- [x] J    | 3-11 | Properly functional PWS History S4
 - [ ] J    | .... | Getter for S4 global.R object with respect to Temperature, Humidity, etc.
-- [x] J    | 3-10 | (something related to the %over% function) included as validator in PWS.Subset.S4
 - [ ] J    | .... | global.R file for package (global variable for Conditions)
-- [x] J    | 3-11 | set key latitude / longitude validation methods for S4 Classes (all of them)
 - [ ] M    | 3-14 | feature for user to graphically select point for search radius
-- [x] M    | 3-9 | wire plotting/mapping and cdb functions to new S4object
 - [ ] M    | 3-10 | part 6 - improve web map pop-ups
 - [ ] M    | 3-10 | create custom ggplot/ggmap mapping theme(s)
-- [x] M    | 3-8 | part 7 - extension to map PWS to CartoDB thru api
-- [x] M    | 3-9 | part 7 - extension to export data to CartoDB thru api
 - [ ] M    | .... | part 4 - in lieu of Torque.js, function to animate rasters by time
-- [x] J    | TBD | switch out RJSONIO for jsonlite in gGeocode (new function is called j.geocode using 'httr')
+
 
 ### Mission
 The "Advanced Weather Station Data Project" enhances the suggested assignment by significantly expanding the use case of the final product by adding multidimensional microclimate overlays and producing interactive visuals.  Upon seamless integration of the S4 class and subclass retrieval features, the team envisions the addition of relevant social media and the pivoting of the extant PWS ("Personal Weather Stations") into sensors for broadcast purposes.  The broad spectrum of use cases is outlined in the proposal.Rmd.
