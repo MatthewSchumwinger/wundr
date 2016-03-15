@@ -33,11 +33,11 @@ Package **wundr** has the following functionalities:
 
 wundr offers several S4 classes capturing the essence of different PWS attributes including weather history, conditions, and subquerying.  It has the advantage of elegance and utility.
 
-```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE}
 str(PWS.Hist.Chicago, max.level = 2)
 ```
 
-```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
+```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE}
 require(pander)
 pandoc.table(head(PWS.Loc.Chicago@spatialPtDF@data)[,1:7])
 ```
