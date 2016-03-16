@@ -1,3 +1,8 @@
+##
+## Begin Matthew Schumwinger's (mjs13) code
+##
+
+
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # This file contains Matthew Schumwinger's (mjs13) code.
@@ -170,3 +175,7 @@ r2cdb <- function(user_key, cdb_account, PWS.Conditions){
 #'
 #' @author wundr team
 "matt_cdb_table"
+
+##
+## End Matthew Schumwinger's (mjs13) code
+##

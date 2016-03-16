@@ -1,3 +1,8 @@
+##
+## Begin Matthew Schumwinger's (mjs13) code
+##
+
+
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # This file contains Matthew Schumwinger's (mjs13) code.
@@ -66,9 +71,10 @@ simple_pnts <- function(PWS.class, title = NULL, add = FALSE, col = "red", ...){
 #' @export
 #' @examples
 #' data("PWS.Conds.Chicago")
-#' simple_density(PWS.Conds.Chicago)
+#' simple_density(PWS.Conds.Chicago, title =
+#'   "Chicago PWS points over \nPWS density contour")
 #' simple_pnts(PWS.Conds.Chicago,
-#' "Chicago PWS points over \nPWS density contour", add = TRUE)
+#'   "Chicago PWS points over \nPWS density contour", add = TRUE)
 simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
   df <- PWS.class@spatialPtDF@data
   ppp <- spatstat::ppp(x = df$lon, y = df$lat, xrange = range(df$lon),
@@ -196,3 +202,7 @@ webmap_raster <- function(PWS.class){
 
   d
 }
+
+##
+## Begin Matthew Schumwinger's (mjs13) code
+##

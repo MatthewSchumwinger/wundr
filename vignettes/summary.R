@@ -7,19 +7,20 @@ library(wundr)
 #  plot(PWS.Loc.Chicago)   ##yields plot similar to one below
 
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE-----
-knitr::kable(head(PWS.Loc.Chicago@spatialPtDF@data)[,1:7])
+knitr::kable(head(PWS.Loc.Chicago@spatialPtDF@data, 3)[,1:7])
 
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
-#  PWS.Conds.Chicago <- PWS.Conditions(PWS.Loc.Chicago, user.key=jam.key.2)
+#  PWS.Conds.Chicago <- PWS.Conditions(PWS.Loc.Chicago, user.key = user.key)
 #  PWS.Hist.Chicago <- PWS.History(PWS.Loc.Chicago, "20150306", "20150310", user.key)
 
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
 #  PWS.Loc.Sub.Chicago <- PWS.Query.Subset(PWS.Loc.Chicago, -87.62, 41.88, 2)
 #  subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago)   ##yields the geospatial plot here below
 
-## ---- fig.show='hold', warning = FALSE, message = FALSE, include = TRUE----
-basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
-gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
+## ---- fig.show='hold', warning = FALSE, message = FALSE, include = TRUE, eval = FALSE----
+#  # unevaluated code to render image above right
+#  basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
+#  gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 
 ## ---- fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE----
 #  my_subset  <-  draw_subset(PWS.Conds.Chicago)

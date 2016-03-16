@@ -1,3 +1,7 @@
+##
+## Begin zohren code
+##
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # + This document contains the low level API functions which downlaod data from Wheather Underground+
 # + Those API functions form Part 1 of the projects and are used in later parts of the project      +
@@ -21,11 +25,6 @@
 # + o Rio_history                                                                                   +
 # +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-##
-## Begin zohren code
-##
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

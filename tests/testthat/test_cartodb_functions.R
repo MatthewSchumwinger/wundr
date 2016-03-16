@@ -1,3 +1,8 @@
+##
+## Begin Matthew Schumwinger's (mjs13) code
+##
+
+
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #    Test script for functions in 'cartoDB_functions.R' of wundr package
 #
@@ -17,3 +22,6 @@ test_that("r2cdb",{
   expect_error(r2cdb(123456, "your.cdb.account", PWS.Conds.Chicago), "user_key must be of type character.")
 })
 
+##
+## End Matthew Schumwinger's (mjs13) code
+##

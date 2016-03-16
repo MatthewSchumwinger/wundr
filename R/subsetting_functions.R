@@ -1,6 +1,11 @@
+##
+## Begin Matthew Schumwinger's (mjs13) code
+##
+
+
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
-# This file contains Matthew Schumwinger's (mjs13) code.
+# Graphical subsetting and selection functions
 #
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -59,3 +64,7 @@ draw_subset <- function(PWS.class){
 #'
 #' @author wundr team
 "milw_conds"
+
+##
+## End Matthew Schumwinger's (mjs13) code
+##

@@ -1,3 +1,7 @@
+##
+## Begin zohren code
+##
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # + This document contains analytics functions for both temporal as well as spatial data analysis   +
 # + on data obtained from Weather Underground through the API functions PWS_history or              +
@@ -19,9 +23,7 @@
 # +                                                                                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-##
-## Begin zohren code
-##
+
 
 
 #require(zoo);require(forecast);

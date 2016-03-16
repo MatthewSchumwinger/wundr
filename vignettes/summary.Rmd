@@ -31,7 +31,7 @@ plot(PWS.Loc.Chicago)   ##yields plot similar to one below
 The initial API pull through (`PWS.Locations()`) results in a S4-Class Object with a slot for a data.table as well as another for a "SpatialPointsDataFrame".  The latter allows **wundr** users to engage in a variety of geospatial analytics without having to recompute the table.  
 
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = TRUE} 
-knitr::kable(head(PWS.Loc.Chicago@spatialPtDF@data)[,1:7])
+knitr::kable(head(PWS.Loc.Chicago@spatialPtDF@data, 3)[,1:7])
 ```
 
 Subsequently, the user has immediate access to diverse PWS weather data:  the `PWS.Conditions()` gives the current weather conditions, whereas `PWS.History()` takes a starting and ending date from the user and retrieves reported weather conditions for all the stations in a table. Each of the returned objects is an S4 class, with the one returned by `PWS.History()` providing the user immediate slot access to the average Temperature, Humidity, Pressure and Dew Point for all of the PWS included.  Each station also has variance and standard deviation information included for easy use in further visualization and analysis.  
@@ -39,24 +39,24 @@ Subsequently, the user has immediate access to diverse PWS weather data:  the `P
 Furthermore, **wundr**'s environmental variable `wundr.env$conds` keeps track of the user's most recent condition search so it's always available.  One-stroke commands such as `PWS.temp()`, `PWS.humidity()`, `PWS.feels.like()`, and `PWS.dewpoint()` give the user instant access to information he wants about his PWS of interest.
 
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
-PWS.Conds.Chicago <- PWS.Conditions(PWS.Loc.Chicago, user.key=jam.key.2)
+PWS.Conds.Chicago <- PWS.Conditions(PWS.Loc.Chicago, user.key = user.key)
 PWS.Hist.Chicago <- PWS.History(PWS.Loc.Chicago, "20150306", "20150310", user.key)
 ```
 
 ### Subsettable tables based on #1
-Once the initial API of the larger region is complete, the user may plot the data immediately via an S4-method that is invoked by the `plot()` function. He may also use the same criterion of location and distance used to generate the initial table to extract a smaller table of interest and a sub-region plot superimposed above the points in the larger radius query. 
+Once the initial API of the larger region is complete, the user may plot the data immediately via an S4-method that is invoked by the `plot()` function. He may also use the same criteria of location and distance used to generate the initial table to extract a smaller table of interest and a sub-region plot superimposed above the points in the larger radius query. 
 
-**wundr**'s region-sub-setting function proceeds by creating a SpatialPolygon shaped as a convex hull around the Private Weather Stations from the larger region and checking which spatial coordinate points from the smaller sub-region fall within it.  The returned table contains the a subset of the larger table, but retains the S4 features, slots, and methods. The algorithm also checks whether the entire search radius is confined within the limits of the prior search, providing the user a warning in the event the new search exceeded the boundaries of the first.  The `subRegion.Pnts()` lets the user see where the sub-region points lie geospatially with respect to the larger selection of stations. 
+**wundr**'s region-subsetting function proceeds by creating a SpatialPolygon shaped as a convex hull around the Private Weather Stations from the larger region and checking which spatial coordinate points from the smaller sub-region fall within it.  The returned table contains the a subset of the larger table, but retains the S4 features, slots, and methods. The algorithm also checks whether the entire search radius is confined within the limits of the prior search, providing the user a warning in the event the new search exceeded the boundaries of the first.  The `subRegion.Pnts()` lets the user see where the sub-region points lie geospatially with respect to the larger selection of stations. 
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
 PWS.Loc.Sub.Chicago <- PWS.Query.Subset(PWS.Loc.Chicago, -87.62, 41.88, 2)
 subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago)   ##yields the geospatial plot here below
 ```
 
-<img src="subRegion.jpg" align="middle" height="350" width="350" />
+<img src="subRegion.jpg" align="right" height="275" width="275" />
 
 ### Web retrieval of data and storage in memory
 
-The interface to the Weather Underground API system is done through the low-level API-functions (note that we use `_` in names of low-level objects and `.` in others). Those functions include `PWS_meta_query` (and its auxiliary `createCentroidTable` function), the `PWS_meta_subset` function, the `PWS_conditions` function and the `PWS_history` function. The package also includes a number of datasets to illustrate the functionality of those functions (`Rio_basemap`, `Rio_metadata`, `Rio_conditions`, `Rio_history`). The user is supposed to interact with the API-functions through the aforementioned S4 object which call those functions. Nonetheless, full documentation is provided.
+The interface to the Weather Underground API system is done through the low-level API-functions. Those functions include `PWS_meta_query` (and its auxiliary `createCentroidTable` function), the `PWS_meta_subset` function, the `PWS_conditions` function and the `PWS_history` function. The package also includes a number of datasets to illustrate the functionality of those functions (`Rio_basemap`, `Rio_metadata`, `Rio_conditions`, `Rio_history`).
 
 A major issue is caused by the limitations of the API, which only allows for search radii of maximal 40km and maximal 50 results and 10 calls per minute. `PWS_meta_query` gets the metadata on stations in a circle of given radius at a location given in terms of longitude and latitude (the corresponding S4 function deals with converting city names to coordinates). To cover larger radii the function calls `createCentroidTable` which creates a complete cover of the larger circle by smaller circles of radius 40km. An example is shown below (left), where a circle of 1080km radius is covered by small circles of radius 40km. In tests we discovered that the API in some cases returns less results than it should, even though the maximum radius and number of results were not yet reached. To rectify this the `PWS_meta_query` issues additional calls around a given location if it detects this. This is shown below (right). Displayed in red are the centres of the small circles covering the entire region. When incomplete returns are detected, the API function issues new requests (blue dots) surrounding the corresponding centre. The positions of all weather stations retrieved are shown in black. The function also pauses to not exceed the maximum number of calls per minute. It also processes the data (remove non-ASCII characters, calculate distance to the centre, sort results by distance etc). `PWS_meta_subset` subsets a list returned from `PWS_meta_query`. The function `PWS_conditions` downloads the current weather conditions for the stations in a list returned by `PWS_meta_query`. The function `PWS_history`, downloads the weather history for the stations in a list returned by `PWS_meta_query` for a given period of time. Those functions are called by the corresponding S4 routines.
 
@@ -66,15 +66,19 @@ A major issue is caused by the limitations of the API, which only allows for sea
 
 ### Visualization of microclimate data
 
-To facilitate exploratory analysis, simple plots of PWS using `simple_pnts()` and `simple_density()` functions. Enhanced contextual mapping of PWS is also available:
+To facilitate exploratory analysis of PWS, users may make use of `simple_pnts()` and `simple_density()` functions, as shown (below left). Enhanced contextual mapping of PWS is also available via `basemap` and `gg_points` (below right). 
 
-```{r, fig.show='hold', warning = FALSE, message = FALSE, include = TRUE}
+<img src="Chi_contour.png" width="250">
+<img src="downtownCHI.png" width="250">
+
+```{r, fig.show='hold', warning = FALSE, message = FALSE, include = TRUE, eval = FALSE}
+# unevaluated code to render image above right
 basemap <- set_basemap(PWS.Conds.Chicago, zoom = 12)
 gg_points(PWS.Conds.Chicago, basemap, title = "Downtown Chicago PWS")
 ```
 
 Users may graphically subset PWS.class objects by drawing a polygon around PWS points
-plotted in graphics device. *Note: this is interactive, so must be run run from 
+plotted in graphics device. *Note: this is interactive, so must be run from 
 the console.*
 ```{r, fig.show='hold', warning = FALSE, message = FALSE, eval = FALSE}
 my_subset  <-  draw_subset(PWS.Conds.Chicago)
@@ -134,15 +138,15 @@ ggplot2::ggplot(data = model, ggplot2::aes(x=lon, y=lat)) +
 Those results can then be used in more advanced visualizations. We presented a basic computational analysis toolkit. In future updates it would be interesting to include Gaussian Processes analysis for time series which is still an active field of research, as well as a combined spatio-temporal analysis using GPs with combined kernels, which could be visualized using animated spatial visualizations.
 
 ### Web interface with interactive Visuals
-For explanatory purposes, the user may also create interactive web maps powered 
-by Leaflet.js. Here, Downtown Chicago PWS locations are plotted. Station specific data can 
+For explanatory purposes, users may also create interactive web maps powered 
+by Leaflet.js. Here, Downtown Chicago PWS locations are plotted. Station specific data may 
 also be retrieved via interactive pop-ups. **(click on a station)**
 
 ```{r, fig.show='hold'}
 webmap_pnts(PWS.Conds.Chicago)
 ```
 
-Raster images can also be sent to the interactive map. This code (not evaluated 
+Raster images can also be sent to the interactive  web map. This code (not evaluated 
 here), produces  a simple density (heatmap) of PWS locations.
 
 ```{r, eval = FALSE}
@@ -151,7 +155,7 @@ webmap_raster(PWS.Conds.Chicago)
 
 ### Integration with the CartoDB platform  
 **wundr** also contains functions that interface with the CartoDB SQL API
-(http://docs.cartodb.com/cartodb-platform/sql-api/). This allows users to exploit the extensive PostGIS spatial database and web publishing services of CartoDB.  
+(http://docs.cartodb.com/cartodb-platform/sql-api/). This allows users to exploit the CartoDB's extensive PostGIS spatial database and web publishing services.   
 
 *(note: these code chunks cannot be evaluated using knitr, but you can run from console with your own account and key)*
 
