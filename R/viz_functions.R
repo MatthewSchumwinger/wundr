@@ -183,8 +183,10 @@ webmap_pnts <- function(PWS.class, content = content) {
 #' @return NULL
 #' @export
 #' @examples
+#' \dontrun{
 #' data(PWS.Conds.Chicago)
 #' webmap_raster(PWS.Conds.Chicago)
+#' }
 webmap_raster <- function(PWS.class){
   spdf <- toSPntsDF(PWS.class@spatialPtDF@data)
   ppp <- spatstat::ppp(x = spdf$lon, y = spdf$lat, xrange= range(spdf$lon),
