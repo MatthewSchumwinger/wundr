@@ -163,7 +163,7 @@ Here, we export Downtown Chicago Weather Underground PWS data to CartoDB:
 
 ```{r, eval = FALSE}
 # demo account and key provided for illustriation purposes
-matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
+matt.cdb.key <- "****"
 matt.cdb.account <- "biglakedata"
 pizza <- PWS.Conds.Chicago
 r2cdb(matt.cdb.key, matt.cdb.account, pizza)
