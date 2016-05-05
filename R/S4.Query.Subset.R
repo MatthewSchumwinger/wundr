@@ -127,9 +127,11 @@ PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_
 #' @return NULL
 #' @export
 #' @examples
-#' data("PWS.Loc.Chicago")
-#' data("PWS.Loc.Sub.Chicago")
-#' subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago)
+#' \dontrun{
+#'  data("PWS.Loc.Chicago")
+#'  data("PWS.Loc.Sub.Chicago")
+#'  subRegion.Pnts(PWS.Loc.Chicago, PWS.Loc.Sub.Chicago)
+#'  }
 #'
 subRegion.Pnts <- function(PWS.class, PWS.sub, title = NULL, ...) {
 
