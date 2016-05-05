@@ -110,37 +110,37 @@ setMethod("initialize",
 
             if (imperial) {
 
-              .Object@average.Temp <- aggregate(tempi ~ id, data=history, mean)
-              .Object@average.Humidity <- aggregate(hum ~ id, data=history, mean)
-              .Object@average.Pressure <- aggregate(pressurei ~ id, data=history, mean)
-              .Object@average.Dew.Point <- aggregate(dewpti ~ id, data=history, mean)
+              .Object@average.Temp <- stats::aggregate(tempi ~ id, data=history, mean)
+              .Object@average.Humidity <- stats::aggregate(hum ~ id, data=history, mean)
+              .Object@average.Pressure <- stats::aggregate(pressurei ~ id, data=history, mean)
+              .Object@average.Dew.Point <- stats::aggregate(dewpti ~ id, data=history, mean)
 
-              .Object@variance.Temp <- aggregate(tempi ~ id, data=history, var)
-              .Object@variance.Humidity <- aggregate(hum ~ id, data=history, var)
-              .Object@variance.Pressure <- aggregate(pressurei ~ id, data=history, var)
-              .Object@variance.Dew.Point <- aggregate(dewpti ~ id, data=history, var)
+              .Object@variance.Temp <- stats::aggregate(tempi ~ id, data=history, stats::var)
+              .Object@variance.Humidity <- stats::aggregate(hum ~ id, data=history, stats::var)
+              .Object@variance.Pressure <- stats::aggregate(pressurei ~ id, data=history, stats::var)
+              .Object@variance.Dew.Point <- stats::aggregate(dewpti ~ id, data=history, stats::var)
 
-              .Object@standard.Dev.Temp <- aggregate(tempi ~ id, data=history, sd)
-              .Object@standard.Dev.Humidity <- aggregate(hum ~ id, data=history, sd)
-              .Object@standard.Dev.Pressure <- aggregate(pressurei ~ id, data=history, sd)
-              .Object@standard.Dev.Dew.Point <- aggregate(dewpti ~ id, data=history, sd)
+              .Object@standard.Dev.Temp <- stats::aggregate(tempi ~ id, data=history, stats::sd)
+              .Object@standard.Dev.Humidity <- stats::aggregate(hum ~ id, data=history, stats::sd)
+              .Object@standard.Dev.Pressure <- stats::aggregate(pressurei ~ id, data=history, stats::sd)
+              .Object@standard.Dev.Dew.Point <- stats::aggregate(dewpti ~ id, data=history, stats::sd)
 
             }else{
 
-              .Object@average.Temp <- aggregate(tempm ~ id, data=history, mean)
-              .Object@average.Humidity <- aggregate(hum ~ id, data=history, mean)
-              .Object@average.Pressure <- aggregate(pressurem ~ id, data=history, mean)
-              .Object@average.Dew.Point <- aggregate(dewptm ~ id, data=history, mean)
+              .Object@average.Temp <- stats::aggregate(tempm ~ id, data=history, mean)
+              .Object@average.Humidity <- stats::aggregate(hum ~ id, data=history, mean)
+              .Object@average.Pressure <- stats::aggregate(pressurem ~ id, data=history, mean)
+              .Object@average.Dew.Point <- stats::aggregate(dewptm ~ id, data=history, mean)
 
-              .Object@variance.Temp <- aggregate(tempm ~ id, data=history, var)
-              .Object@variance.Humidity <- aggregate(hum ~ id, data=history, var)
-              .Object@average.Pressure <- aggregate(pressurem ~ id, data=history, var)
-              .Object@average.Dew.Point <- aggregate(dewptm ~ id, data=history, var)
+              .Object@variance.Temp <- stats::aggregate(tempm ~ id, data=history, stats::var)
+              .Object@variance.Humidity <- stats::aggregate(hum ~ id, data=history, stats::var)
+              .Object@average.Pressure <- stats::aggregate(pressurem ~ id, data=history, stats::var)
+              .Object@average.Dew.Point <- stats::aggregate(dewptm ~ id, data=history, stats::var)
 
-              .Object@standard.Dev.Temp <- aggregate(tempm ~ id, data=history, sd)
-              .Object@standard.Dev.Humidity <- aggregate(hum ~ id, data=history, sd)
-              .Object@average.Pressure <- aggregate(pressurem ~ id, data=history, sd)
-              .Object@average.Dew.Point <- aggregate(dewptm ~ id, data=history, sd)
+              .Object@standard.Dev.Temp <- stats::aggregate(tempm ~ id, data=history, stats::sd)
+              .Object@standard.Dev.Humidity <- stats::aggregate(hum ~ id, data=history, stats::sd)
+              .Object@average.Pressure <- stats::aggregate(pressurem ~ id, data=history, stats::sd)
+              .Object@average.Dew.Point <- stats::aggregate(dewptm ~ id, data=history, stats::sd)
 
             }
 

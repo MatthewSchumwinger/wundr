@@ -81,7 +81,7 @@ PWS.Query.Subset.fxn <- function(PWS.Locations, longitude, latitude, radius, km_
   desired.s.point <- sp::SpatialPoints( cbind(longitude, latitude) )
   desired.s.point@proj4string = sp::CRS( "+proj=longlat +ellps=WGS84" )
 
-  p <- sp::Polygon( PWS.Locations@spatialPt@coords[chull(PWS.Locations@spatialPt@coords),] )
+  p <- sp::Polygon( PWS.Locations@spatialPt@coords[grDevices::chull(PWS.Locations@spatialPt@coords),] )
   ps1 <- sp::Polygons(list(p), ID="a")
   Locations.Spatial.Polygon <- sp::SpatialPolygons( list(ps1), proj4string = sp::CRS("+proj=longlat +ellps=WGS84") )
 

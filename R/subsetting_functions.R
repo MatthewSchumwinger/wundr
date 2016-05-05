@@ -28,7 +28,7 @@ draw_subset <- function(PWS.class){
   message("select points on graphics device and click finish (Esc)")
   spdf <- PWS.class@spatialPtDF
   sp::plot(spdf)
-  poly <- locator(type = "o")
+  poly <- graphics::locator(type = "o")
   n <- length(poly$x)
   p <- sp::Polygon(coords = cbind(poly$x, poly$y)[c(1:n, 1), ], hole = FALSE)
   ps <- sp::Polygons(srl = list(p), ID = "poly")

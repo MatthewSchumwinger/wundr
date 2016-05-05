@@ -81,7 +81,7 @@ simple_density <- function(PWS.class, title = NULL, add = FALSE, ...){
                        yrange = range(df$lat))
   D <- raster::density(ppp)
   D <- as(D, "RasterLayer")
-  mycol <- colorRampPalette(colors = c("transparent", "transparent", "yellow",
+  mycol <- grDevices::colorRampPalette(colors = c("transparent", "transparent", "yellow",
                                        "orange", "red"))(256)
   plot(D, legend = FALSE, box = FALSE, axes = FALSE, col = mycol, add = FALSE,
        main = title)
