@@ -8,9 +8,7 @@ Description: Provides API interfaces to Personal Weather Station (PWS) data
     selected PWS. Computational tools for spatial analysis, including Kriging
     (Gaussian processes) for interpolation, as well as prediction of missing
     data and forecasts. Visualization of microclimate data methods including
-    contextual static maps and interactive web maps. Facility to export data to
-    CartoDB's spatial database hosting and webmap publishing
-    platform.
+    contextual static maps and interactive web maps.
 Depends:
     R (>= 3.1.2)
 Version: 0.1.0

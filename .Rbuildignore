@@ -3,3 +3,5 @@
 ^README\.md$
 ^MS_test\.R$
 ^JAM_test\.R$
+^README\.Rmd$
+^README-.*\.png$

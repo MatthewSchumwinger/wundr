@@ -66,15 +66,3 @@ webmap_pnts(PWS.Conds.Chicago)
 ## ---- eval = FALSE-------------------------------------------------------
 #  webmap_raster(PWS.Conds.Chicago)
 
-## ---- eval = FALSE-------------------------------------------------------
-#  # demo account and key provided for illustriation purposes
-#  matt.cdb.key <- "f09ad502b34fa4096a62ea306b4650337d41009c"
-#  matt.cdb.account <- "biglakedata"
-#  pizza <- PWS.Conds.Chicago
-#  r2cdb(matt.cdb.key, matt.cdb.account, pizza)
-
-## ---- eval = TRUE--------------------------------------------------------
-# matt_cdb_table <- get_cdb_table("condTest", matt.cdb.account)
-head(matt_cdb_table$rows[ , c("cartodb_id", "station_id", "temperature_string", 
-                              "dewpoint_string")],2)# pulled from presaved data file
-
