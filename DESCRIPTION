@@ -32,7 +32,6 @@ Collate:
     'S4.Methods.R'
     'analytics_functions.R'
     'api_functions.R'
-    'cartoDB_functions.R'
     'subsetting_functions.R'
     'viz_functions.R'
 Suggests:
