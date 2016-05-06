@@ -44,7 +44,7 @@ install_github("MatthewSchumwinger/wundr")
 
 ## Overview
 
-The important features of wundr include:
+Key features of wundr include:
 
 1. Creation of S4-Class Table describing a given region's PWS.
 2. Subsettable tables based on #1 above.
