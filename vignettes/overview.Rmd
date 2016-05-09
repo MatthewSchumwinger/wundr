@@ -18,7 +18,7 @@ library(wundr)
 ```
 
 Package **wundr** provides API interfaces to Personal Weather Station (PWS) data 
-maintained by Weather Underground (wunderground.com). **wundr** represents a robust retrieval mechanism of data and computational tools for visual and spatial analysis as well as forecasting through Gaussian Kriging. Package **wundr** specifically offers the following functionalities:
+maintained by Weather Underground (wunderground.com). **wundr** represents a robust retrieval mechanism of data and computational tools for visual and spatial analysis as well as forecasting through Gaussian Kriging. Package **wundr** specifically offers the following functionality:
 
 ### Creation of S4-Class Table describing a given region's PWS 
 
