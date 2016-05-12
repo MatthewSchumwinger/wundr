@@ -32,5 +32,5 @@ Key features of **wundr** include:
 To see examples of these features in use, please view the '**overview**' vignette.
 
 ``` r
-vignette(packag = "wundr")
+vignette(package = "wundr")
 ```
